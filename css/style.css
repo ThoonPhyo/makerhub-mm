@@ -1,0 +1,67 @@
+/* --- Root Variables for our Premium Theme --- */
+:root {
+  --bg-main: #0d1117;
+  --bg-card: #161b22;
+  --accent-green: #22c55e;
+  --accent-purple: #8b5cf6;
+  --text-main: #ffffff;
+  --text-muted: #8b949e;
+}
+
+/* --- Global Reset & Typography --- */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Premium Utilities --- */
+
+/* Glassmorphism Background */
+.glass-nav {
+  background: rgba(22, 27, 34, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dark Premium Card */
+.premium-card {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Hover Lift & Glow Animations */
+.premium-card.glow-green:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.premium-card.glow-purple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Custom Green Button */
+.btn-primary-glow {
+  background-color: var(--accent-green);
+  color: #000; /* Dark text for contrast against bright green */
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary-glow:hover {
+  background-color: #1ea34d;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+  transform: translateY(-2px);
+}
