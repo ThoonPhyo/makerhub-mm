@@ -1,67 +1,485 @@
-/* --- Root Variables for our Premium Theme --- */
 :root {
-  --bg-main: #0d1117;
-  --bg-card: #161b22;
-  --accent-green: #22c55e;
-  --accent-purple: #8b5cf6;
-  --text-main: #ffffff;
+  --bg-dark: #0d1117;
+  --nav-bg: #0a0e0f;
+  --neon-green: #22c55e; /* ဒီမှာ !important မထည့်ရပါ */
+  --green: rgb(0, 208, 132);
+  --green2: #00a866;
+  --purple: #8b5cf6;
+  --blue: #3b82f6;
   --text-muted: #8b949e;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --bg: #0a0e0f;
+  --bg2: #0f1419;
+  --card: #111a1f;
+  --card2: #162028;
+  --green: #00d084;
+  --green2: #00a866;
+  --purple: #8b5cf6;
+  --blue: #3b82f6;
+  --orange: #f97316;
+  --yellow: #fbbf24;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --text: #e8f5f0;
+  --muted: #6b8a7a;
+  --muted2: #94b5a4;
+  --border: rgba(0, 208, 132, 0.12);
+  --border2: rgba(0, 208, 132, 0.06);
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Global Reset & Typography --- */
+/* ခေါ်သုံးတဲ့ class မှာပဲ !important ထည့်ပါ */
+
 body {
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: "Inter", sans-serif;
-  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-dark);
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  min-height: 100vh;
 }
 
-/* --- Premium Utilities --- */
-
-/* Glassmorphism Background */
-.glass-nav {
-  background: rgba(22, 27, 34, 0.7);
+/* Navbar Box */
+.header-nav {
+  background: var(--nav-bg) !important;
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Dark Premium Card */
-.premium-card {
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+/* brand icon and name */
+.text-neon-green {
+  color: var(--green) !important;
 }
 
-/* Hover Lift & Glow Animations */
-.premium-card.glow-green:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
-  border-color: rgba(34, 197, 94, 0.3);
+/* Nav bar tabs */
+.nav-links-custom .nav-link {
+  color: var(--muted2) !important;
+  border-bottom: 3px solid transparent !important; /* အစမှာ ဖျောက်ထားမယ် */
+  transition: 0.3s ease;
+  padding-bottom: 5px !important;
+  margin-right: 25px;
 }
 
-.premium-card.glow-purple:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.3);
+/* Hover  */
+.nav-links-custom .nav-link:hover {
+  color: var(--text) !important;
+  border-bottom: 3px solid var(--green) !important;
+  /* Neon Glow effect ကို border မှာပါ ထည့်ခြင်း */
+  filter: drop-shadow(0 0 5px var(--green));
 }
 
-/* Custom Green Button */
-.btn-primary-glow {
-  background-color: var(--accent-green);
-  color: #000; /* Dark text for contrast against bright green */
-  font-weight: 600;
+/* Active */
+.nav-links-custom .nav-link.active {
+  color: var(--green) !important;
+  border-bottom: 3px solid var(--green) !important;
+  /* filter: drop-shadow(0 0 5px var(--green)); */
+}
+
+/* Stable Search Box */
+.nav-search-container {
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  border: none;
-  padding: 10px 24px;
-  transition: all 0.3s ease;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  width: 180px; /* Fixed width for stability */
 }
 
-.btn-primary-glow:hover {
-  background-color: #1ea34d;
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+.nav-search-input {
+  background: var(--card);
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  outline: none;
+  width: 100%;
+}
+/* Input ထဲမှာ cursor ရှိနေရင် container ရဲ့ border ကို ပြောင်းမယ် */
+.nav-search-container:focus-within {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); /* အလင်းအနည်းငယ် ထည့်ပေးရင် ပိုလှတယ် */
+  transition: 0.3s ease;
+}
+
+/* Input ရဲ့ default outline ကို ဖျောက်ထားဖို့ လိုပါတယ် */
+.nav-search-input:focus {
+  outline: none;
+}
+
+.search-icon-left {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-right: 8px;
+}
+
+/* Theme Toggle Button */
+.btn-theme {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-muted);
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+.btn-theme:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* Login Button */
+/* .btn-login-neon {
+  background: var(--neon-green);
+  color: #000 !important;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  padding: 8px 20px;
+} */
+
+/* profile btn */
+/* Profile Dropdown Custom Styling */
+.custom-profile-dropdown {
+  background-color: #161b22 !important; /* Navbar နဲ့ အရောင်တူထားခြင်း */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 8px !important;
+  margin-top: 10px !important;
+}
+
+.custom-profile-dropdown .dropdown-item {
+  color: var(--text-muted) !important;
+  border-radius: 8px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  /* color: #8b949e; */
+}
+
+.custom-profile-dropdown .dropdown-item:hover {
+  background-color: rgba(34, 197, 94, 0.1) !important; /* Neon Green Tint */
+  color: #22c55e !important; /* Neon Green Text */
+}
+
+.custom-profile-dropdown .dropdown-header {
+  color: #fff;
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+
+.custom-profile-dropdown .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Profile Icon Hover Effect */
+.profile-icon-toggle {
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profile-icon-toggle:hover {
+  border-color: #22c55e !important; /* Hover လိုက်ရင် icon ဘောင် စိမ်းသွားမယ် */
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+/* Mobile Dropdown Positioning */
+/* Mobile မှာ Navbar ပွင့်လာတဲ့အခါ Dropdown တွေ ကွယ်မသွားစေရန် */
+@media (max-width: 991.98px) {
+  .navbar-collapse.show {
+    overflow: visible !important; /* ဒါမှ dropdown က collapse ထဲက ဖောက်ထွက်လာမှာပါ */
+  }
+
+  /* Dropdown menu ရဲ့ နေရာကို Mobile မှာ သေချာအောင် ထပ်ညှိပေးပါ */
+  .custom-profile-dropdown {
+    position: static !important; /* Mobile မှာ အောက်ကို ဆွဲချလိုက်တဲ့ ပုံစံမျိုး ဖြစ်သွားအောင် */
+    width: 100%;
+    margin-top: 10px;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+/* Responsive Tweak */
+@media (max-width: 963px) {
+  .navbar-collapse {
+    background: #161b22;
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+}
+/* ============================================================
+   HERO SECTION BACKGROUND (DESIGN MATCH)
+   ============================================================ */
+.hero-section {
+  position: relative;
+  /* 1. Main Background Color & Radial Glow Effect */
+  /* This creates the soft green light behind the hardware images on the right */
+  background: radial-gradient(
+    circle at 73% 45%,
+    rgba(0, 208, 132, 0.18) 0%,
+    #05080a 30%
+  );
+  background-color: #05080a;
+
+  padding: 80px 0;
+  min-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* 2. Thin Grid Lines Layer */
+/* This adds the subtle tech-style grid pattern seen in your UI photo */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Very faint white lines to create a 50px grid */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 3. Extra Ambient Glow (Optional for deeper depth) */
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  right: 15%;
+  width: 400px;
+  height: 400px;
+  background: var(--green);
+  filter: blur(150px);
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+}
+/* ============================================================
+   2. NEON TYPOGRAPHY & BUTTONS (၁၀၀% တူညီ)
+   ============================================================ */
+/* Hero badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(0, 208, 132, 0.1);
+  border: 1px solid rgba(0, 208, 132, 0.25);
+  color: var(--green);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* Main Title */
+.hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 14px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+/* Learn Arduino & IoT (Gradient) */
+.text-gradient-green {
+  color: #00d084;
+  text-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+/* Learn Arduino & IoT (Purple Accent) */
+.text-neon-purple {
+  color: #8b5cf6;
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* Lead Paragraph */
+.hero-lead {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  max-width: 500px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* Buttons System */
+.btn-neon-green {
+  background: var(--green);
+  color: #061209;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 26px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s;
+}
+
+.btn-neon-green:hover {
+  color: #061209;
+  background: var(--green2);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 208, 132, 0.3);
+}
+
+.btn-outline-light-tech {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 30px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.btn-outline-light-tech:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* ============================================================
+   3. HARDWARE POSITIONING & ANIMATIONS (၁၀၀% တူညီ)
+   ============================================================ */
+.hero-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 450px; /* Container အမြင့်ကို သေချာသတ်မှတ်ပေးရန် */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+/* Floating Animation Settings */
+.floating-img {
+  position: absolute;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(
+    0 20px 40px rgba(0, 0, 0, 0.6)
+  ); /* ပုံတွေအောက်မှာ အရိပ်ထည့်ခြင်း */
+  animation: floating 6s ease-in-out infinite;
+}
+
+/* ၁။ Arduino Uno (အလယ်မှာ ရှိပြီး အကြီးဆုံးပုံ) */
+.hardware-1 {
+  width: 60%;
+  z-index: 10;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ၂။ ESP32 (ညာဘက်အပေါ်ထောင့်မှာ ရှိပြီး နည်းနည်းစောင်းနေမယ်) */
+.hardware-2 {
+  width: 35%;
+  top: -5%;
+  right: 40%;
+  z-index: 9;
+  animation-delay: 1.5s; /* Delay ထည့်ပြီး မတူညီတဲ့ အချိန်မှာ လွင့်စေရန် */
+  transform: rotate(-5deg);
+}
+
+/* ၃။ Raspberry Pi (ဘယ်ဘက်အောက်ထောင့်မှာ ရှိပြီး အရှေ့ဆုံးမှာ ပေါ်နေမယ်) */
+.hardware-3 {
+  width: 55%;
+  bottom: 10%;
+  left: -5%;
+  z-index: 11;
+  animation-delay: 3s;
+  transform: rotate(5deg);
+}
+
+/* Floating UI Icons Styling */
+.floating-ui {
+  position: absolute;
+  font-size: 1.5rem;
+  z-index: 12;
+  animation: pulseIcon 4s ease-in-out infinite;
+}
+
+.ui-wifi {
+  top: 0%;
+  right: 30%;
+  color: var(--neon-green);
+}
+.ui-code {
+  top: 10%;
+  left: 20%;
+  color: var(--neon-purple);
+}
+.ui-cpu {
+  bottom: 10%;
+  right: 25%;
+  color: var(--neon-green);
+}
+
+/* ============================================================
+   4. ANIMATIONS & EFFECTS (၁၀၀% တူညီ)
+   ============================================================ */
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(3deg);
+  }
+}
+
+@keyframes pulseIcon {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+
+
+/* ============================================================
+   5. UTILITY & GLASS CARDS
+   ============================================================ */
+.stat-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.stat-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
 }

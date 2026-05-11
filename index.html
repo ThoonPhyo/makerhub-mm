@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MakerHub MM | Premium IoT Learning</title>
+    <title>MakerHub MM | Premium IoT Learning Platform</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- google fonts cdn link -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
@@ -17,48 +18,408 @@
       rel="stylesheet"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- header nav bar -->
-    <div class="container">
-      <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
-      >
-        <div class="col-md-3 mb-2 mb-md-0">
-          <a
-            href="/"
-            class="d-inline-flex link-body-emphasis text-decoration-none"
-          >
-            <svg
-              class="bi"
-              width="40"
-              height="32"
-              role="img"
-              aria-label="Bootstrap"
-            >
-              <use xlink:href="#bootstrap"></use>
-            </svg>
-          </a>
-        </div>
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2">Features</a></li>
-          <li><a href="#" class="nav-link px-2">Pricing</a></li>
-          <li><a href="#" class="nav-link px-2">FAQs</a></li>
-          <li><a href="#" class="nav-link px-2">About</a></li>
-        </ul>
-        <div class="col-md-3 text-end">
-          <button type="button" class="btn btn-outline-primary me-2">
-            Login
-          </button>
-          <button type="button" class="btn btn-primary">Sign-up</button>
-        </div>
-      </header>
-    </div>
+    <div class="bg-wrapper"></div>
 
-    <!-- bootstrap js cdn -->
+    <!-- nav bar -->
+    <header class="header-nav sticky-top">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg premium-nav-box">
+          <div class="container-fluid px-0">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+              <i class="bi bi-cpu text-neon-green fs-4 me-2"></i>
+              <span class="brand-text fw-bold text-white"
+                >Maker <span class="text-neon-green">Hub</span> MM</span
+              >
+            </a>
+
+            <button
+              class="navbar-toggler custom-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navContent"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+              <div
+                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-3 border-bottom pb-3 border-secondary-subtle"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <div class="dropdown">
+                    <div
+                      class="profile-wrapper"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style="cursor: pointer"
+                    >
+                      <img
+                        src="https://ui-avatars.com/api/?name=User&background=161b22&color=fff"
+                        class="rounded-circle border border-secondary"
+                        width="35"
+                        height="35"
+                      />
+                    </div>
+                    <ul
+                      class="dropdown-menu dropdown-menu-dark shadow-lg border-secondary-subtle"
+                    >
+                      <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-person me-2"></i> Profile</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-gear me-2"></i> Settings</a
+                        >
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a class="dropdown-item text-danger" href="#"
+                          ><i class="bi bi-box-arrow-right me-2"></i> Logout</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="nav-search-container m-0" style="width: 130px">
+                    <i class="bi bi-search search-icon-left"></i>
+                    <input
+                      type="text"
+                      class="nav-search-input"
+                      placeholder="Search"
+                    />
+                  </div>
+                </div>
+
+                <button id="theme-toggle-mobile" class="btn-theme">
+                  <i class="bi bi-moon-stars-fill"></i>
+                </button>
+              </div>
+
+              <ul
+                class="navbar-nav mx-auto nav-links-custom text-start my-2 my-lg-0 w-100 justify-content-lg-center"
+              >
+                <li class="nav-item nav-underline">
+                  <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Learning</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Marketplace</a>
+                </li>
+              </ul>
+
+              <div class="d-none d-lg-flex align-items-center gap-3">
+                <div class="nav-search-container">
+                  <i class="bi bi-search search-icon-left"></i>
+                  <input
+                    type="search"
+                    class="nav-search-input"
+                    placeholder="Search"
+                  />
+                </div>
+                <button id="theme-toggle" class="btn-theme">
+                  <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+                </button>
+
+                <div class="dropdown">
+                  <div
+                    class="profile-wrapper"
+                    data-bs-toggle="dropdown"
+                    style="cursor: pointer"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=User&background=161b22&color=fff"
+                      class="rounded-circle border border-secondary"
+                      width="35"
+                      height="35"
+                    />
+                  </div>
+                  <ul
+                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-secondary-subtle mt-2"
+                  >
+                    <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="#">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- hero section -->
+    <section class="hero-section mt-sm-0 pt-sm-0">
+      <div class="container position-relative" style="z-index: 10">
+        <div class="row align-items-center min-vh-100">
+          <!-- left section -->
+          <div class="col-lg-6">
+            <div class="badge hero-badge animate__animated animate__fadeInDown">
+              <i class="bi bi-rocket-takeoff text-warning me-2"></i> #1 IoT
+              Learning Platform in Myanmar
+            </div>
+
+            <h1 class="hero-title text-white">
+              Learn <span class="text-gradient-green">Arduino</span> & <br />
+              <span class="text-neon-purple">IoT</span> in Myanmar
+            </h1>
+
+            <p class="hero-lead">
+              Interactive learning journeys for future makers and developers.
+              Build real-world hardware projects from scratch.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mb-5">
+              <a href="#" class="btn btn-neon-green">
+                Start Learning <i class="bi bi-arrow-right ms-2"></i>
+              </a>
+              <a href="#" class="btn btn-outline-light-tech">
+                Explore Journeys
+              </a>
+            </div>
+
+            <!-- hero cards -->
+            <div class="row g-3">
+              <!-- xp points cards -->
+              <div class="col-md-4 col-12">
+                <div
+                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
+                >
+                  <div class="d-flex align-items-center mb-2">
+                    <span class="me-2"
+                      ><dotlottie-wc
+                        src="https://lottie.host/e36de726-6eed-46d8-8d7c-7f510b82d70b/fEmr1CZdlB.lottie"
+                        style="width: 30px; height: 30px"
+                        autoplay
+                        loop
+                      ></dotlottie-wc
+                    ></span>
+                    <span
+                      class="text-secondary small fw-bold text-uppercase tracking-wider"
+                      style="letter-spacing: 1px"
+                      >XP Points</span
+                    >
+                  </div>
+                  <div class="h3 fw-bold mb-3 text-white">
+                    <span class="text-warning">7,450</span>
+                    <span class="fs-6 text-secondary fw-normal"
+                      >/ 10,000 XP</span
+                    >
+                  </div>
+                  <div
+                    class="progress bg-dark bg-opacity-50"
+                    style="height: 10px; border-radius: 10px"
+                  >
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="
+                        width: 75%;
+                        background: linear-gradient(90deg, #00ff88, #00d4ff);
+                        border-radius: 10px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- daily steak card -->
+              <div class="col-md-4 col-6">
+                <div
+                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
+                >
+                  <div class="d-flex align-items-center mb-2">
+                    <span class="me-2"
+                      ><dotlottie-wc
+                        src="https://lottie.host/ada8173c-4808-4d30-bffb-d365eda666b3/EVOh7JbvM8.lottie"
+                        style="width: 30px; height: 25px"
+                        autoplay
+                        loop
+                      ></dotlottie-wc
+                    ></span>
+                    <span
+                      class="text-secondary small fw-bold text-uppercase tracking-wider"
+                      style="letter-spacing: 1px"
+                      >Daily Streak</span
+                    >
+                  </div>
+                  <div class="h3 fw-bold mb-3 text-warning">12 Days</div>
+
+                  <div class="d-flex flex-column">
+                    <!--  -->
+                    <div class="d-flex gap-1 mb-1">
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #00ff88;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #00ff88;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #00ff88;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #00ff88;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #ffc107;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #2c3e50;
+                        "
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          background-color: #2c3e50;
+                        "
+                      ></div>
+                    </div>
+                    <div
+                      class="d-flex gap-1 text-secondary"
+                      style="font-size: 10px; padding-left: 2px"
+                    >
+                      <span style="width: 14px; text-align: center">M</span>
+                      <span style="width: 14px; text-align: center">T</span>
+                      <span style="width: 14px; text-align: center">W</span>
+                      <span style="width: 14px; text-align: center">T</span>
+                      <span style="width: 14px; text-align: center">F</span>
+                      <span style="width: 14px; text-align: center">S</span>
+                      <span style="width: 14px; text-align: center">S</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- progress card -->
+              <div class="col-md-4 col-6">
+                <div
+                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
+                >
+                  <div class="d-flex align-items-center mb-2">
+                    <i class="bi bi-graph-up text-info me-2 fs-6"></i>
+                    <span
+                      class="text-secondary small fw-bold text-uppercase tracking-wider"
+                      style="letter-spacing: 1px"
+                      >Your Progress</span
+                    >
+                  </div>
+                  <div class="h3 fw-bold mb-1 text-info">68%</div>
+                  <div class="text-secondary small mb-3">
+                    Journey Completion
+                  </div>
+                  <div
+                    class="progress bg-dark bg-opacity-50"
+                    style="height: 10px; border-radius: 10px"
+                  >
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="
+                        width: 68%;
+                        background: linear-gradient(90deg, #00d4ff, #a855f7);
+                        border-radius: 10px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- right section -->
+          <div class="col-lg-6 mt-5 mt-lg-0 d-none d-lg-block">
+            <div class="hero-img-wrapper">
+              <img
+                src="./assets/images/arduino-uno.png"
+                alt="Arduino"
+                class="img-fluid floating-img hardware-1"
+              />
+
+              <img
+                src="./assets/images/esp32.png"
+                alt="ESP32"
+                class="img-fluid floating-img hardware-2"
+              />
+              <img
+                src="./assets/images/raspberry-pi.png"
+                alt="Raspberry Pi"
+                class="img-fluid floating-img hardware-3"
+              />
+
+              <div class="floating-ui ui-wifi fs-1">
+                <i class="bi bi-wifi"> </i>
+              </div>
+              <div class="floating-ui ui-code fs-1">
+                <i class="bi bi-code-slash"></i>
+              </div>
+              <div class="floating-ui ui-cpu fs-1">
+                <i class="bi bi-cpu"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- animate icon js -->
+    <script
+      src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
+      type="module"
+    ></script>
 
     <script src="js/app.js"></script>
   </body>
