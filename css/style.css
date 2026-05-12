@@ -50,7 +50,7 @@
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 
   /* Theme Variables - Dark Mode Default */
-  --section-bg: #0a0e0f;
+  --section-bg: #0d1117;
   --c-card-bg: #131921;
   --c-card-border: rgba(255, 255, 255, 0.06);
   --c-text-title: #ffffff;
@@ -608,18 +608,87 @@ body {
 }
 
 /* ============================================================
+    Features SECTION
+   ============================================================ */
+
+.stats-ribbon {
+  padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem; /* Mobile gap */
+}
+
+/* Individual Stat Item */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-value {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.stat-label {
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+
+.stat-value i {
+  color: #fbbf24; /* Star color */
+  font-size: 0.65rem;
+  vertical-align: middle;
+}
+
+/* Divider Dot */
+.stat-divider {
+  color: var(--text-subtle);
+  opacity: 0.4;
+  display: none; /* Hide on mobile by default */
+}
+
+/* Tablet and Desktop Adjustments */
+@media (min-width: 768px) {
+  .stats-container {
+    gap: 3rem; /* Increase gap for desktop */
+  }
+
+  .stat-divider {
+    display: block; /* Show dots on laptop/desktop */
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================================
    8. LEARNING JOURNEYS SECTION
    ============================================================ */
 .learning-section {
   background-color: var(--section-bg);
   position: relative;
   border-top: 1px solid var(--border) !important;
-  border-bottom: 1px solid var(--border) !important;
 
   padding: 60px 0;
 }
 
 /* --- Section Title Styles --- */
+.learning-section .border-bottom {
+  border-bottom: 1px solid var(--border) !important;
+}
+
 .section-tag {
   color: var(--green);
   font-size: 11px;
@@ -629,10 +698,12 @@ body {
 }
 
 .section-main-title {
-  color: #ffffff !important; /* Title ကို အဖြူထားတာ ပိုပြီး Premium ဆန်ပါတယ် */
+  color: #ffffff !important;
   font-size: 28px !important;
   font-weight: 800;
   letter-spacing: -0.5px;
+  /* color: var(--green); */
+  text-shadow: 0 0 40px rgba(122, 122, 122, 0.25);
 }
 
 /* Icon Box ကို Glow Effect ထည့်မယ် */
@@ -656,7 +727,8 @@ body {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  padding: 10px 24px;
+  /* padding: 8px 20px; */
+  text-decoration: none !important;
   border-radius: 14px;
   text-decoration: none;
   font-size: 13px;
@@ -666,8 +738,10 @@ body {
 }
 
 .view-all-btn:hover {
-  background: var(--green);
-  color: #000000 !important; /* Hover မှာ စာသားကို အမည်းပြောင်းတာ ပိုပြီး Contrast ကောင်းပါတယ် */
+  background: rgba(23, 44, 40, 0.5);
+  color: var(
+    --green
+  ) !important; /* Hover မှာ စာသားကို အမည်းပြောင်းတာ ပိုပြီး Contrast ကောင်းပါတယ် */
   border-color: var(--green);
   box-shadow: 0 10px 20px rgba(var(--green-rgb), 0.3);
   transform: translateY(-3px);
@@ -954,6 +1028,316 @@ body {
   font-weight: 600;
   font-size: 14px;
 }
+
+/* ============================================================
+  how-it-works section
+   ============================================================ */
+.how-it-works-section {
+  background: transparent; /* သို့မဟုတ် var(--bg-dark) */
+}
+
+.how-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+/* Icon Box Style */
+.step-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px;
+  font-size: 1.5rem;
+  color: var(--text-subtle);
+  position: relative;
+  z-index: 2;
+}
+
+.step-title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.step-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* --- Dotted Connectors (Desktop Only) --- */
+@media (min-width: 768px) {
+  .step-col {
+    position: relative;
+  }
+
+  .step-col:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 30px; /* Icon ရဲ့ အလယ်တည့်တည့် */
+    left: calc(50% + 40px); /* Icon box ရဲ့ အပြင်ကနေ စမယ် */
+    width: calc(100% - 80px); /* နောက် icon တစ်ခုအထိ ရှည်မယ် */
+    border-top: 2px dotted rgba(255, 255, 255, 0.1);
+    z-index: 1;
+  }
+}
+
+/* Hover Effect */
+.step-col:hover .step-icon-wrapper {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(var(--green-rgb), 0.1);
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+/* ============================================================
+   SHOWCASE SECTION
+   ========================================== */
+/* --- Community Showcase Section --- */
+.showcase-section {
+  background-color: var(--section-bg);
+}
+
+.showcase-main-title {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.view-community-link {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  /* padding: 8px 20px; */
+  text-decoration: none !important;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+}
+
+.view-community-link:hover {
+  background: rgba(23, 44, 40, 0.5);
+  color: var(
+    --green
+  ) !important; /* Hover မှာ စာသားကို အမည်းပြောင်းတာ ပိုပြီး Contrast ကောင်းပါတယ် */
+  border-color: var(--green);
+  box-shadow: 0 10px 20px rgba(var(--green-rgb), 0.3);
+  transform: translateY(-3px);
+}
+
+/* --- Card Styles --- */
+.showcase-card {
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s var(--ease);
+}
+
+.showcase-card:hover {
+  transform: translateY(-8px);
+  background: var(--bg-elevated);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-lg), var(--shadow-green);
+}
+
+.post-img-container {
+  width: 100%;
+  height: 180px; /* Aspect ratio ထိန်းရန် */
+  background: var(--bg-subtle);
+  overflow: hidden;
+  position: relative;
+}
+
+.showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ပုံကို ဗဟိုချက်ကနေ အံဝင်ခွင်ကျဖြစ်စေရန် */
+  transition: transform 0.5s var(--ease);
+}
+
+.showcase-card:hover .showcase-img {
+  transform: scale(1.05); /* Hover လုပ်ရင် ပုံလေး နည်းနည်း Zoom ဖြစ်သွားမယ် */
+}
+
+/* Typography */
+.project-title {
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  /* စာသား ၂ တန်းကျော်ရင် ဖျောက်ရန် */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.user-name {
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.stats-group {
+  color: var(--text-subtle);
+  font-size: 0.8rem;
+}
+
+.stats-group i {
+  font-size: 0.75rem;
+}
+
+.stats-icons {
+  color: var(--text-subtle) !important;
+  font-size: 0.85rem;
+}
+
+.stats-icons i {
+  margin-right: 4px;
+  color: var(--text-subtle) !important;
+}
+
+/* User Profile Image */
+.user-avatar {
+  border: 1px solid var(--border-muted) !important;
+  padding: 1px;
+}
+
+/* --- Marketplace --- */
+.market-card {
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-card-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s var(--ease);
+}
+
+.market-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.market-img-box {
+  background: #ffffff; /* Hardware ပုံတွေ ရှင်းနေအောင် အဖြူထားခြင်း */
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.market-img-box img {
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-name {
+  color: var(--text);
+  font-weight: 600;
+}
+.product-price {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.btn-buy {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+/* --- Newsletter --- */
+.newsletter-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+}
+
+.newsletter-form {
+  max-width: 500px;
+}
+
+.newsletter-form .form-control {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 20px;
+}
+
+.btn-subscribe {
+  background: var(--green);
+  color: white;
+  font-weight: 700;
+  padding: 0 25px;
+}
+
+/* --- Footer --- */
+.footer-section {
+  background: var(--bg);
+  border-top: 1px solid var(--border-muted);
+}
+.footer-brand {
+  color: var(--text);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+.footer-heading {
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  transition: 0.2s;
+}
+.footer-links a:hover {
+  color: var(--green);
+  transform: translateX(3px);
+}
+.social-links a {
+  color: var(--text-subtle);
+  font-size: 1.2rem;
+}
+.social-links a:hover {
+  color: var(--text);
+}
+.text-green {
+  color: var(--green);
+}
+
 /* ============================================================
    9. SCROLLBAR
    ============================================================ */
