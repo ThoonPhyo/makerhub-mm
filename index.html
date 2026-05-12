@@ -7,7 +7,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- google fonts cdn link -->
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
@@ -17,31 +16,36 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
 
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <div class="bg-wrapper"></div>
 
-    <!-- nav bar -->
-    <header class="header-nav sticky-top">
+  <body>
+    <!-- ── NAVBAR ───────────────────────────────────────── -->
+    <header class="header-nav" id="headerSection">
       <div class="container">
-        <nav class="navbar navbar-expand-lg premium-nav-box">
+        <nav class="navbar navbar-expand-lg">
           <div class="container-fluid px-0">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-              <i class="bi bi-cpu text-neon-green fs-4 me-2"></i>
-              <span class="brand-text fw-bold text-white"
-                >Maker <span class="text-neon-green">Hub</span> MM</span
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+              <i class="bi bi-cpu text-neon-green fs-5"></i>
+              <span class="brand-text"
+                >Maker<span class="text-neon-green">Hub</span> MM</span
               >
             </a>
 
+            <!-- Mobile Toggler -->
             <button
-              class="navbar-toggler custom-toggler"
+              class="navbar-toggler custom-toggler border-0"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navContent"
@@ -50,48 +54,46 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navContent">
+              <!-- Mobile top strip: profile + search + theme -->
               <div
-                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-3 border-bottom pb-3 border-secondary-subtle"
+                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-2 pb-3"
+                style="border-bottom: 1px solid rgba(240, 246, 252, 0.06)"
               >
                 <div class="d-flex align-items-center gap-2">
                   <div class="dropdown">
                     <div
                       class="profile-wrapper"
                       data-bs-toggle="dropdown"
-                      aria-expanded="false"
                       style="cursor: pointer"
                     >
                       <img
-                        src="https://ui-avatars.com/api/?name=User&background=161b22&color=fff"
-                        class="rounded-circle border border-secondary"
-                        width="35"
-                        height="35"
+                        src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                        class="rounded-circle"
+                        width="34"
+                        height="34"
                       />
                     </div>
-                    <ul
-                      class="dropdown-menu dropdown-menu-dark shadow-lg border-secondary-subtle"
-                    >
+                    <ul class="dropdown-menu dropdown-menu-dark">
                       <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
                       <li>
                         <a class="dropdown-item" href="#"
-                          ><i class="bi bi-person me-2"></i> Profile</a
+                          ><i class="bi bi-person me-2"></i>Profile</a
                         >
                       </li>
                       <li>
                         <a class="dropdown-item" href="#"
-                          ><i class="bi bi-gear me-2"></i> Settings</a
+                          ><i class="bi bi-gear me-2"></i>Settings</a
                         >
                       </li>
                       <li><hr class="dropdown-divider" /></li>
                       <li>
                         <a class="dropdown-item text-danger" href="#"
-                          ><i class="bi bi-box-arrow-right me-2"></i> Logout</a
+                          ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
                         >
                       </li>
                     </ul>
                   </div>
-
-                  <div class="nav-search-container m-0" style="width: 130px">
+                  <div class="nav-search-container" style="width: 130px">
                     <i class="bi bi-search search-icon-left"></i>
                     <input
                       type="text"
@@ -100,16 +102,16 @@
                     />
                   </div>
                 </div>
-
                 <button id="theme-toggle-mobile" class="btn-theme">
                   <i class="bi bi-moon-stars-fill"></i>
                 </button>
               </div>
 
+              <!-- Nav Links -->
               <ul
-                class="navbar-nav mx-auto nav-links-custom text-start my-2 my-lg-0 w-100 justify-content-lg-center"
+                class="navbar-nav mx-auto nav-links-custom my-2 my-lg-0 w-100 justify-content-lg-center"
               >
-                <li class="nav-item nav-underline">
+                <li class="nav-item">
                   <a class="nav-link active" href="#">Home</a>
                 </li>
                 <li class="nav-item">
@@ -123,6 +125,7 @@
                 </li>
               </ul>
 
+              <!-- Desktop right controls -->
               <div class="d-none d-lg-flex align-items-center gap-3">
                 <div class="nav-search-container">
                   <i class="bi bi-search search-icon-left"></i>
@@ -135,7 +138,6 @@
                 <button id="theme-toggle" class="btn-theme">
                   <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
                 </button>
-
                 <div class="dropdown">
                   <div
                     class="profile-wrapper"
@@ -143,21 +145,31 @@
                     style="cursor: pointer"
                   >
                     <img
-                      src="https://ui-avatars.com/api/?name=User&background=161b22&color=fff"
-                      class="rounded-circle border border-secondary"
-                      width="35"
-                      height="35"
+                      src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                      class="rounded-circle"
+                      width="34"
+                      height="34"
                     />
                   </div>
                   <ul
-                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-secondary-subtle mt-2"
+                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end mt-2"
                   >
                     <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-person me-2"></i>Profile</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-gear me-2"></i>Settings</a
+                      >
+                    </li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
-                      <a class="dropdown-item text-danger" href="#">Logout</a>
+                      <a class="dropdown-item text-danger" href="#"
+                        ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                      >
                     </li>
                   </ul>
                 </div>
@@ -168,19 +180,20 @@
       </div>
     </header>
 
-    <!-- hero section -->
-    <section class="hero-section mt-sm-0 pt-sm-0">
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="hero-section" id="heroSection">
       <div class="container position-relative" style="z-index: 10">
-        <div class="row align-items-center min-vh-100">
-          <!-- left section -->
+        <div class="row align-items-center" style="min-height: 80vh">
+          <!-- Left -->
           <div class="col-lg-6">
-            <div class="badge hero-badge animate__animated animate__fadeInDown">
-              <i class="bi bi-rocket-takeoff text-warning me-2"></i> #1 IoT
-              Learning Platform in Myanmar
+            <div class="hero-badge">
+              <i class="bi bi-rocket-takeoff text-warning"></i>
+              #1 IoT Learning Platform in Myanmar
             </div>
 
             <h1 class="hero-title text-white">
-              Learn <span class="text-gradient-green">Arduino</span> & <br />
+              Learn <span class="text-gradient-green">Arduino</span> &amp;
+              <br />
               <span class="text-neon-purple">IoT</span> in Myanmar
             </h1>
 
@@ -191,51 +204,52 @@
 
             <div class="d-flex flex-wrap gap-3 mb-5">
               <a href="#" class="btn btn-neon-green">
-                Start Learning <i class="bi bi-arrow-right ms-2"></i>
+                Start Learning <i class="bi bi-arrow-right"></i>
               </a>
-              <a href="#" class="btn btn-outline-light-tech">
-                Explore Journeys
-              </a>
+              <a href="#" class="btn-outline-light-tech"> Explore Journeys </a>
             </div>
 
-            <!-- hero cards -->
+            <!-- Stat Cards -->
             <div class="row g-3">
-              <!-- xp points cards -->
+              <!-- XP -->
               <div class="col-md-4 col-12">
-                <div
-                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
-                >
-                  <div class="d-flex align-items-center mb-2">
-                    <span class="me-2"
-                      ><dotlottie-wc
-                        src="https://lottie.host/e36de726-6eed-46d8-8d7c-7f510b82d70b/fEmr1CZdlB.lottie"
-                        style="width: 30px; height: 30px"
-                        autoplay
-                        loop
-                      ></dotlottie-wc
-                    ></span>
+                <div class="stat-card rounded-4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <dotlottie-wc
+                      src="https://lottie.host/e36de726-6eed-46d8-8d7c-7f510b82d70b/fEmr1CZdlB.lottie"
+                      style="width: 28px; height: 28px"
+                      autoplay
+                      loop
+                    ></dotlottie-wc>
                     <span
-                      class="text-secondary small fw-bold text-uppercase tracking-wider"
-                      style="letter-spacing: 1px"
+                      class="text-secondary"
+                      style="
+                        font-size: 11px;
+                        font-weight: 700;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                      "
                       >XP Points</span
                     >
                   </div>
-                  <div class="h3 fw-bold mb-3 text-white">
+                  <div class="h3 fw-bold mb-3">
                     <span class="text-warning">7,450</span>
-                    <span class="fs-6 text-secondary fw-normal"
-                      >/ 10,000 XP</span
+                    <span
+                      style="
+                        font-size: 0.8rem;
+                        color: var(--text-subtle);
+                        font-weight: 500;
+                      "
+                    >
+                      / 10,000</span
                     >
                   </div>
-                  <div
-                    class="progress bg-dark bg-opacity-50"
-                    style="height: 10px; border-radius: 10px"
-                  >
+                  <div class="progress" style="height: 5px">
                     <div
                       class="progress-bar"
-                      role="progressbar"
                       style="
                         width: 75%;
-                        background: linear-gradient(90deg, #00ff88, #00d4ff);
+                        background: linear-gradient(90deg, #22c55e, #06b6d4);
                         border-radius: 10px;
                       "
                     ></div>
@@ -243,131 +257,117 @@
                 </div>
               </div>
 
-              <!-- daily steak card -->
+              <!-- Streak -->
               <div class="col-md-4 col-6">
-                <div
-                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
-                >
-                  <div class="d-flex align-items-center mb-2">
-                    <span class="me-2"
-                      ><dotlottie-wc
-                        src="https://lottie.host/ada8173c-4808-4d30-bffb-d365eda666b3/EVOh7JbvM8.lottie"
-                        style="width: 30px; height: 25px"
-                        autoplay
-                        loop
-                      ></dotlottie-wc
-                    ></span>
+                <div class="stat-card rounded-4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <dotlottie-wc
+                      src="https://lottie.host/ada8173c-4808-4d30-bffb-d365eda666b3/EVOh7JbvM8.lottie"
+                      style="width: 28px; height: 25px"
+                      autoplay
+                      loop
+                    ></dotlottie-wc>
                     <span
-                      class="text-secondary small fw-bold text-uppercase tracking-wider"
-                      style="letter-spacing: 1px"
+                      class="text-secondary"
+                      style="
+                        font-size: 11px;
+                        font-weight: 700;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                      "
                       >Daily Streak</span
                     >
                   </div>
                   <div class="h3 fw-bold mb-3 text-warning">12 Days</div>
-
-                  <div class="d-flex flex-column">
-                    <!--  -->
-                    <div class="d-flex gap-1 mb-1">
+                  <div class="d-flex flex-column gap-1">
+                    <div class="d-flex gap-1">
+                      <div
+                        class="rounded-1"
+                        style="width: 13px; height: 13px; background: #22c55e"
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="width: 13px; height: 13px; background: #22c55e"
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="width: 13px; height: 13px; background: #22c55e"
+                      ></div>
+                      <div
+                        class="rounded-1"
+                        style="width: 13px; height: 13px; background: #22c55e"
+                      ></div>
                       <div
                         class="rounded-1"
                         style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #00ff88;
+                          width: 13px;
+                          height: 13px;
+                          background: #fbbf24;
+                          animation: fade 2s infinite;
                         "
                       ></div>
                       <div
                         class="rounded-1"
                         style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #00ff88;
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
                         "
                       ></div>
                       <div
                         class="rounded-1"
                         style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #00ff88;
-                        "
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #00ff88;
-                        "
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #ffc107;
-                        "
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #2c3e50;
-                        "
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="
-                          width: 14px;
-                          height: 14px;
-                          background-color: #2c3e50;
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
                         "
                       ></div>
                     </div>
                     <div
-                      class="d-flex gap-1 text-secondary"
-                      style="font-size: 10px; padding-left: 2px"
+                      class="d-flex gap-1"
+                      style="font-size: 10px; color: var(--text-subtle)"
                     >
-                      <span style="width: 14px; text-align: center">M</span>
-                      <span style="width: 14px; text-align: center">T</span>
-                      <span style="width: 14px; text-align: center">W</span>
-                      <span style="width: 14px; text-align: center">T</span>
-                      <span style="width: 14px; text-align: center">F</span>
-                      <span style="width: 14px; text-align: center">S</span>
-                      <span style="width: 14px; text-align: center">S</span>
+                      <span style="width: 13px; text-align: center">M</span>
+                      <span style="width: 13px; text-align: center">T</span>
+                      <span style="width: 13px; text-align: center">W</span>
+                      <span style="width: 13px; text-align: center">T</span>
+                      <span style="width: 13px; text-align: center">F</span>
+                      <span style="width: 13px; text-align: center">S</span>
+                      <span style="width: 13px; text-align: center">S</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- progress card -->
+              <!-- Progress -->
               <div class="col-md-4 col-6">
-                <div
-                  class="stat-card h-100 p-3 rounded-4 border border-secondary border-opacity-10"
-                >
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="bi bi-graph-up text-info me-2 fs-6"></i>
+                <div class="stat-card rounded-4">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i
+                      class="bi bi-graph-up-arrow text-info"
+                      style="font-size: 14px"
+                    ></i>
                     <span
-                      class="text-secondary small fw-bold text-uppercase tracking-wider"
-                      style="letter-spacing: 1px"
-                      >Your Progress</span
+                      class="text-secondary"
+                      style="
+                        font-size: 11px;
+                        font-weight: 700;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                      "
+                      >Progress</span
                     >
                   </div>
                   <div class="h3 fw-bold mb-1 text-info">68%</div>
-                  <div class="text-secondary small mb-3">
+                  <div class="text-secondary mb-3" style="font-size: 12px">
                     Journey Completion
                   </div>
-                  <div
-                    class="progress bg-dark bg-opacity-50"
-                    style="height: 10px; border-radius: 10px"
-                  >
+                  <div class="progress" style="height: 5px">
                     <div
                       class="progress-bar"
-                      role="progressbar"
                       style="
                         width: 68%;
-                        background: linear-gradient(90deg, #00d4ff, #a855f7);
+                        background: linear-gradient(90deg, #06b6d4, #8b5cf6);
                         border-radius: 10px;
                       "
                     ></div>
@@ -377,28 +377,26 @@
             </div>
           </div>
 
-          <!-- right section -->
+          <!-- Right: floating hardware -->
           <div class="col-lg-6 mt-5 mt-lg-0 d-none d-lg-block">
             <div class="hero-img-wrapper">
               <img
-                src="./assets/images/arduino-uno.png"
+                src="/assets/images/arduinouno.png"
                 alt="Arduino"
                 class="img-fluid floating-img hardware-1"
               />
-
               <img
-                src="./assets/images/esp32.png"
+                src="/assets/images/esp32.png"
                 alt="ESP32"
                 class="img-fluid floating-img hardware-2"
               />
               <img
-                src="./assets/images/raspberry-pi.png"
+                src="/assets/images/raspberry-pi-hero.png"
                 alt="Raspberry Pi"
                 class="img-fluid floating-img hardware-3"
               />
-
               <div class="floating-ui ui-wifi fs-1">
-                <i class="bi bi-wifi"> </i>
+                <i class="bi bi-wifi"></i>
               </div>
               <div class="floating-ui ui-code fs-1">
                 <i class="bi bi-code-slash"></i>
@@ -412,15 +410,303 @@
       </div>
     </section>
 
-    <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ── LEARNING JOURNEYS ─────────────────────────────── -->
+    <section class="learning-section py-5">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5">
+          <div>
+            <!-- Title အပေါ်က Tagline အသေး -->
+            <span class="section-tag text-uppercase mb-2">Discovery Hub</span>
 
-    <!-- animate icon js -->
+            <h2 class="section-main-title d-flex align-items-center">
+              <div class="title-icon-box me-3">
+                <i class="fa-solid fa-lightbulb"></i>
+              </div>
+              Choose
+              <span class="mx-2" style="color: var(--green)"> Your </span>
+              Learning
+              <span class="mx-2" style="color: var(--purple)">Journey </span>
+            </h2>
+          </div>
+
+          <!-- View All Button ကို Glassmorphism Style ပြောင်းမယ် -->
+          <a href="#" class="view-all-btn">
+            View All Journeys
+            <span class="arrow-icon">&rarr;</span>
+          </a>
+        </div>
+
+        <div class="row g-4">
+          <!-- Card 1: Arduino -->
+          <div class="col-12 col-lg-6">
+            <div class="journey-card theme-blue">
+              <div class="card-header-flex d-flex justify-content-between">
+                <div class="icon-box"><i class="fa-solid fa-infinity"></i></div>
+                <div class="badge-wrapper">
+                  <span class="badge-level">Beginner</span>
+                </div>
+              </div>
+
+              <div class="card-body-content">
+                <div class="text-area">
+                  <h3 class="card-title">Arduino Journey</h3>
+                  <p class="card-desc d-none d-md-block">
+                    Master Arduino programming from LED blinking to advanced
+                    robotics projects.
+                  </p>
+                  <div class="stats">
+                    <span><i class="fas fa-book-open"></i> 42 lessons</span>
+                    <span><i class="fas fa-users"></i> 2.3k</span>
+                  </div>
+                </div>
+                <!-- Photo နေရာ -->
+                <div class="photo-holder">
+                  <img
+                    src="./assets/images/arduinouno.png"
+                    alt="Arduino Board"
+                  />
+                </div>
+              </div>
+
+              <div class="card-footer-area">
+                <div class="progress-container">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="label">Progress</span>
+                    <span class="percent">68%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-fill" style="width: 68%"></div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <span class="xp-text"
+                    ><i class="fas fa-star"></i> 1200 XP</span
+                  >
+                  <a
+                    href="#"
+                    class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
+                    style="border-radius: 8px"
+                  >
+                    Continue
+                    <i
+                      class="fas fa-chevron-right ms-2"
+                      style="font-size: 10px"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: ESP32 -->
+          <div class="col-12 col-lg-6">
+            <div class="journey-card theme-purple">
+              <div class="card-header-flex d-flex justify-content-between">
+                <div class="icon-box"><i class="fas fa-wifi"></i></div>
+                <div class="badge-wrapper">
+                  <span class="badge-level">Intermediate</span>
+                </div>
+              </div>
+
+              <div class="card-body-content">
+                <div class="text-area">
+                  <h3 class="card-title">ESP32 Journey</h3>
+                  <p class="card-desc">
+                    Build WiFi & Bluetooth IoT devices with the powerful ESP32
+                    microcontroller.
+                  </p>
+                  <div class="stats">
+                    <span><i class="fas fa-book-open"></i> 38 lessons</span>
+                    <span><i class="fas fa-users"></i> 1.8k</span>
+                  </div>
+                </div>
+                <div class="photo-holder">
+                  <img src="/assets/images/esp32.png" alt="ESP32" />
+                </div>
+              </div>
+
+              <div class="card-footer-area">
+                <div class="progress-container">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="label">Progress</span>
+                    <span class="percent">45%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-fill" style="width: 45%"></div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <span class="xp-text"
+                    ><i class="fas fa-star"></i> 1400 XP</span
+                  >
+                  <a
+                    href="#"
+                    class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
+                    style="border-radius: 8px"
+                  >
+                    Continue
+                    <i
+                      class="fas fa-chevron-right ms-2"
+                      style="font-size: 10px"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: ESP8266 -->
+          <div class="col-12 col-lg-6">
+            <div class="journey-card theme-green">
+              <div class="card-header-flex d-flex justify-content-between">
+                <div class="icon-box"><i class="fas fa-server"></i></div>
+                <div class="badge-wrapper">
+                  <span class="badge-level">Beginner</span>
+                </div>
+              </div>
+
+              <div class="card-body-content">
+                <div class="text-area">
+                  <h3 class="card-title">ESP8266 Journey</h3>
+                  <p class="card-desc">
+                    Create smart home projects and web-connected sensors with
+                    the affordable ESP8266.
+                  </p>
+                  <div class="stats">
+                    <span><i class="fas fa-book-open"></i> 35 lessons</span>
+                    <span><i class="fas fa-users"></i> 2.1k</span>
+                  </div>
+                </div>
+                <div class="photo-holder">
+                  <!-- မင်းရဲ့ ESP8266 ရုပ်ပုံ path ကို ဒီမှာထည့်ပါ -->
+                  <img src="/assets/images/esp8266.png" alt="ESP8266 Project" />
+                </div>
+              </div>
+
+              <div class="card-footer-area">
+                <div class="progress-container">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="label">Progress</span>
+                    <span class="percent">82%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-fill" style="width: 82%"></div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <span class="xp-text"
+                    ><i class="fas fa-star"></i> 1100 XP</span
+                  >
+                  <a
+                    href="#"
+                    class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
+                    style="border-radius: 8px"
+                  >
+                    Continue
+                    <i
+                      class="fas fa-chevron-right ms-2"
+                      style="font-size: 10px"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Raspberry Pi -->
+          <div class="col-12 col-lg-6">
+            <div class="journey-card theme-orange">
+              <div class="card-header-flex d-flex justify-content-between">
+                <div class="icon-box">
+                  <i class="fa-brands fa-raspberry-pi"></i>
+                </div>
+                <div class="badge-wrapper">
+                  <span class="badge-level">Advanced</span>
+                </div>
+              </div>
+
+              <div class="card-body-content">
+                <div class="text-area">
+                  <h3 class="card-title">Raspberry Pi Journey</h3>
+                  <p class="card-desc">
+                    Transform ideas into reality with the versatile Raspberry Pi
+                    single-board computer.
+                  </p>
+                  <div class="stats">
+                    <span><i class="fas fa-book-open"></i> 45 lessons</span>
+                    <span><i class="fas fa-users"></i> 1.5k</span>
+                  </div>
+                </div>
+                <div class="photo-holder">
+                  <!-- မင်းရဲ့ Raspberry Pi ရုပ်ပုံ path ကို ဒီမှာထည့်ပါ -->
+                  <img
+                    src="/assets/images/raspberrypi.png"
+                    alt="Raspberry Pi Board"
+                  />
+                </div>
+              </div>
+
+              <div class="card-footer-area">
+                <div class="progress-container">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="label">Progress</span>
+                    <span class="percent">25%</span>
+                  </div>
+                  <div class="progress-bar-bg">
+                    <div class="progress-fill" style="width: 25%"></div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <span class="xp-text"
+                    ><i class="fas fa-star"></i> 1600 XP</span
+                  >
+                  <a
+                    href="#"
+                    class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
+                    style="border-radius: 8px"
+                  >
+                    Continue
+                    <i
+                      class="fas fa-chevron-right ms-2"
+                      style="font-size: 10px"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lottie -->
     <script
       src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
       type="module"
     ></script>
-
+    <!-- Your JS -->
     <script src="js/app.js"></script>
+
+    <!-- Minimal navbar scroll enhancement -->
+    <script>
+      const header = document.getElementById("headerSection");
+      window.addEventListener(
+        "scroll",
+        () => {
+          header.classList.toggle("scrolled", window.scrollY > 20);
+        },
+        { passive: true },
+      );
+    </script>
   </body>
 </html>

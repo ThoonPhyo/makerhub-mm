@@ -1,446 +1,597 @@
+/* ============================================================
+   MAKERHUB MM — PREMIUM STARTUP CSS
+   Inspired by: Linear, Vercel, Raycast, GitHub Dark
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap");
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
 :root {
-  --bg-dark: #0d1117;
-  --nav-bg: #0a0e0f;
-  --neon-green: #22c55e; /* ဒီမှာ !important မထည့်ရပါ */
-  --green: rgb(0, 208, 132);
-  --green2: #00a866;
+  /* Core Palette */
+  --bg: #0d1117;
+  --bg-elevated: #161b22;
+  --bg-subtle: #1c2128;
+  --surface: #21262d;
+  --surface-2: #30363d;
+
+  /* Borders */
+  --border: rgba(240, 246, 252, 0.1);
+  --border-muted: rgba(240, 246, 252, 0.06);
+  --border-accent: rgba(34, 197, 94, 0.25);
+
+  /* Accent */
+  --green: #00a866;
+  --green-dim: rgba(34, 197, 94, 0.15);
+  --green-glow: rgba(34, 197, 94, 0.25);
   --purple: #8b5cf6;
-  --blue: #3b82f6;
-  --text-muted: #8b949e;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --bg: #0a0e0f;
-  --bg2: #0f1419;
-  --card: #111a1f;
-  --card2: #162028;
-  --green: #00d084;
-  --green2: #00a866;
-  --purple: #8b5cf6;
-  --blue: #3b82f6;
-  --orange: #f97316;
-  --yellow: #fbbf24;
-  --cyan: #06b6d4;
-  --pink: #ec4899;
-  --text: #e8f5f0;
-  --muted: #6b8a7a;
-  --muted2: #94b5a4;
-  --border: rgba(0, 208, 132, 0.12);
-  --border2: rgba(0, 208, 132, 0.06);
-  --radius: 14px;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --purple-dim: rgba(139, 92, 246, 0.15);
+
+  /* Text */
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-green: 0 0 24px rgba(34, 197, 94, 0.18);
+
+  /* Transitions */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Theme Variables - Dark Mode Default */
+  --section-bg: #0a0e0f;
+  --c-card-bg: #131921;
+  --c-card-border: rgba(255, 255, 255, 0.06);
+  --c-text-title: #ffffff;
+
+  /* Branding Colors */
+  --clr-arduino: #8b5cf6;
+  --clr-esp32: #f9113d;
+  --clr-esp8266: #ffc107;
+  --clr-rpi: #00d084; /* Adjusted for RPi Red */
+
+  --bg-dark: #0f1219;
+  --card-bg: #161b22;
+  --card-border: rgba(255, 255, 255, 0.05);
+  --text-gray: #8b949e;
+
+  /* UI Colors */
+  --clr-blue: #3b82f6;
+  --clr-purple: #a855f7;
+  --clr-green: #f97316;
+  --clr-orange: #22c55e;
 }
 
-/* ခေါ်သုံးတဲ့ class မှာပဲ !important ထည့်ပါ */
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg);
   font-family: "Nunito", sans-serif;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--text);
   min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* Navbar Box */
+/* ============================================================
+   3. NAVBAR — Linear/Vercel Style
+   ============================================================ */
 .header-nav {
-  background: var(--nav-bg) !important;
-  backdrop-filter: blur(16px);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+  background: rgba(13, 17, 23, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border) !important;
+  border-top: none !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background 0.3s var(--ease);
 }
 
-/* brand icon and name */
+.header-nav.scrolled {
+  background: rgba(13, 17, 23, 0.96) !important;
+  box-shadow:
+    var(--shadow-sm),
+    0 0 0 1px var(--border-muted);
+}
+
+.navbar {
+  padding: 12px 0;
+}
+
+/* Brand */
+.navbar-brand {
+  text-decoration: none;
+  gap: 8px;
+}
+
+.brand-text {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text) !important;
+}
+
 .text-neon-green {
   color: var(--green) !important;
 }
 
-/* Nav bar tabs */
+/* Nav Links */
 .nav-links-custom .nav-link {
-  color: var(--muted2) !important;
-  border-bottom: 3px solid transparent !important; /* အစမှာ ဖျောက်ထားမယ် */
-  transition: 0.3s ease;
-  padding-bottom: 5px !important;
-  margin-right: 25px;
+  color: var(--text-muted) !important;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 6px 2px !important;
+  margin-right: 28px;
+  border-bottom: 1.5px solid transparent !important;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+  letter-spacing: 0.01em;
+  position: relative;
 }
 
-/* Hover  */
 .nav-links-custom .nav-link:hover {
   color: var(--text) !important;
-  border-bottom: 3px solid var(--green) !important;
-  /* Neon Glow effect ကို border မှာပါ ထည့်ခြင်း */
-  filter: drop-shadow(0 0 5px var(--green));
+  border-bottom: 1.5px solid var(--surface-2) !important;
 }
 
-/* Active */
 .nav-links-custom .nav-link.active {
-  color: var(--green) !important;
-  border-bottom: 3px solid var(--green) !important;
-  /* filter: drop-shadow(0 0 5px var(--green)); */
+  color: var(--text) !important;
+  border-bottom: 1.5px solid var(--green) !important;
 }
 
-/* Stable Search Box */
+/* Search Box */
 .nav-search-container {
-  background: var(--card);
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
   display: flex;
   align-items: center;
-  width: 180px; /* Fixed width for stability */
+  gap: 8px;
+  width: 190px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.nav-search-container:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.08);
 }
 
 .nav-search-input {
-  background: var(--card);
+  background: transparent;
   border: none;
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  color: var(--text);
+  font-size: 13px;
+  font-family: "Nunito", sans-serif;
   outline: none;
   width: 100%;
 }
-/* Input ထဲမှာ cursor ရှိနေရင် container ရဲ့ border ကို ပြောင်းမယ် */
-.nav-search-container:focus-within {
-  border-color: var(--green) !important;
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); /* အလင်းအနည်းငယ် ထည့်ပေးရင် ပိုလှတယ် */
-  transition: 0.3s ease;
-}
 
-/* Input ရဲ့ default outline ကို ဖျောက်ထားဖို့ လိုပါတယ် */
-.nav-search-input:focus {
-  outline: none;
+.nav-search-input::placeholder {
+  color: var(--text-subtle);
 }
 
 .search-icon-left {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin-right: 8px;
+  color: var(--text-subtle);
+  font-size: 12px;
+  flex-shrink: 0;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle */
 .btn-theme {
+  background: var(--bg-elevated);
   border: 1px solid var(--border);
-  background: var(--card);
   color: var(--text-muted);
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.3s;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px;
 }
+
 .btn-theme:hover {
   color: var(--green);
-  border-color: var(--green);
+  border-color: var(--border-accent);
+  background: var(--green-dim);
 }
 
-/* Login Button */
-/* .btn-login-neon {
-  background: var(--neon-green);
-  color: #000 !important;
-  font-size: 0.85rem;
-  border-radius: 8px;
-  padding: 8px 20px;
-} */
-
-/* profile btn */
-/* Profile Dropdown Custom Styling */
-.custom-profile-dropdown {
-  background-color: #161b22 !important; /* Navbar နဲ့ အရောင်တူထားခြင်း */
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 12px !important;
-  padding: 8px !important;
-  margin-top: 10px !important;
+/* Profile Image */
+.profile-wrapper img {
+  border: 1.5px solid var(--border) !important;
+  border-radius: 50%;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
-.custom-profile-dropdown .dropdown-item {
+.profile-wrapper:hover img {
+  border-color: var(--green) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+}
+
+/* Dropdown */
+.dropdown-menu-dark.custom-profile-dropdown,
+.dropdown-menu-dark {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 6px !important;
+  margin-top: 8px !important;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px var(--border-muted) !important;
+  min-width: 180px;
+}
+
+.dropdown-menu-dark .dropdown-item {
   color: var(--text-muted) !important;
-  border-radius: 8px;
-  padding: 8px 15px;
-  font-size: 0.9rem;
-  transition: 0.2s;
-  /* color: #8b949e; */
-}
-
-.custom-profile-dropdown .dropdown-item:hover {
-  background-color: rgba(34, 197, 94, 0.1) !important; /* Neon Green Tint */
-  color: #22c55e !important; /* Neon Green Text */
-}
-
-.custom-profile-dropdown .dropdown-header {
-  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 13px;
   font-weight: 600;
-  padding-bottom: 5px;
+  transition: all 0.15s;
 }
 
-.custom-profile-dropdown .dropdown-divider {
-  border-color: rgba(255, 255, 255, 0.05);
+.dropdown-menu-dark .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text) !important;
 }
 
-/* Profile Icon Hover Effect */
-.profile-icon-toggle {
-  transition: 0.3s;
-  cursor: pointer;
+.dropdown-menu-dark .dropdown-header {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 12px 4px;
 }
 
-.profile-icon-toggle:hover {
-  border-color: #22c55e !important; /* Hover လိုက်ရင် icon ဘောင် စိမ်းသွားမယ် */
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+.dropdown-menu-dark .dropdown-divider {
+  border-color: var(--border-muted);
+  margin: 4px 0;
 }
 
-/* Mobile Dropdown Positioning */
-/* Mobile မှာ Navbar ပွင့်လာတဲ့အခါ Dropdown တွေ ကွယ်မသွားစေရန် */
+/* Navbar Toggler */
+.custom-toggler {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 4px 8px !important;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  filter: invert(1) grayscale(1);
+  opacity: 0.7;
+}
+
+/* Mobile Nav */
 @media (max-width: 991.98px) {
-  .navbar-collapse.show {
-    overflow: visible !important; /* ဒါမှ dropdown က collapse ထဲက ဖောက်ထွက်လာမှာပါ */
-  }
-
-  /* Dropdown menu ရဲ့ နေရာကို Mobile မှာ သေချာအောင် ထပ်ညှိပေးပါ */
-  .custom-profile-dropdown {
-    position: static !important; /* Mobile မှာ အောက်ကို ဆွဲချလိုက်တဲ့ ပုံစံမျိုး ဖြစ်သွားအောင် */
-    width: 100%;
-    margin-top: 10px;
-    border: none !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-  }
-}
-
-/* Responsive Tweak */
-@media (max-width: 963px) {
   .navbar-collapse {
-    background: #161b22;
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-top: 12px;
+  }
+
+  .navbar-collapse.show {
+    overflow: visible !important;
   }
 }
+
 /* ============================================================
-   HERO SECTION BACKGROUND (DESIGN MATCH)
+   4. HERO SECTION
    ============================================================ */
 .hero-section {
   position: relative;
-  /* 1. Main Background Color & Radial Glow Effect */
-  /* This creates the soft green light behind the hardware images on the right */
-  background: radial-gradient(
-    circle at 73% 45%,
-    rgba(0, 208, 132, 0.18) 0%,
-    #05080a 30%
-  );
-  background-color: #05080a;
-
-  padding: 80px 0;
-  min-height: 80vh;
+  background-color: var(--bg);
+  padding: 60px 0 80px;
+  min-height: 90vh;
   overflow: hidden;
   display: flex;
   align-items: center;
 }
 
-/* 2. Thin Grid Lines Layer */
-/* This adds the subtle tech-style grid pattern seen in your UI photo */
+/* Subtle grid */
 .hero-section::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Very faint white lines to create a 50px grid */
+  inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    black 40%,
+    transparent 100%
+  );
 }
 
-/* 3. Extra Ambient Glow (Optional for deeper depth) */
+/* Green ambient glow on right */
 .hero-section::after {
   content: "";
   position: absolute;
-  top: 40%;
-  right: 15%;
-  width: 400px;
-  height: 400px;
-  background: var(--green);
-  filter: blur(150px);
-  opacity: 0.1;
-  z-index: 0;
+  top: 30%;
+  right: 10%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(
+    circle,
+    rgba(34, 197, 94, 0.12) 0%,
+    transparent 70%
+  );
   pointer-events: none;
+  z-index: 0;
 }
-/* ============================================================
-   2. NEON TYPOGRAPHY & BUTTONS (၁၀၀% တူညီ)
-   ============================================================ */
-/* Hero badge */
+
+/* Hero Badge */
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: rgba(0, 208, 132, 0.1);
-  border: 1px solid rgba(0, 208, 132, 0.25);
+  gap: 6px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
   color: var(--green);
   border-radius: 100px;
-  padding: 5px 14px;
-  font-size: 12px;
+  padding: 4px 14px;
+  font-size: 11.5px;
   font-weight: 700;
-  margin-bottom: 20px;
-  animation: fadeUp 0.5s ease both;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
 }
 
-/* Main Title */
+.hero-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse-dot 2s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* Hero Title */
 .hero-title {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -1.5px;
-  margin-bottom: 14px;
-  animation: fadeUp 0.5s 0.1s ease both;
+  margin-bottom: 18px;
+  color: var(--text);
 }
 
-/* Learn Arduino & IoT (Gradient) */
 .text-gradient-green {
-  color: #00d084;
-  text-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+  color: var(--green);
+  text-shadow: 0 0 40px rgba(34, 197, 94, 0.25);
 }
 
-/* Learn Arduino & IoT (Purple Accent) */
 .text-neon-purple {
-  color: #8b5cf6;
-  text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+  color: var(--purple);
+  text-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
 }
 
-/* Lead Paragraph */
+/* Hero Lead */
 .hero-lead {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--text-muted);
   font-weight: 400;
-  max-width: 500px;
-  line-height: 1.6;
-  margin-bottom: 40px;
-}
-
-/* Buttons System */
-.btn-neon-green {
-  background: var(--green);
-  color: #061209;
-  border: none;
-  border-radius: 10px;
-  padding: 13px 26px;
-  font-family: "Nunito", sans-serif;
-  font-weight: 800;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  transition: all 0.2s;
-}
-
-.btn-neon-green:hover {
-  color: #061209;
-  background: var(--green2);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 208, 132, 0.3);
-}
-
-.btn-outline-light-tech {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 14px 30px;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-
-.btn-outline-light-tech:hover {
-  color: var(--green);
-  border-color: var(--green);
+  max-width: 440px;
+  line-height: 1.7;
+  margin-bottom: 36px;
 }
 
 /* ============================================================
-   3. HARDWARE POSITIONING & ANIMATIONS (၁၀၀% တူညီ)
+   5. BUTTONS
+   ============================================================ */
+.btn-neon-green {
+  background: var(--green);
+  color: #052010;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s var(--ease);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.btn-neon-green:hover {
+  background: var(--green);
+  color: #052010;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+}
+
+.btn-neon-green:active {
+  transform: translateY(0);
+}
+
+.btn-outline-light-tech {
+  background: var(--bg-dark);
+  color: var(--text-muted);
+  border: 1px solid var(--purple);
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-outline-light-tech:hover {
+  color: var(--c-text-title);
+  border-color: var(--clr-purple);
+  background: rgba(57, 36, 92, 0.3);
+}
+
+/* ============================================================
+   6. STAT CARDS
+   ============================================================ */
+.stat-card {
+  min-height: 150px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) !important;
+  padding: 18px !important;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.stat-card:hover {
+  border-color: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+.stat-card .h3 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* rounded 1 animation */
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   7. HERO IMAGE WRAPPER
    ============================================================ */
 .hero-img-wrapper {
   position: relative;
   width: 100%;
-  height: 450px; /* Container အမြင့်ကို သေချာသတ်မှတ်ပေးရန် */
+  height: 460px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 5;
 }
-/* Floating Animation Settings */
+
 .floating-img {
   position: absolute;
-  transition: transform 0.3s ease;
-  filter: drop-shadow(
-    0 20px 40px rgba(0, 0, 0, 0.6)
-  ); /* ပုံတွေအောက်မှာ အရိပ်ထည့်ခြင်း */
-  animation: floating 6s ease-in-out infinite;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.7));
+  animation: floating 7s ease-in-out infinite;
 }
 
-/* ၁။ Arduino Uno (အလယ်မှာ ရှိပြီး အကြီးဆုံးပုံ) */
 .hardware-1 {
-  width: 60%;
+  width: 58%;
   z-index: 10;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* ၂။ ESP32 (ညာဘက်အပေါ်ထောင့်မှာ ရှိပြီး နည်းနည်းစောင်းနေမယ်) */
 .hardware-2 {
-  width: 35%;
+  width: 32%;
   top: -5%;
-  right: 40%;
+  right: 38%;
   z-index: 9;
-  animation-delay: 1.5s; /* Delay ထည့်ပြီး မတူညီတဲ့ အချိန်မှာ လွင့်စေရန် */
-  transform: rotate(-5deg);
+  animation-delay: 1.5s;
+  transform: rotate(-4deg);
 }
 
-/* ၃။ Raspberry Pi (ဘယ်ဘက်အောက်ထောင့်မှာ ရှိပြီး အရှေ့ဆုံးမှာ ပေါ်နေမယ်) */
 .hardware-3 {
-  width: 55%;
+  width: 52%;
   bottom: 10%;
   left: -5%;
   z-index: 11;
   animation-delay: 3s;
-  transform: rotate(5deg);
+  transform: rotate(4deg);
 }
 
-/* Floating UI Icons Styling */
 .floating-ui {
   position: absolute;
-  font-size: 1.5rem;
   z-index: 12;
-  animation: pulseIcon 4s ease-in-out infinite;
+  animation: pulseIcon 5s ease-in-out infinite;
+  opacity: 0.5;
 }
 
 .ui-wifi {
   top: 0%;
-  right: 30%;
-  color: var(--neon-green);
+  right: 28%;
+  color: var(--green);
 }
 .ui-code {
   top: 10%;
-  left: 20%;
-  color: var(--neon-purple);
+  left: 18%;
+  color: var(--purple);
 }
 .ui-cpu {
-  bottom: 10%;
-  right: 25%;
-  color: var(--neon-green);
+  bottom: 8%;
+  right: 22%;
+  color: var(--green);
 }
 
-/* ============================================================
-   4. ANIMATIONS & EFFECTS (၁၀၀% တူညီ)
-   ============================================================ */
 @keyframes floating {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-25px) rotate(3deg);
+    transform: translateY(-20px) rotate(2deg);
   }
 }
 
@@ -448,38 +599,440 @@ body {
   0%,
   100% {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.4;
   }
   50% {
     transform: scale(1.1);
-    opacity: 0.8;
+    opacity: 0.65;
   }
 }
 
+/* ============================================================
+   8. LEARNING JOURNEYS SECTION
+   ============================================================ */
+.learning-section {
+  background-color: var(--section-bg);
+  position: relative;
+  border-top: 1px solid var(--border) !important;
+  border-bottom: 1px solid var(--border) !important;
 
+  padding: 60px 0;
+}
+
+/* --- Section Title Styles --- */
+.section-tag {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  opacity: 0.8;
+}
+
+.section-main-title {
+  color: #ffffff !important; /* Title ကို အဖြူထားတာ ပိုပြီး Premium ဆန်ပါတယ် */
+  font-size: 28px !important;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Icon Box ကို Glow Effect ထည့်မယ် */
+.title-icon-box {
+  background: rgba(
+    var(--green-rgb),
+    0.1
+  ); /* မင်းရဲ့ green variable ကိုသုံးပါ */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: var(--green);
+  box-shadow: 0 0 20px rgba(var(--green-rgb), 0.2);
+}
+
+/* --- View All Button Styles --- */
+.view-all-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  padding: 10px 24px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+}
+
+.view-all-btn:hover {
+  background: var(--green);
+  color: #000000 !important; /* Hover မှာ စာသားကို အမည်းပြောင်းတာ ပိုပြီး Contrast ကောင်းပါတယ် */
+  border-color: var(--green);
+  box-shadow: 0 10px 20px rgba(var(--green-rgb), 0.3);
+  transform: translateY(-3px);
+}
+
+/* Arrow Animation */
+.arrow-icon {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.view-all-btn:hover .arrow-icon {
+  transform: translateX(5px);
+}
+
+/* --- Journey Card Base --- */
+.journey-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 25px;
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden; /* Glow ကတ်အပြင်မထွက်စေရန် */
+  z-index: 1;
+}
+
+.journey-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Corner Glow Effect (UI Match) */
+.journey-card::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0; /* ပုံမှန်အချိန်မှာ ဖျောက်ထားမယ် */
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+/*  Bottom-Right Gradient Glow */
+.journey-card::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  right: -20%;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0; /* ပုံမှန်အချိန်မှာ ဖျောက်ထားမယ် */
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+/* 4. Hover လုပ်တဲ့အခါ Glow ကို ပြမယ် */
+.journey-card:hover::before,
+.journey-card:hover::after {
+  transition: all 0.7s ease;
+  opacity: 0.15; /* အရမ်းမလင်းလွန်းအောင် 0.15 လောက်ပဲ ထားပါ */
+}
+
+/* 5. Theme အလိုက် Gradient အရောင်သတ်မှတ်ချက်များ */
+
+/* Arduino (Blue) */
+.theme-blue:hover::before {
+  background: radial-gradient(circle, var(--clr-blue), transparent);
+}
+.theme-blue:hover::after {
+  background: radial-gradient(circle, var(--clr-blue), transparent);
+}
+
+/* ESP32 (Purple) */
+.theme-purple:hover::before {
+  background: radial-gradient(circle, var(--clr-purple), transparent);
+}
+.theme-purple:hover::after {
+  background: radial-gradient(circle, var(--clr-purple), transparent);
+}
+
+/* ESP8266 (Green) */
+.theme-green:hover::before {
+  background: radial-gradient(circle, var(--clr-green), transparent);
+}
+.theme-green:hover::after {
+  background: radial-gradient(circle, var(--clr-green), transparent);
+}
+
+/* Raspberry Pi (Orange) */
+.theme-orange:hover::before {
+  background: radial-gradient(circle, var(--clr-orange), transparent);
+}
+.theme-orange:hover::after {
+  background: radial-gradient(circle, var(--clr-orange), transparent);
+}
+
+/* Photo Styling */
+.card-body-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.text-area {
+  flex: 1; /* စာသားကို ဘယ်ဘက်မှာ နေရာအပြည့်ယူစေရန် */
+}
+
+.photo-holder {
+  width: 170px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0; /* ပုံ ပိန်မသွားစေရန် */
+  /* background: rgba(255, 255, 255, 0.03); */
+  /* border: 1px solid rgba(255, 255, 255, 0.05); */
+}
+
+.photo-holder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+/* Icon Box with Glow */
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+/* Themes from image_fbe003.jpg */
+.theme-blue .icon-box {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--clr-blue);
+  box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.3);
+}
+.theme-blue .progress-fill {
+  background: var(--clr-blue);
+}
+.theme-blue .btn-continue {
+  border: 1px solid var(--clr-blue) !important;
+  color: var(--clr-blue);
+}
+.theme-blue .xp-text {
+  color: var(--clr-blue);
+}
+.theme-blue .badge-level {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--clr-blue);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.theme-purple .icon-box {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--clr-purple);
+  box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.3);
+}
+.theme-purple .progress-fill {
+  background: var(--clr-purple);
+}
+.theme-purple .btn-continue {
+  border: 1px solid var(--clr-purple) !important;
+  color: var(--clr-purple);
+}
+.theme-purple .xp-text {
+  color: var(--clr-purple);
+}
+.theme-purple .badge-level {
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--clr-purple);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* ESP8266 Theme (Green) */
+.theme-green .icon-box {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--clr-green);
+  box-shadow: inset 0 0 15px rgba(249, 115, 22, 0.3);
+}
+.theme-green .progress-fill {
+  background: var(--clr-green);
+}
+.theme-green .btn-continue {
+  border: 1px solid var(--clr-green) !important;
+  color: var(--clr-green);
+}
+.theme-green .xp-text {
+  color: var(--clr-green);
+}
+.theme-green .badge-level {
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--clr-green);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+/* Hover Glow */
+.theme-green:hover::before,
+.theme-green:hover::after {
+  background: radial-gradient(circle, var(--clr-green), transparent);
+}
+
+/* Raspberry Pi Theme (Orange) */
+.theme-orange .icon-box {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--clr-orange);
+  box-shadow: inset 0 0 15px rgba(34, 197, 94, 0.3);
+}
+.theme-orange .progress-fill {
+  background: var(--clr-orange);
+}
+.theme-orange .btn-continue {
+  border: 1px solid var(--clr-orange) !important;
+  color: var(--clr-orange);
+}
+.theme-orange .xp-text {
+  color: var(--clr-orange);
+}
+.theme-orange .badge-level {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--clr-orange);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+/* Hover Glow */
+.theme-orange:hover::before,
+.theme-orange:hover::after {
+  background: radial-gradient(circle, var(--clr-orange), transparent);
+}
+
+/* Typography */
+.card-title {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.card-desc {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.stats {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+.badge-level {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Progress Bar */
+.progress-bar-bg {
+  height: 6px;
+  background: #21262d;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+}
+.btn-continue {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+/* ============================================================
+   9. SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
 
 /* ============================================================
-   5. UTILITY & GLASS CARDS
+   10. UTILITY
    ============================================================ */
-.stat-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+.border-secondary-subtle {
+  border-color: var(--border) !important;
 }
 
-.stat-title {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 400;
-  margin-bottom: 5px;
+/* Remove default Bootstrap outline on buttons */
+.btn:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
 }
 
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 10px;
+/* Lottie container alignment */
+dotlottie-wc {
+  display: flex;
+}
+
+/* Progress bar bootstrap reset */
+.progress {
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   11. SCROLL ANIMATION (JS-powered, class toggled)
+   ============================================================ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   12. RESPONSIVE
+   ============================================================ */
+@media (max-width: 991.98px) {
+  .hero-section {
+    padding: 40px 0 60px;
+    min-height: auto;
+  }
+
+  .hero-title {
+    letter-spacing: -0.5px;
+  }
+
+  .navbar-collapse {
+    overflow: visible !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .stat-card .h3 {
+    font-size: 1.3rem;
+  }
+  .j-title {
+    font-size: 1.6rem;
+  }
 }
