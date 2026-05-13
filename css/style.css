@@ -16,6 +16,8 @@
   --bg-subtle: #1c2128;
   --surface: #21262d;
   --surface-2: #30363d;
+  --nav-bg: #0c1117;
+  --fea-icon-bg: #161b22;
 
   /* Borders */
   --border: rgba(240, 246, 252, 0.1);
@@ -24,7 +26,7 @@
   --border-accent: rgba(34, 197, 94, 0.25);
 
   /* Accent */
-  --green: #00a866;
+  --green: #0d9488;
   --green-dim: rgba(34, 197, 94, 0.15);
   --green-glow: rgba(34, 197, 94, 0.25);
   --purple: #8b5cf6;
@@ -38,6 +40,7 @@
   --text: #f8fafc;
   --text-muted: #94a3b8;
   --text-subtle: #64748b;
+  --fea-icon-text: #f8fafc;
 
   /* Radius */
   --radius-sm: 8px;
@@ -79,6 +82,75 @@
   --clr-orange: #22c55e;
 }
 
+.light-theme {
+  /* Core Palette */
+  --bg: #f8fafc; /* ပင်မအဖြူရောင်နောက်ခံ */
+  --bg-elevated: #f0f1f3; /* အနည်းငယ် မီးခိုးရောင်သန်းသော နောက်ခံ (Sections များအတွက်) */
+  --bg-subtle: #f1f5f9; /* ပိုမိုနက်ရှိုင်းသော မီးခိုးရောင်ဖျော့ */
+  --surface: #ffffff; /* UI elements များ၏ မျက်နှာပြင် */
+  --surface-2: #f8fafc;
+  --nav-bg: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Glassmorphism effect အတွက် semi-transparent */
+  --fea-icon-bg: #0d9488;
+
+  /* Borders */
+  --border: rgba(0, 0, 0, 0.08);
+  --broder2: rgba(0, 168, 102, 0.15);
+  --border-muted: rgba(0, 0, 0, 0.05);
+  --border-accent: rgba(0, 168, 102, 0.2);
+
+  /* Accent - Light Mode တွင် ပိုမိုတောက်ပပြီး Professional ကျသော အစိမ်းရောင် */
+  --green: #0d9488; /* Teal-Green (Premium look) */
+  --green-dim: rgba(13, 148, 136, 0.1);
+  --green-glow: rgba(13, 148, 136, 0.15);
+  --purple: #7c3aed;
+  --purple-dim: rgba(124, 58, 237, 0.1);
+
+  /* Cards */
+  --card-border: rgba(0, 0, 0, 0.06);
+  --card-shadow: rgba(0, 0, 0, 0.04);
+
+  /* Text - ဖတ်ရလွယ်ကူစေရန် Contrast ကောင်းသောအရောင်များ */
+  --text: #0f172a; /* ခေါင်းစဉ်များအတွက် အနက်ရောင်နီးပါး */
+  --text-muted: #475569; /* စာသားအများစုအတွက် မီးခိုးရောင်ရင့် */
+  --text-subtle: #94a3b8; /* အသေးစိတ် အချက်အလက်များအတွက် */
+  --fea-icon-text: #f8fafc;
+
+  /* Shadows - Light Mode တွင် Shadow သည် ပို၍ အရေးကြီးပါသည် */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-green: 0 10px 15px -3px rgba(13, 148, 136, 0.1);
+
+  /* Theme Variables - Light Mode Specific */
+  --section-bg: #f8fafc;
+  --c-card-bg: #ffffff;
+  --c-card-border: rgba(0, 0, 0, 0.05);
+  --c-text-title: #0f172a;
+
+  /* Branding Colors (Light Mode နှင့် ကိုက်ညီအောင် Hue ကို အနည်းငယ် ညှိထားပါသည်) */
+  --clr-arduino: #6d28d9; /* Deep Purple */
+  --clr-esp32: #dc2626; /* Professional Red */
+  --clr-esp8266: #d97706; /* Darker Amber (Light bg ပေါ်တွင် ပိုမြင်ရစေရန်) */
+  --clr-rpi: #059669; /* Emerald Green */
+
+  --bg-dark: #f1f5f9;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --text-gray: #64748b;
+
+  /* UI Colors */
+  --clr-blue: #2563eb;
+  --clr-purple: #9333ea;
+  --clr-green: #ea580c;
+  --clr-orange: #16a34a;
+}
 /* ============================================================
    2. RESET & BASE
    ============================================================ */
@@ -104,13 +176,16 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   overflow-x: hidden;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease);
 }
 
 /* ============================================================
    3. NAVBAR — Linear/Vercel Style
    ============================================================ */
 .header-nav {
-  background: rgba(13, 17, 23, 0.85) !important;
+  background: var(--nav-bg) !important;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--broder2) !important;
@@ -122,7 +197,7 @@ body {
 }
 
 .header-nav.scrolled {
-  background: rgba(13, 17, 23, 0.96) !important;
+  background: var(--nav-bg) !important;
   box-shadow:
     var(--shadow-sm),
     0 0 0 1px var(--border-muted);
@@ -490,6 +565,8 @@ body {
    6. STAT CARDS
    ============================================================ */
 .stat-card {
+  background: var(--bg-elevated) !important;
+  border-color: var(--border) !important;
   min-height: 150px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -640,7 +717,7 @@ body {
 }
 
 .stat-value {
-  color: #ffffff;
+  color: var(--text);
   font-weight: 700;
   font-size: 1rem;
 }
@@ -703,7 +780,7 @@ body {
 }
 
 .section-main-title {
-  color: #ffffff !important;
+  color: var(--text) !important;
   font-size: 28px !important;
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -993,7 +1070,7 @@ body {
 
 /* Typography */
 .card-title {
-  color: white;
+  color: var(--text);
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -1020,7 +1097,8 @@ body {
 /* Progress Bar */
 .progress-bar-bg {
   height: 6px;
-  background: #21262d;
+  background: var(--border);
+  /* border: 1px solid var(--border); */
   border-radius: 10px;
   overflow: hidden;
 }
@@ -1046,7 +1124,7 @@ body {
 }
 
 .how-title {
-  color: #ffffff;
+  color: var(--text);
   font-weight: 800;
   font-size: 2rem;
 }
@@ -1055,8 +1133,9 @@ body {
 .step-icon-wrapper {
   width: 60px;
   height: 60px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--fea-icon-bg);
+  color: var(--fea-icon-text) !important;
+  border: var(--broder2);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -1069,7 +1148,7 @@ body {
 }
 
 .step-title {
-  color: #ffffff;
+  color: var(--text);
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 10px;
@@ -1095,16 +1174,16 @@ body {
     top: 30px; /* Icon ရဲ့ အလယ်တည့်တည့် */
     left: calc(50% + 40px); /* Icon box ရဲ့ အပြင်ကနေ စမယ် */
     width: calc(100% - 80px); /* နောက် icon တစ်ခုအထိ ရှည်မယ် */
-    border-top: 2px dotted rgba(255, 255, 255, 0.1);
+    border-top: 2px dotted var(--text-muted);
     z-index: 1;
   }
 }
 
 /* Hover Effect */
 .step-col:hover .step-icon-wrapper {
-  border-color: var(--green);
+  border-color: var(--green) !important;
   color: var(--green);
-  background: rgba(var(--green-rgb), 0.1);
+  background:;
   transform: translateY(-5px);
   transition: all 0.3s ease;
 }
@@ -1126,7 +1205,7 @@ body {
 .view-community-link {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  color: var(--text);
   /* padding: 8px 20px; */
   text-decoration: none !important;
   border-radius: 14px;
@@ -1158,12 +1237,13 @@ body {
   display: flex;
   flex-direction: column;
   transition: all 0.3s var(--ease);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .showcase-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: var(--card-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   /* transform: translateY(-8px); */
   background: var(--bg-elevated);
   /* border-color: var(--border-accent),transparent; */
@@ -1269,19 +1349,20 @@ body {
   flex-direction: column;
   height: 90%;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .market-card:hover {
   transform: translateY(-5px);
   border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   /* transform: translateY(-8px); */
   background: var(--bg-elevated);
 }
 
 /* Product Image Box (The White Square) */
 .market-img-box {
-  background: #ffffff; /* Image ထဲကအတိုင်း Pure White */
+  background: var(--card-bg); /* Image ထဲကအတိုင်း Pure White */
   margin: 15px; /* Card border နဲ့ image box ကြား spacing */
   border-radius: var(--radius); /* အထဲက box ကို rounded လုပ်ရန် */
   aspect-ratio: 1 / 1; /* အမြဲတမ်း စတုရန်းပုံစံ ဖြစ်နေစေရန် */
@@ -1414,7 +1495,7 @@ body {
 
 /* Icon & Title Styling */
 .newsletter-title {
-  color: #ffffff;
+  color: var(--text);
   font-weight: 700;
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -1448,7 +1529,7 @@ body {
 
 /* Input Styling */
 .subscribe-input {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--c-card-bg) !important;
   border: 1px solid var(--border-muted) !important;
   color: var(--text) !important;
   border-radius: var(--radius-sm) 0 0 var(--radius-sm) !important; /* Left rounded only */

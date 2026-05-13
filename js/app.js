@@ -10,23 +10,59 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Search icon ကို နှိပ်ရင် အလုပ်လုပ်ဖို့ simple logic
-const searchBtn = document.querySelector(".search-link");
+document.addEventListener("DOMContentLoaded", () => {
+  const searchBtn = document.querySelector(".search-link");
 
-searchBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  // ဥပမာ - Search box တစ်ခု ပေါ်လာအောင်လုပ်တာမျိုး ဒါမှမဟုတ် prompt တောင်းတာမျိုး
-  const searchQuery = prompt("ဘာကို ရှာဖွေချင်ပါသလဲ?");
-  if (searchQuery) {
-    console.log("Searching for:", searchQuery);
-    // ဒီနေရာမှာ မင်းရဲ့ API နဲ့ ချိတ်ပြီး ရှာခိုင်းလို့ရပါတယ်။
+  if (searchBtn) {
+    searchBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const searchQuery = prompt("ဘာကို ရှာဖွေချင်ပါသလဲ?");
+      if (searchQuery) {
+        console.log("Searching for:", searchQuery);
+      }
+    });
   }
 });
 
+/* ════════════════════════════
+   THEME
+════════════════════════════ */
+document.addEventListener("DOMContentLoaded", () => {
+  const themeBtns = document.querySelectorAll(".btn-theme-toggle");
 
+  // 👉 load saved theme
+  const savedTheme = localStorage.getItem("theme");
 
+  if (savedTheme === "light") {
+    document.body.classList.add("light-theme");
+    updateIcons(true);
+  } else {
+    updateIcons(false);
+  }
 
+  // 👉 click toggle
+  themeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const isLight = document.body.classList.toggle("light-theme");
 
+      // save to localStorage
+      localStorage.setItem("theme", isLight ? "light" : "dark");
 
+      updateIcons(isLight);
+    });
+  });
 
+  // 👉 icon updater function
+  function updateIcons(isLight) {
+    document.querySelectorAll(".theme-icon").forEach((icon) => {
+      icon.classList.remove("bi-moon-stars-fill", "bi-sun-fill");
 
-
+      if (isLight) {
+        icon.classList.add("bi-sun-fill");
+      } else {
+        icon.classList.add("bi-moon-stars-fill");
+      }
+    });
+  }
+});
