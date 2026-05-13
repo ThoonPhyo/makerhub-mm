@@ -448,13 +448,11 @@
     <!-- ── LEARNING JOURNEYS ─────────────────────────────── -->
     <section class="learning-section py-5">
       <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4 p-2">
-          <h3 class="fw-bold section-main-title">Learning Journey</h3>
-          <a
-            href="#"
-            class="view-all-btn px-2 px-md-3 py-1 py-md-2 rounded-3 fw-bold"
-            >View All →</a
-          >
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="section-title m-0">Choose Your Learning Journey</h2>
+          <a href="#" class="view-all-link"
+            >View All<i class="fa-solid fa-arrow-right"></i
+          ></a>
         </div>
 
         <div class="row g-4">
@@ -506,7 +504,7 @@
                     ><i class="fas fa-star"></i> 1200 XP</span
                   >
                   <a
-                    href="#"
+                    href="/arduino/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >
@@ -748,25 +746,15 @@
       </div>
     </section>
 
-    <!-- ── SHOWCASE ─────────────────────────────── -->
+    <!-- ── Community Showcase ─────────────────────────────── -->
     <section class="showcase-section py-5 px-2 px-md-0">
-      <div
-        class="container p-3 p-md-4 rounded-4"
-        style="
-          background: var(--bg-elevated);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-xl);
-        "
-      >
+      <div class="container p-3 p-md-4 rounded-4">
         <!-- Header: Title and Link -->
-        <div class="d-flex justify-content-between align-items-end mb-4">
-          <h2 class="showcase-main-title m-0">Community Showcase</h2>
-          <a
-            href="#"
-            class="view-community-link text-decoration-none px-1 px-md-2 py-1 py-md-2 rounded-3"
-          >
-            View All <i class="fa-solid fa-arrow-right ms-1"></i>
-          </a>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="section-title m-0">Community Showcase</h2>
+          <a href="#" class="view-all-link"
+            >View Community <i class="fa-solid fa-arrow-right"></i
+          ></a>
         </div>
 
         <!-- Cards Grid -->
@@ -777,7 +765,7 @@
               <!-- Image Section -->
               <div class="post-img-container">
                 <img
-                  src="/assets/images/circuit_image.png"
+                  src="/assets/images/arduinopj.jpeg"
                   class="showcase-img"
                   alt="Project"
                 />
@@ -805,7 +793,12 @@
                     <span class="user-name">Anthon Nexa</span>
                   </div>
                   <div class="stats-group d-flex gap-3">
-                    <span><i class="fa-regular fa-heart me-1"></i> 2</span>
+                    <span class=""
+                      ><a href=""
+                        ><i class="fa-regular fa-heart me-1 text-danger"></i
+                      ></a>
+                      2</span
+                    >
                     <span><i class="fa-regular fa-comment me-1"></i> 0</span>
                   </div>
                 </div>
@@ -818,7 +811,7 @@
               <!-- Image Section -->
               <div class="post-img-container">
                 <img
-                  src="/assets/images/circuit_image.png"
+                  src="/assets/images/Smart-Grid-In-IoT.jpg"
                   class="showcase-img"
                   alt="Project"
                 />
@@ -846,7 +839,12 @@
                     <span class="user-name">Anthon Nexa</span>
                   </div>
                   <div class="stats-group d-flex gap-3">
-                    <span><i class="fa-regular fa-heart me-1"></i> 2</span>
+                    <span class=""
+                      ><a href=""
+                        ><i class="fa-regular fa-heart me-1 text-danger"></i
+                      ></a>
+                      2</span
+                    >
                     <span><i class="fa-regular fa-comment me-1"></i> 0</span>
                   </div>
                 </div>
@@ -859,7 +857,7 @@
               <!-- Image Section -->
               <div class="post-img-container">
                 <img
-                  src="/assets/images/circuit_image.png"
+                  src="/assets/images/pj3.jpg"
                   class="showcase-img"
                   alt="Project"
                 />
@@ -887,7 +885,12 @@
                     <span class="user-name">Anthon Nexa</span>
                   </div>
                   <div class="stats-group d-flex gap-3">
-                    <span><i class="fa-regular fa-heart me-1"></i> 2</span>
+                    <span class=""
+                      ><a href=""
+                        ><i class="fa-regular fa-heart me-1 text-danger"></i
+                      ></a>
+                      2</span
+                    >
                     <span><i class="fa-regular fa-comment me-1"></i> 0</span>
                   </div>
                 </div>
@@ -899,7 +902,7 @@
     </section>
 
     <!--Marketplace Preview Section -->
-    <section class="py-5">
+    <section class="py-5 rounded-0">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="section-title m-0">Marketplace Preview</h2>
@@ -907,85 +910,86 @@
             >View Marketplace <i class="fa-solid fa-arrow-right"></i
           ></a>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+        <div
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+        >
           <!-- Product Card 1 -->
-          <div class="col">
-            <div class="market-card">
+          <div class="col d-flex justify-content-center">
+            <div class="market-card compact-card">
               <div class="market-img-box">
-                <img
-                  src="/assets/images/arduino-uno (2).png"
-                  alt="Arduino UNO"
-                />
+                <img src="/assets/images/p1.jpg" alt="Arduino UNO" />
               </div>
-              <div class="p-3">
+              <div class="product-info-wrapper">
                 <h6 class="product-name">Arduino UNO R3</h6>
                 <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy w-100">Buy Now</button>
+                <button class="btn-buy">Buy Now</button>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="market-card">
+          <!-- Product Card 2 -->
+          <div class="col d-flex justify-content-center">
+            <div class="market-card compact-card">
               <div class="market-img-box">
-                <img
-                  src="/assets/images/arduino-uno (2).png"
-                  alt="Arduino UNO"
-                />
+                <img src="/assets/images/p2.jpg" alt="Arduino UNO" />
               </div>
-              <div class="p-3">
+              <div class="product-info-wrapper">
                 <h6 class="product-name">Arduino UNO R3</h6>
                 <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy w-100">Buy Now</button>
+                <button class="btn-buy">Buy Now</button>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="market-card">
+          <!-- Product Card 3 -->
+          <div class="col d-flex justify-content-center">
+            <div class="market-card compact-card">
               <div class="market-img-box">
-                <img
-                  src="/assets/images/arduino-uno (2).png"
-                  alt="Arduino UNO"
-                />
+                <img src="/assets/images/p3.jpg" alt="Arduino UNO" />
               </div>
-              <div class="p-3">
+              <div class="product-info-wrapper">
                 <h6 class="product-name">Arduino UNO R3</h6>
                 <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy w-100">Buy Now</button>
+                <button class="btn-buy">Buy Now</button>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="market-card">
+          <!-- Product Card 4 -->
+          <div class="col d-flex justify-content-center">
+            <div class="market-card compact-card">
               <div class="market-img-box">
-                <img
-                  src="/assets/images/arduino-uno (2).png"
-                  alt="Arduino UNO"
-                />
+                <img src="/assets/images/p4.jpg" alt="Arduino UNO" />
               </div>
-              <div class="p-3">
+              <div class="product-info-wrapper">
                 <h6 class="product-name">Arduino UNO R3</h6>
                 <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy w-100">Buy Now</button>
+                <button class="btn-buy">Buy Now</button>
               </div>
             </div>
           </div>
-          <!-- Additional Cards... -->
         </div>
       </div>
     </section>
 
     <!--Newsletter Section -->
-    <section class="newsletter-section py-5">
+    <section class="newsletter-section">
       <div class="container text-center">
-        <div class="newsletter-card p-4 p-md-5">
-          <i class="fa-regular fa-envelope mb-3 display-6 text-white"></i>
-          <h2 class="text-white fw-bold mb-2">Stay updated with MakerHub MM</h2>
-          <p class="text-muted mb-4">
+        <div class="newsletter-card">
+          <h2 class="newsletter-title">
+            <i class="fa-regular fa-envelope"></i>
+            Stay updated with MakerHub MM
+          </h2>
+          <p class="newsletter-subtitle">
             Get the latest tutorials, projects, and IoT news in Myanmar
           </p>
-          <form class="newsletter-form mx-auto">
-            <div class="input-group">
-              <input type="email" class="form-control" placeholder="Email" />
+
+          <form class="newsletter-form">
+            <div class="subscribe-wrapper">
+              <input
+                type="email"
+                class="form-control subscribe-input"
+                placeholder="Email"
+                aria-label="Email for newsletter"
+                required
+              />
               <button class="btn btn-subscribe" type="submit">Subscribe</button>
             </div>
           </form>
@@ -993,7 +997,7 @@
       </div>
     </section>
 
-    <!-- 3. Footer Section -->
+    <!--Footer Section -->
     <footer class="footer-section pt-5 pb-3">
       <div class="container">
         <div class="row g-4 mb-5">
@@ -1001,7 +1005,7 @@
             <div class="footer-brand mb-3">
               <i class="fa-solid fa-microchip me-2 text-green"></i>MakerHub MM
             </div>
-            <p class="text-muted small">
+            <p class="small" style="color: var(--text-muted)">
               Empowering Myanmar makers, students, and innovators through IoT
               education and community.
             </p>
@@ -1048,6 +1052,7 @@
             <a href="#"><i class="fa-brands fa-github"></i></a>
             <a href="#"><i class="fa-brands fa-facebook"></i></a>
             <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
           </div>
           <p class="m-0 text-muted small text-center">
             Made with <i class="fa-solid fa-heart text-danger"></i> in Myanmar

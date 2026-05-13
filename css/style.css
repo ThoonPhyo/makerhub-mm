@@ -10,7 +10,8 @@
    ============================================================ */
 :root {
   /* Core Palette */
-  --bg: #0d1117;
+  /* --bg: #0d1117; */
+  --bg: #0a0e0f;
   --bg-elevated: #161b22;
   --bg-subtle: #1c2128;
   --surface: #21262d;
@@ -18,6 +19,7 @@
 
   /* Borders */
   --border: rgba(240, 246, 252, 0.1);
+  --broder2: rgba(0, 208, 132, 0.12);
   --border-muted: rgba(240, 246, 252, 0.06);
   --border-accent: rgba(34, 197, 94, 0.25);
 
@@ -27,6 +29,10 @@
   --green-glow: rgba(34, 197, 94, 0.25);
   --purple: #8b5cf6;
   --purple-dim: rgba(139, 92, 246, 0.15);
+
+  /* Cards */
+  --card-border: rgba(255, 255, 255, 0.15);
+  --card-shadow: rgba(255, 255, 255, 0.15);
 
   /* Text */
   --text: #f8fafc;
@@ -107,7 +113,7 @@ body {
   background: rgba(13, 17, 23, 0.85) !important;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border) !important;
+  border-bottom: 1px solid var(--broder2) !important;
   border-top: none !important;
   position: sticky;
   top: 0;
@@ -613,9 +619,9 @@ body {
 
 .stats-ribbon {
   padding: 1rem 0;
-  background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .stats-container {
@@ -677,10 +683,9 @@ body {
    8. LEARNING JOURNEYS SECTION
    ============================================================ */
 .learning-section {
-  background-color: var(--section-bg);
+  /* background-color: var(--section-bg); */
   position: relative;
   border-top: 1px solid var(--border) !important;
-
   padding: 60px 0;
 }
 
@@ -1033,7 +1038,11 @@ body {
   how-it-works section
    ============================================================ */
 .how-it-works-section {
-  background: transparent; /* သို့မဟုတ် var(--bg-dark) */
+  /* background: transparent;  */
+  /* background: var(--bg-elevated);
+  /* border-radius: var(--radius-xl); */
+  /* border-bottom: 1px solid var(--broder2);
+  border-top: 1px solid var(--broder2); * */
 }
 
 .how-title {
@@ -1105,7 +1114,7 @@ body {
    ========================================== */
 /* --- Community Showcase Section --- */
 .showcase-section {
-  background-color: var(--section-bg);
+  /* background-color: var(--section-bg); */
 }
 
 .showcase-main-title {
@@ -1145,35 +1154,42 @@ body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   height: 100%;
+  /* width: 90%; */
   display: flex;
   flex-direction: column;
   transition: all 0.3s var(--ease);
 }
 
 .showcase-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* transform: translateY(-8px); */
   background: var(--bg-elevated);
-  border-color: var(--border-accent);
-  box-shadow: var(--shadow-lg), var(--shadow-green);
+  /* border-color: var(--border-accent),transparent; */
+  /* box-shadow: var(--shadow-lg), var(--shadow-green); */
 }
 
 .post-img-container {
+  padding: 5px;
   width: 100%;
-  height: 180px; /* Aspect ratio ထိန်းရန် */
-  background: var(--bg-subtle);
+  height: 100%; /* Aspect ratio ထိန်းရန် */
+  background: var(--c-card-bg);
   overflow: hidden;
   position: relative;
 }
 
 .showcase-img {
+  padding: 5px;
   width: 100%;
   height: 100%;
+  border-radius: var(--radius-lg);
   object-fit: cover; /* ပုံကို ဗဟိုချက်ကနေ အံဝင်ခွင်ကျဖြစ်စေရန် */
   transition: transform 0.5s var(--ease);
 }
 
 .showcase-card:hover .showcase-img {
-  transform: scale(1.05); /* Hover လုပ်ရင် ပုံလေး နည်းနည်း Zoom ဖြစ်သွားမယ် */
+  transform: scale(1.01); /* Hover လုပ်ရင် ပုံလေး နည်းနည်း Zoom ဖြစ်သွားမယ် */
 }
 
 /* Typography */
@@ -1225,79 +1241,278 @@ body {
   padding: 1px;
 }
 
-/* --- Marketplace --- */
+/* ============================================================
+   Marketplace SECTION
+   ========================================== */
+
+/* View Marketplace Link Styling */
+.view-all-link {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity 0.3s var(--ease);
+}
+
+.view-all-link:hover {
+  opacity: 0.8;
+  color: var(--green);
+}
+
+/* Card Container */
 .market-card {
   background: var(--c-card-bg);
   border: 1px solid var(--c-card-border);
   border-radius: var(--radius-lg);
   transition: all 0.3s var(--ease);
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  overflow: hidden;
 }
 
 .market-card:hover {
   transform: translateY(-5px);
-  border-color: var(--border-accent);
-  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* transform: translateY(-8px); */
+  background: var(--bg-elevated);
 }
 
+/* Product Image Box (The White Square) */
 .market-img-box {
-  background: #ffffff; /* Hardware ပုံတွေ ရှင်းနေအောင် အဖြူထားခြင်း */
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  height: 160px;
+  background: #ffffff; /* Image ထဲကအတိုင်း Pure White */
+  margin: 15px; /* Card border နဲ့ image box ကြား spacing */
+  border-radius: var(--radius); /* အထဲက box ကို rounded လုပ်ရန် */
+  aspect-ratio: 1 / 1; /* အမြဲတမ်း စတုရန်းပုံစံ ဖြစ်နေစေရန် */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle definition */
 }
 
 .market-img-box img {
-  max-height: 100%;
-  object-fit: contain;
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain; /* Hardware ပုံတွေ မပြတ်သွားစေရန် */
+  transition: transform 0.4s var(--ease);
+}
+
+.market-card:hover .market-img-box img {
+  transform: scale(1.1); /* Hover လုပ်ရင် ပုံလေး zoom ဖြစ်မယ် */
+}
+
+/* Product Information */
+.product-info-wrapper {
+  padding: 0 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .product-name {
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
 }
+
 .product-price {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 15px;
 }
 
+/* Buy Now Button */
 .btn-buy {
   background: var(--green);
-  color: white;
+  color: #ffffff;
   border: none;
-  padding: 8px;
+  padding: 10px;
   border-radius: var(--radius-sm);
   font-weight: 700;
+  font-size: 0.9rem;
+  width: 100%;
+  margin-top: auto; /* အမြဲတမ်း အောက်ဆုံးမှာ ကပ်နေစေရန် */
+  transition: all 0.2s var(--ease);
 }
 
-/* --- Newsletter --- */
-.newsletter-card {
+.btn-buy:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Card size ကို သေးအောင် ထိန်းချုပ်ခြင်း */
+.compact-card {
+  width: 100%;
+  max-width: 280px; /* Card ရဲ့ width ကို သေးသေးလေးပဲ ကန့်သတ်ထားတာပါ */
+  margin: 0 auto;
+}
+
+/* Mobile သီးသန့် screen size အတွက် */
+@media (max-width: 576px) {
+  .compact-card {
+    max-width: 240px; /* ဖုန်းမှာ ပိုသေးစေချင်ရင် 240px အထိ လျှော့နိုင်ပါတယ် */
+  }
+
+  .market-img-box {
+    margin: 10px;
+    padding: 12px;
+  }
+
+  .product-name {
+    font-size: 0.9rem;
+  }
+
+  .product-price {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .btn-buy {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Desktop (lg) မှာ ပြန်ကျယ်သွားအောင် override လုပ်ခြင်း */
+@media (min-width: 992px) {
+  .compact-card {
+    max-width: 100%; /* Desktop မှာတော့ grid အတိုင်း width အပြည့်ယူမယ် */
+  }
+}
+
+/* Responsive Grid Fix (Optional - but recommended for Bootstrap) */
+@media (max-width: 576px) {
+  .market-img-box {
+    margin: 10px;
+    padding: 15px;
+  }
+  .product-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================================
+   Newsletter SECTION
+   ========================================== */
+
+.newsletter-section {
   background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 0;
 }
 
-.newsletter-form {
-  max-width: 500px;
+.newsletter-card {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.newsletter-form .form-control {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 12px 20px;
-}
-
-.btn-subscribe {
-  background: var(--green);
-  color: white;
+/* Icon & Title Styling */
+.newsletter-title {
+  color: #ffffff;
   font-weight: 700;
-  padding: 0 25px;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
-/* --- Footer --- */
+.newsletter-title i {
+  font-size: 35px;
+  color: #ffffff;
+}
+
+.newsletter-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* --- The Perfect Subscription Form --- */
+.newsletter-form {
+  max-width: 500px; /* Form width ကို desktop မှာ ထိန်းထားရန် */
+  margin: 0 auto;
+}
+
+.subscribe-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+/* Input Styling */
+.subscribe-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--border-muted) !important;
+  color: var(--text) !important;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm) !important; /* Left rounded only */
+  padding: 12px 20px;
+  height: 50px;
+  transition: all 0.3s var(--ease);
+}
+
+.subscribe-input:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--green) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 149, 0.2);
+  outline: none;
+}
+
+/* Button Styling */
+.btn-subscribe {
+  background: var(--green) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; /* Right rounded only */
+  padding: 0 25px;
+  font-weight: 700;
+  height: 50px;
+  white-space: nowrap;
+  transition: all 0.3s var(--ease);
+}
+
+.btn-subscribe:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 20px rgba(0, 255, 149, 0.4);
+  cursor: pointer;
+}
+
+.btn-subscribe:active {
+  transform: scale(0.97);
+}
+
+/* --- Mobile Optimization --- */
+@media (max-width: 576px) {
+  .newsletter-title {
+    font-size: 1.4rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .newsletter-title i {
+    font-size: 30px;
+  }
+
+  .newsletter-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .newsletter-form {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+}
+
+/* ============================================================
+   Footer SECTION
+   ========================================== */
+
 .footer-section {
   background: var(--bg);
   border-top: 1px solid var(--border-muted);
@@ -1336,6 +1551,9 @@ body {
 }
 .text-green {
   color: var(--green);
+}
+.text-muted {
+  color: var(--text-muted) !important;
 }
 
 /* ============================================================
