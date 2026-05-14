@@ -1,0 +1,2260 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arduino Learning — MakerHub MM</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green: #22c55e;
+        --green2: #16a34a;
+        --cyan: #06b6d4;
+        --purple: #a855f7;
+        --blue: #3b82f6;
+        --orange: #f97316;
+        --yellow: #eab308;
+        --red: #ef4444;
+      }
+      [data-theme="dark"] {
+        --bg: #0d1117;
+        --bg2: #161b22;
+        --card: #1c2128;
+        --card2: #21262d;
+        --text: #e6edf3;
+        --muted: #7d8590;
+        --muted2: #b1bac4;
+        --border: #30363d;
+        --border2: #3d444d;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+      }
+      [data-theme="light"] {
+        --bg: #f0f4f8;
+        --bg2: #ffffff;
+        --card: #ffffff;
+        --card2: #f6f8fa;
+        --text: #1f2328;
+        --muted: #636c76;
+        --muted2: #424a53;
+        --border: #d1d9e0;
+        --border2: #b8c0cc;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 10px;
+      }
+
+      /* ── NAVBAR ── */
+      .navbar-c {
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 300;
+        backdrop-filter: blur(16px);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 24px;
+        max-width: 1400px;
+        margin: auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .brand-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--green), var(--cyan));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        color: #fff;
+        font-size: 14px;
+      }
+      .brand-name {
+        font-size: 0.95rem;
+        font-weight: 900;
+        letter-spacing: -0.3px;
+      }
+      .brand-name .g {
+        color: var(--green);
+      }
+      .nav-right {
+        margin-left: auto;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border);
+        background: var(--card);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .icon-btn:hover {
+        border-color: var(--green);
+        color: var(--green);
+      }
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 9px;
+        border: 1.5px solid var(--border);
+        background: var(--card);
+        color: var(--muted2);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+      }
+      .back-btn:hover {
+        border-color: var(--green);
+        color: var(--green);
+      }
+
+      /* ── ROADMAP HEADER ── */
+      .roadmap-header {
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        padding: 28px 0;
+      }
+      .roadmap-inner {
+        max-width: 1400px;
+        margin: auto;
+        padding: 0 24px;
+      }
+      .roadmap-title {
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        margin-bottom: 6px;
+      }
+      .roadmap-sub {
+        color: var(--muted);
+        font-size: 13.5px;
+      }
+      .progress-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 18px;
+      }
+      .progress-track {
+        flex: 1;
+        height: 9px;
+        background: var(--border2);
+        border-radius: 100px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--green), var(--cyan));
+        border-radius: 100px;
+        transition: width 0.8s ease;
+      }
+      .progress-label {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--green);
+        white-space: nowrap;
+      }
+
+      /* ── TOPIC GRID ── */
+      .topic-grid {
+        max-width: 1400px;
+        margin: auto;
+        padding: 28px 24px;
+      }
+      .topic-card {
+        background: var(--card);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 0;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.22s;
+        position: relative;
+      }
+      .topic-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+        border-color: var(--border2);
+      }
+      .topic-card.completed {
+        border-color: rgba(34, 197, 94, 0.4);
+      }
+      .topic-card.locked {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .topic-card-top {
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        position: relative;
+      }
+      .topic-card-body {
+        padding: 14px;
+      }
+      .topic-num {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 4px;
+      }
+      .topic-title {
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 6px;
+        line-height: 1.35;
+      }
+      .topic-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .topic-status {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+      }
+      .status-done {
+        background: rgba(34, 197, 94, 0.18);
+        color: var(--green);
+      }
+      .status-active {
+        background: rgba(59, 130, 246, 0.18);
+        color: var(--blue);
+      }
+      .status-lock {
+        background: var(--card2);
+        color: var(--muted);
+      }
+      .topic-streak-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        display: inline-block;
+        margin-right: 2px;
+      }
+
+      /* ── LEARNING VIEW ── */
+      #learn-view {
+        display: none;
+      }
+      .learn-layout {
+        display: flex;
+        height: calc(100vh - 53px);
+        overflow: hidden;
+      }
+
+      /* Sidebar */
+      .learn-sidebar {
+        width: 260px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .sidebar-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-title {
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .sidebar-progress {
+        background: var(--border2);
+        border-radius: 100px;
+        height: 6px;
+        overflow: hidden;
+        margin-bottom: 6px;
+      }
+      .sidebar-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--green), var(--cyan));
+        border-radius: 100px;
+        transition: width 0.5s;
+      }
+      .sidebar-progress-text {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .sidebar-nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px;
+      }
+      .sidebar-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 10px;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: all 0.15s;
+        margin-bottom: 2px;
+      }
+      .sidebar-item:hover {
+        background: var(--card2);
+      }
+      .sidebar-item.active {
+        background: rgba(34, 197, 94, 0.1);
+        color: var(--green);
+      }
+      .sidebar-item.done-item .sidebar-item-num {
+        background: rgba(34, 197, 94, 0.15);
+        color: var(--green);
+      }
+      .sidebar-item-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: var(--card2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 800;
+        flex-shrink: 0;
+        font-family: "Space Mono", monospace;
+      }
+      .sidebar-item-title {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .sidebar-item-check {
+        margin-left: auto;
+        color: var(--green);
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+
+      /* Content area */
+      .learn-content {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .content-body {
+        flex: 1;
+        padding: 32px 40px;
+        max-width: 780px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .content-eyebrow {
+        font-size: 10.5px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 8px;
+      }
+      .content-title {
+        font-size: 1.6rem;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        margin-bottom: 16px;
+        line-height: 1.15;
+      }
+      .content-section {
+        margin-bottom: 28px;
+      }
+      .content-section h3 {
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .content-section p {
+        color: var(--muted2);
+        line-height: 1.8;
+        font-size: 13.5px;
+        margin-bottom: 10px;
+      }
+      .content-section ul {
+        color: var(--muted2);
+        line-height: 1.8;
+        font-size: 13.5px;
+        padding-left: 18px;
+      }
+      .content-section ul li {
+        margin-bottom: 4px;
+      }
+      .code-block {
+        background: var(--card2);
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        color: #86e89d;
+        overflow-x: auto;
+        margin: 12px 0;
+        position: relative;
+      }
+      .code-block .code-label {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: block;
+        font-family: "Nunito", sans-serif;
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0;
+        font-size: 12.5px;
+      }
+      .data-table th {
+        background: var(--card2);
+        padding: 8px 12px;
+        text-align: left;
+        font-weight: 800;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .data-table td {
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        color: var(--muted2);
+        font-family: "Space Mono", monospace;
+        font-size: 11.5px;
+      }
+      .data-table tr:nth-child(even) td {
+        background: var(--card2);
+      }
+      .info-box {
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin: 14px 0;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .info-box-green {
+        background: rgba(34, 197, 94, 0.08);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        color: var(--muted2);
+      }
+      .info-box-blue {
+        background: rgba(59, 130, 246, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        color: var(--muted2);
+      }
+      .info-box-orange {
+        background: rgba(249, 115, 22, 0.08);
+        border: 1px solid rgba(249, 115, 22, 0.2);
+        color: var(--muted2);
+      }
+
+      /* Content footer */
+      .content-footer {
+        border-top: 1px solid var(--border);
+        padding: 20px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        background: var(--bg2);
+      }
+      .btn-quiz {
+        background: linear-gradient(135deg, var(--green), var(--cyan));
+        color: #071a0e;
+        border: none;
+        border-radius: 10px;
+        padding: 11px 24px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+        font-size: 13.5px;
+        cursor: pointer;
+        transition: all 0.18s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-quiz:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+      }
+      .btn-prev,
+      .btn-next {
+        padding: 10px 18px;
+        border-radius: 9px;
+        border: 1.5px solid var(--border);
+        background: var(--card);
+        color: var(--muted2);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-prev:hover,
+      .btn-next:hover {
+        border-color: var(--green);
+        color: var(--green);
+      }
+      .btn-prev:disabled,
+      .btn-next:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      /* ── QUIZ OVERLAY ── */
+      .quiz-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        backdrop-filter: blur(6px);
+      }
+      .quiz-modal {
+        background: var(--card);
+        border: 1.5px solid var(--border);
+        border-radius: 18px;
+        width: 100%;
+        max-width: 540px;
+        padding: 28px;
+        position: relative;
+        animation: quizPop 0.3s ease;
+      }
+      @keyframes quizPop {
+        from {
+          opacity: 0;
+          transform: scale(0.94) translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .quiz-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        border: 1.5px solid var(--border);
+        background: var(--card2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 14px;
+        transition: all 0.15s;
+      }
+      .quiz-close:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+      .quiz-eyebrow {
+        font-size: 10.5px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: var(--cyan);
+        margin-bottom: 8px;
+      }
+      .quiz-question-title {
+        font-size: 1rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .quiz-opt {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        background: var(--card2);
+        cursor: pointer;
+        transition: all 0.18s;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+      }
+      .quiz-opt:hover {
+        border-color: var(--blue);
+        background: rgba(59, 130, 246, 0.07);
+      }
+      .quiz-opt.selected {
+        border-color: var(--blue);
+        background: rgba(59, 130, 246, 0.12);
+        color: var(--blue);
+      }
+      .quiz-opt.correct {
+        border-color: var(--green);
+        background: rgba(34, 197, 94, 0.12);
+        color: var(--green);
+      }
+      .quiz-opt.wrong {
+        border-color: var(--red);
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--red);
+      }
+      .quiz-progress-bar {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 18px;
+      }
+      .quiz-dot {
+        flex: 1;
+        height: 4px;
+        border-radius: 100px;
+        background: var(--border2);
+        transition: all 0.3s;
+      }
+      .quiz-dot.done {
+        background: var(--green);
+      }
+      .quiz-dot.current {
+        background: var(--cyan);
+      }
+      .quiz-feedback {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        display: none;
+      }
+      .quiz-feedback.show {
+        display: block;
+      }
+      .quiz-feedback.correct {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        color: var(--green);
+      }
+      .quiz-feedback.wrong {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: var(--red);
+      }
+      .quiz-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+      }
+      .btn-next-q {
+        background: var(--green);
+        color: #071a0e;
+        border: none;
+        border-radius: 9px;
+        padding: 10px 20px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .btn-next-q:hover {
+        background: var(--green2);
+      }
+      .btn-next-q:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .quiz-counter {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      /* Quiz Result */
+      .quiz-result {
+        text-align: center;
+        padding: 8px 0;
+      }
+      .result-icon {
+        font-size: 3.5rem;
+        margin-bottom: 12px;
+      }
+      .result-score {
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--green);
+        margin-bottom: 4px;
+      }
+      .result-msg {
+        color: var(--muted2);
+        font-size: 13.5px;
+        margin-bottom: 20px;
+      }
+      .btn-complete {
+        background: linear-gradient(135deg, var(--green), var(--cyan));
+        color: #071a0e;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+        font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .btn-retry {
+        background: var(--card2);
+        color: var(--text);
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        padding: 11px 28px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      /* ── STREAK BANNER ── */
+      .streak-banner {
+        background: linear-gradient(
+          135deg,
+          rgba(234, 179, 8, 0.12),
+          rgba(249, 115, 22, 0.08)
+        );
+        border: 1.5px solid rgba(234, 179, 8, 0.3);
+        border-radius: 12px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .streak-num {
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--yellow);
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-up {
+        animation: fadeUp 0.4s ease both;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .learn-sidebar {
+          width: 220px;
+        }
+        .content-body {
+          padding: 20px 18px;
+        }
+        .content-footer {
+          padding: 14px 18px;
+          flex-wrap: wrap;
+        }
+      }
+      @media (max-width: 600px) {
+        .learn-sidebar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── NAVBAR ── -->
+    <nav class="navbar-c">
+      <div class="nav-inner">
+        <a class="brand text-decoration-none" href="/index.html">
+          <div class="brand-icon">M</div>
+          <span class="brand-name">Maker<span class="g">Hub</span> MM</span>
+        </a>
+        <div class="nav-right">
+          <button class="icon-btn" id="theme-toggle" title="Toggle theme">
+            <i class="bi bi-sun-fill" id="theme-icon"></i>
+          </button>
+          <button class="back-btn" id="back-to-grid" style="display: none">
+            <i class="bi bi-grid-3x3-gap"></i> All Topics
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ══════════ ROADMAP VIEW ══════════ -->
+    <div id="roadmap-view">
+      <div class="roadmap-header">
+        <div class="roadmap-inner">
+          <div class="row align-items-center">
+            <div class="col-md-7">
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 800;
+                  text-transform: uppercase;
+                  letter-spacing: 0.7px;
+                  color: var(--green);
+                  margin-bottom: 6px;
+                "
+              >
+                🗺️ Learning Path
+              </div>
+              <div class="roadmap-title">Arduino Programming for Beginners</div>
+              <div class="roadmap-sub">
+                PDF: Ye Lin Naing · 10 Topics · Complete all topics & quizzes to
+                finish 🎓
+              </div>
+              <div class="progress-row">
+                <div class="progress-track">
+                  <div
+                    class="progress-fill"
+                    id="main-progress-fill"
+                    style="width: 0%"
+                  ></div>
+                </div>
+                <span class="progress-label" id="main-progress-label"
+                  >0 / 10 done</span
+                >
+              </div>
+            </div>
+            <div class="col-md-5 mt-3 mt-md-0">
+              <div class="streak-banner">
+                <div style="font-size: 1.6rem">🔥</div>
+                <div>
+                  <div class="streak-num" id="streak-count">0 Day Streak</div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: var(--muted2);
+                      font-weight: 600;
+                    "
+                  >
+                    Keep studying every day!
+                  </div>
+                  <div
+                    style="display: flex; gap: 4px; margin-top: 6px"
+                    id="streak-dots"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-grid">
+        <div class="row g-3" id="topic-grid"></div>
+      </div>
+    </div>
+
+    <!-- ══════════ LEARN VIEW ══════════ -->
+    <div id="learn-view">
+      <div class="learn-layout">
+        <!-- Sidebar -->
+        <div class="learn-sidebar">
+          <div class="sidebar-header">
+            <div class="sidebar-title">📖 Arduino Basics</div>
+            <div class="sidebar-progress">
+              <div
+                class="sidebar-progress-fill"
+                id="sidebar-progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+            <div class="sidebar-progress-text" id="sidebar-progress-text">
+              0% complete
+            </div>
+          </div>
+          <div class="sidebar-nav" id="sidebar-nav"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="learn-content">
+          <div class="content-body" id="content-body"><!-- dynamic --></div>
+          <div class="content-footer">
+            <button class="btn-prev" id="btn-prev">
+              <i class="bi bi-arrow-left"></i> Prev
+            </button>
+            <button class="btn-quiz" id="btn-start-quiz">
+              <i class="bi bi-patch-question-fill"></i> Take Quiz to Complete
+            </button>
+            <button class="btn-next" id="btn-next">
+              Next <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ QUIZ OVERLAY ══════════ -->
+    <div class="quiz-overlay" id="quiz-overlay" style="display: none">
+      <div class="quiz-modal" id="quiz-modal">
+        <button class="quiz-close" id="quiz-close">
+          <i class="bi bi-x"></i>
+        </button>
+        <!-- dynamic quiz content injected here -->
+      </div>
+    </div>
+
+    <script>
+      /* ════════════════════════════
+   DATA — 10 Topics from PDF
+════════════════════════════ */
+      const TOPICS = [
+        {
+          id: 1,
+          emoji: "💡",
+          color: "#22c55e",
+          bg: "rgba(34,197,94,.08)",
+          num: "01",
+          title: "Programming မိတ်ဆက်",
+          sub: "Programming ဆိုတာဘာလဲ",
+          mins: 8,
+          content: {
+            eyebrow: "Introduction · Topic 01",
+            title: "Programming မိတ်ဆက်",
+            sections: [
+              {
+                heading: "Programming ဆိုတာဘာလဲ?",
+                icon: "🧠",
+                body: `Programming ဆိုတာ အစီအစဥ်များ ရေးသားခြင်း ဖြစ်ပါတယ်။ Program ဆိုတာ ဘာတွေကို ဘယ်လို လုပ်ရမယ်ဆိုပြီး ရေးဆွဲထားတဲ့ အစီအစဥ်တွေ ညွှန်ကြားချက်တွေကို ပြောတာပါ။`,
+                extra: `Programming Language ဆိုတာ အစီအစဥ်တွေကို ရေးသားမျှဝေပေးနိုင်တဲ့ ကြားခံ ဘာသာစကားတစ်ခုဖြစ်ပြီး လူနဲ့ ကွန်ပျူတာ (Electronic devices) ကြားတွင် ဆက်သွယ်ပေးတဲ့ ကြားခံ ဘာသာစကားတစ်ခု ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "Computer Language မျိုးစဉ်များ",
+                icon: "🏛️",
+                body: `Computer Language ကို Level အနေနဲ့ ၃ ခုခွဲခြားထားတာကို တွေ့မြင်နိုင်ပါတယ်။ Generation အနေနဲ့ဆိုရင် ၅ ဆက်မြောက်သို့ ရောက်ရှိနေပြီ ဗျ။`,
+                table: {
+                  headers: ["Generation", "ကာလ", "ဘာသာစကား"],
+                  rows: [
+                    ["1st GL", "1940-50s", "Machine Language (Binary)"],
+                    ["2nd GL", "1950-58", "Assembly Language"],
+                    ["3rd GL", "1958-85", "High Level (C, Java)"],
+                    ["4th GL", "1985+", "Visual Programming"],
+                    ["5th GL", "1990+", "AI / Very High Level"],
+                  ],
+                },
+              },
+              {
+                heading: "Arduino ကို ဘာကြောင့် လေ့လာမလဲ?",
+                icon: "🚀",
+                body: `Arduino programming language တွေဟာ C, C++ တို့ပေါ်မှာ အခြေခံထားပေမယ့် ရေးသားလေ့လာရ လွယ်ကူပါတယ်။ ရည်မှန်းချက်ရှိမှ အောင်မြင်မှာပဲ ဗျ — "မသိတာအစ၊ သိတာအဆုံး ကိစ္စတုံး၏"`,
+                infoBox: {
+                  type: "green",
+                  text: "💡 Tip: Programming ကို သင်ယူဖို့ ကွန်ပျူတာ ကျွမ်းကျင်စရာ မလိုပါ။ Logic တွေးတတ်ဖို့ပဲ လိုတယ်!",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "Programming ဆိုတာ ဘာကိုဆိုလိုတာလဲ?",
+              opts: [
+                "Code ရေးသားခြင်း",
+                "အစီအစဥ်တွေ ရေးသားခြင်း",
+                "Computer ဝယ်ယူခြင်း",
+                "Internet သုံးခြင်း",
+              ],
+              ans: 1,
+              exp: "Program = ညွှန်ကြားချက် အစီအစဥ်တွေ ရေးသားခြင်း ဖြစ်ပါတယ်",
+            },
+            {
+              q: "Arduino programming language ကို ဘယ် language ပေါ်မှာ အခြေခံလဲ?",
+              opts: ["Python", "Java", "C နဲ့ C++", "PHP"],
+              ans: 2,
+              exp: "Arduino ဟာ C, C++ ပေါ်မှာ အခြေခံထားတဲ့ programming language ဖြစ်ပါတယ်",
+            },
+            {
+              q: "5th Generation Language မှာ ဘာပါဝင်လဲ?",
+              opts: [
+                "Binary code",
+                "Assembly",
+                "Visual Basic",
+                "AI / မှတ်ဥာဏ်တု",
+              ],
+              ans: 3,
+              exp: "5GL မှာ AI (Artificial Intelligence) သဘောတရားများ ပါဝင်လာပါတယ်",
+            },
+          ],
+        },
+        {
+          id: 2,
+          emoji: "🔢",
+          color: "#06b6d4",
+          bg: "rgba(6,182,212,.08)",
+          num: "02",
+          title: "Number System",
+          sub: "Binary, Octal, Decimal, Hex",
+          mins: 10,
+          content: {
+            eyebrow: "Fundamentals · Topic 02",
+            title: "Number System",
+            sections: [
+              {
+                heading: "Number System ၄ မျိုး",
+                icon: "🔢",
+                body: `Number ဆိုတာ ရေတွက်ရန် တိုင်းတာရန် ပြုလုပ်နိုင်ရန်အတွက် သတ်မှတ်ထားတဲ့ တွက်ချက်မှုတွေ အမည်သတ်မှတ်ခေါ်ဆိုမှုတွေအတွက် သုံးသော Object တွေပဲ ဖြစ်ပါတယ်။`,
+                table: {
+                  headers: ["System", "Base", "Digits", "ဥပမာ"],
+                  rows: [
+                    ["Binary", "2", "0, 1", "1010 = 10"],
+                    ["Octal", "8", "0–7", "12 = 10"],
+                    ["Decimal", "10", "0–9", "10 = 10"],
+                    ["Hexadecimal", "16", "0–9, A–F", "A = 10"],
+                  ],
+                },
+              },
+              {
+                heading: "Binary System",
+                icon: "💻",
+                body: `Binary ( နှစ်လီစိတ်စနစ်) ဆိုတာ 1/0 ဆိုတဲ့ Number object နှစ်ခုဖြင့် ရေတွက်ပါတယ်။ ရှိမရှိ လုပ်မလုပ် ဖြစ်မဖြစ် မှန်မမှန် ON/OFF, True/False, High/Low, 1/0 — ဒီ binary ကိုပဲ Arduino က နားလည်ပါတယ်!`,
+                infoBox: {
+                  type: "blue",
+                  text: "🔵 Arduino Board: Pin 13 ကို HIGH (1) ပေးရင် LED ထွန်းလင်းမယ်၊ LOW (0) ပေးရင် ပိတ်မယ်",
+                },
+              },
+              {
+                heading: "Hexadecimal System",
+                icon: "🔷",
+                body: `Hexadecimal (ဆယ့်ခြောက်လီစိတ်စနစ်) ဆိုတာ 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F ဆိုတဲ့ Number object တစ်ဆယ့်ခြောက်လုံးဖြင့် ရေတွက်ပါတယ်။ Arduino မှာ Color codes, Memory addresses တွေ display လုပ်ရာမှာ သုံးပါတယ်။`,
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "Binary system မှာ digits ဘယ်နှစ်ခုသုံးသလဲ?",
+              opts: ["8 ခု", "10 ခု", "2 ခု", "16 ခု"],
+              ans: 2,
+              exp: "Binary = Base 2, digits 0 နဲ့ 1 သာ သုံးပါတယ်",
+            },
+            {
+              q: 'Hexadecimal system မှာ digit "A" က ဘယ် decimal value ဆိုလဲ?',
+              opts: ["8", "10", "11", "16"],
+              ans: 1,
+              exp: "A = 10 ဖြစ်ပါတယ် (0-9 ပြီးနောက် A=10, B=11... F=15)",
+            },
+            {
+              q: "Arduino Board PIN မှာ HIGH ဆိုတာ ဘာကို ဆိုလိုတာလဲ?",
+              opts: ["0V", "Binary 0", "Binary 1 (5V)", "Unknown"],
+              ans: 2,
+              exp: "HIGH = Binary 1 = 5V (Arduino Uno မှာ), LED ထွန်းသည်",
+            },
+          ],
+        },
+        {
+          id: 3,
+          emoji: "📦",
+          color: "#a855f7",
+          bg: "rgba(168,85,247,.08)",
+          num: "03",
+          title: "Data Types",
+          sub: "void, bool, int, float, char...",
+          mins: 12,
+          content: {
+            eyebrow: "Fundamentals · Topic 03",
+            title: "Data Types",
+            sections: [
+              {
+                heading: "Data Type ဆိုတာ?",
+                icon: "📦",
+                body: `Data type ဆိုတာ variable တန်ဖိုးတွေကို မှတ်သားသိမ်းဆည်းဖို့အတွက် memory ထဲမှာ နေရာယူမယ့် data ပမာဏ bit တွေအတွက် အမျိုးအစားခွဲခြားထားခြင်းပဲ ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "Common Data Types",
+                icon: "🗂️",
+                table: {
+                  headers: ["Type", "Size", "Range", "ဥပမာ"],
+                  rows: [
+                    ["void", "–", "Function only", "void loop() {}"],
+                    ["boolean", "1 byte", "true/false", "boolean val = true;"],
+                    ["char", "1 byte", "-128 to 127", "char c = 'A';"],
+                    ["byte", "1 byte", "0 to 255", "byte m = 25;"],
+                    ["int", "2 bytes", "-32768 to 32767", "int x = 100;"],
+                    [
+                      "unsigned int",
+                      "2 bytes",
+                      "0 to 65535",
+                      "unsigned int n = 60;",
+                    ],
+                    ["long", "4 bytes", "±2.1 billion", "long v = 102346;"],
+                    ["float", "4 bytes", "decimal", "float f = 1.352;"],
+                    [
+                      "double",
+                      "4/8 bytes",
+                      "more decimal",
+                      "double d = 45.352;",
+                    ],
+                  ],
+                },
+              },
+              {
+                heading: "Code ဥပမာ",
+                icon: "💻",
+                code: `int counter = 32;        // Integer
+float temperature = 36.5; // Decimal
+boolean isOn = true;      // True/False
+char letter = 'A';        // Single character
+byte brightness = 255;    // 0 to 255`,
+              },
+              {
+                heading: "unsigned ဆိုတာ?",
+                icon: "➕",
+                body: `Unsigned data type တွေဆိုတာ အပေါင်းတန်ဖိုး number တွေသာ သတ်မှတ်အသုံးပြုနိုင်တဲ့ data type အမျိုးအစားတွေပဲ ဖြစ်ပါတယ်။`,
+                infoBox: {
+                  type: "orange",
+                  text: "⚠️ int (-32768 to 32767) vs unsigned int (0 to 65535) — sensor တန်ဖိုး negative မဖြစ်ဘူးဆိုရင် unsigned သုံးမည်!",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "float data type ကို ဘာအတွက် သုံးသလဲ?",
+              opts: [
+                "Integer numbers",
+                "Decimal numbers",
+                "Characters",
+                "True/False",
+              ],
+              ans: 1,
+              exp: "float = decimal (ဒဿမ) ကိန်းတန်ဖိုးတွေ သိမ်းဆည်းဖို့ သုံးပါတယ်",
+            },
+            {
+              q: "byte data type range က ဘယ်လောက်ဆိုလဲ?",
+              opts: ["0 to 127", "0 to 255", "-128 to 127", "-256 to 256"],
+              ans: 1,
+              exp: "byte = 8 bits = 0 to 255 ဖြစ်ပါတယ်",
+            },
+            {
+              q: "ဒီ code ဘာ wrong ဆိုလဲ? int x = 40000;",
+              opts: [
+                "Nothing wrong",
+                "int range ကျော်သွား",
+                "Syntax error",
+                "Semicolon missing",
+              ],
+              ans: 1,
+              exp: "int range ကတော့ -32768 to 32767 မို့ 40000 ဟာ unsigned int သုံးဖို့ လိုပါတယ်",
+            },
+          ],
+        },
+        {
+          id: 4,
+          emoji: "📝",
+          color: "#3b82f6",
+          bg: "rgba(59,130,246,.08)",
+          num: "04",
+          title: "Variables",
+          sub: "Declaration, Local, Global",
+          mins: 10,
+          content: {
+            eyebrow: "Fundamentals · Topic 04",
+            title: "Variables",
+            sections: [
+              {
+                heading: "Variable ဆိုတာ?",
+                icon: "📝",
+                body: `Variable ဆိုတာ Data type အခန်းတွေကို အမည်ပေးခြင်းအတွက် အသုံးပြုပါတယ်။ Variable မှာ Declaration (ကြေညာခြင်း) နဲ့ Scope (အကျိုးသက်ရောက်မှု) ဆိုပြီး နှစ်ပိုင်းရှိပါတယ်။`,
+              },
+              {
+                heading: "Variable Declaration",
+                icon: "📢",
+                body: `Variable ကြေညာဖို့ "DataType name = value;" ပုံစံနဲ့ ရေးသားရပါတယ်။`,
+                code: `int ledPin = 13;           // LED တပ်ဆင်ထားတဲ့ pin
+float sensorValue = 0.0;   // sensor တန်ဖိုး
+boolean isRunning = false;  // ပြေးနေသလား မပြေးဘူးလား
+char grade = 'A';          // အဆင့်`,
+              },
+              {
+                heading: "Local vs Global Variable",
+                icon: "🌐",
+                table: {
+                  headers: ["Type", "ကြေညာရာ", "အသုံးပြုနိုင်ရာ"],
+                  rows: [
+                    ["Local", "Function ထဲမှာ", "ထို Function ထဲမှာပဲ"],
+                    ["Global", "Program အပေါ်ဆုံး", "Program တစ်ခုလုံးမှာ"],
+                  ],
+                },
+              },
+              {
+                heading: "Arduino မှာ ဥပမာ",
+                icon: "🔵",
+                code: `int ledPin = 13;  // Global — ဘယ် function မှာမဆို သုံးနိုင်
+
+void setup() {
+  int x = 5;  // Local — setup() ထဲမှာပဲ သုံးနိုင်
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // ledPin သုံးနိုင် ✅
+  // x သုံးမရ ❌ (local မို့)
+}`,
+                infoBox: {
+                  type: "green",
+                  text: "✅ Global variable တွေကို program ထိပ်ဆုံးမှာ ကြေညာပါ — Arduino ရဲ့ convention ဖြစ်ပါတယ်",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "Global variable ကို ဘယ်မှာ ကြေညာသင့်သလဲ?",
+              opts: [
+                "void loop() ထဲ",
+                "void setup() ထဲ",
+                "Program ထိပ်ဆုံး",
+                "Function ထဲမှာ",
+              ],
+              ans: 2,
+              exp: "Global variable = program ထိပ်ဆုံးမှာ ကြေညာ = program တစ်ခုလုံးက အသုံးပြုနိုင်",
+            },
+            {
+              q: "Local variable ကို ဘာကြောင့် function ထဲမှာပဲ သုံးလို့ ရတာလဲ?",
+              opts: [
+                "RAM မလုံလောက်လို့",
+                "Scope ကြောင့်",
+                "Bug ဖြစ်မှာ ကြောင့်",
+                "Type မတူလို့",
+              ],
+              ans: 1,
+              exp: "Variable scope ကြောင့် ဖြစ်ပါတယ် — local variable ဟာ ကြေညာထားတဲ့ function ထဲမှာပဲ visible ဖြစ်တယ်",
+            },
+            {
+              q: "int counter = 0; ဒီ statement မှာ data type ကဘာလဲ?",
+              opts: ["counter", "0", "int", "="],
+              ans: 2,
+              exp: '"int" ဟာ data type ဖြစ်ပြီး "counter" ဟာ variable name ဖြစ်ပါတယ်',
+            },
+          ],
+        },
+        {
+          id: 5,
+          emoji: "⚙️",
+          color: "#f97316",
+          bg: "rgba(249,115,22,.08)",
+          num: "05",
+          title: "Operators",
+          sub: "Arithmetic, Logical, Comparison",
+          mins: 14,
+          content: {
+            eyebrow: "Logic · Topic 05",
+            title: "Operators",
+            sections: [
+              {
+                heading: "Operator ဆိုတာ?",
+                icon: "⚙️",
+                body: `Operator ဆိုတာ programming language တွေတော်တော်များများမှာ ပါဝင်ပြီး အသုံးဝင်အရေးပါလှတဲ့ program တွေရဲ့ အလုပ်လုပ်သူ (Sign) တွေပါပဲ ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "Arithmetic Operators",
+                icon: "➕",
+                table: {
+                  headers: ["Sign", "အဓိပ္ပာယ်", "ဥပမာ"],
+                  rows: [
+                    ["=", "ညီမျှခြင်း", "x = 5"],
+                    ["+", "ပေါင်းခြင်း", "x + y"],
+                    ["-", "နုတ်ခြင်း", "x - y"],
+                    ["*", "မြှောက်ခြင်း", "x * y"],
+                    ["/", "စားလဒ်", "x / y"],
+                    ["%", "စားကြွင်း (modulo)", "x % y"],
+                  ],
+                },
+              },
+              {
+                heading: "Logical (Boolean) Operators",
+                icon: "🔮",
+                table: {
+                  headers: ["Sign", "အမည်", "လုပ်ဆောင်မှု"],
+                  rows: [
+                    ["!", "NOT", "ဆန့်ကျင်ဘက် (0→1, 1→0)"],
+                    ["&&", "AND", "နှစ်ခုလုံး true မှသာ true"],
+                    ["||", "OR", "တစ်ခုခု true ဆိုရင် true"],
+                  ],
+                },
+              },
+              {
+                heading: "Comparison Operators",
+                icon: "⚖️",
+                table: {
+                  headers: ["Sign", "အဓိပ္ပာယ်"],
+                  rows: [
+                    [">", "ထက်ကြီးရင်"],
+                    ["<", "ထက်ငယ်ရင်"],
+                    [">=", "ကြီး သို့ ညီရင်"],
+                    ["<=", "ငယ် သို့ ညီရင်"],
+                    ["==", "တူညီရင်"],
+                    ["!=", "မတူညီရင်"],
+                  ],
+                },
+              },
+              {
+                heading: "Compound Operators",
+                icon: "🔧",
+                code: `x++;   // x = x + 1
+x--;   // x = x - 1
+x += 5; // x = x + 5
+x -= 3; // x = x - 3
+x *= 2; // x = x * 2`,
+                infoBox: {
+                  type: "blue",
+                  text: "💡 x++ ကို loop ရေတွက်ရာမှာ တော်တော်သုံးပါတယ် — for loop ထဲမှာ counter++ ဆိုပြီး",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "x = 10; y = 3; x % y = ?",
+              opts: ["3", "1", "30", "0"],
+              ans: 1,
+              exp: "10 ÷ 3 = 3 remainder 1, ဒါကြောင့် 10 % 3 = 1 ဖြစ်ပါတယ်",
+            },
+            {
+              q: "(true && false) ရဲ့ result က ဘာဆိုလဲ?",
+              opts: ["true", "false", "null", "error"],
+              ans: 1,
+              exp: "AND (&&) မှာ နှစ်ဘက်လုံး true မှသာ true ဖြစ်ပါတယ် — true && false = false",
+            },
+            {
+              q: "x += 3 ဆိုတာ ဘာနဲ့ equivalent ဆိုလဲ?",
+              opts: ["x = 3", "x + 3", "x = x + 3", "x = x * 3"],
+              ans: 2,
+              exp: "x += 3 ဟာ x = x + 3 နဲ့ same ဖြစ်ပါတယ် — compound addition operator",
+            },
+          ],
+        },
+        {
+          id: 6,
+          emoji: "🔀",
+          color: "#22c55e",
+          bg: "rgba(34,197,94,.08)",
+          num: "06",
+          title: "Control Statements",
+          sub: "if, else, switch, loops",
+          mins: 15,
+          content: {
+            eyebrow: "Control Flow · Topic 06",
+            title: "Control Statements",
+            sections: [
+              {
+                heading: "Control Statement ဆိုတာ?",
+                icon: "🔀",
+                body: `Control statement ဆိုတာ program တစ်ခုရဲ့ အလုပ်လုပ်ဆောင်မှု (Program Flow) ကို လိုသလို ထိန်းချုပ်နိုင်ရန်အတွက် အသုံးပြုတဲ့ keywords တွေကို ခေါ်ဆိုခြင်းပဲ ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "if Statement",
+                icon: "❓",
+                body: `ဖြစ်ရမယ့်အခြေအနေ expression တစ်ခုကို ကြည့်ကာ မှန်မမှန် စစ်ဆေးကာ statement လို့ ခေါ်တဲ့ လုပ်ရမယ့်အလုပ်ကို လုပ်ဖို့အတွက် if statement ကို အသုံးပြုနိုင်ပါတယ်။`,
+                code: `if (temperature > 30) {
+  digitalWrite(fanPin, HIGH); // ပူရင် ဖန်ဖွင့်
+}
+
+if (buttonPressed) {
+  digitalWrite(ledPin, HIGH); // ခလုပ်နှိပ်ရင် LED ဖွင့်
+} else {
+  digitalWrite(ledPin, LOW);  // မနှိပ်ရင် LED ပိတ်
+}`,
+              },
+              {
+                heading: "Switch Case",
+                icon: "🔧",
+                code: `switch (menuChoice) {
+  case 1: Serial.println("LED ON");  break;
+  case 2: Serial.println("LED OFF"); break;
+  case 3: Serial.println("BLINK");   break;
+  default: Serial.println("Invalid");
+}`,
+              },
+              {
+                heading: "Loop Statements",
+                icon: "🔁",
+                table: {
+                  headers: ["Loop", "ပုံစံ", "သဘောတရား"],
+                  rows: [
+                    ["while", "while(cond){}", "အခြေနေမှန်နေစဥ် လုပ်"],
+                    ["do-while", "do{}while(cond);", "လုပ်ပြီးမှ စစ်"],
+                    ["for", "for(init;cond;step){}", "ရေတွက်ပြီး လုပ်"],
+                  ],
+                },
+              },
+              {
+                heading: "for Loop ဥပမာ",
+                icon: "🔢",
+                code: `// LED 10 ကြိမ် မှိတ်တုတ်
+for (int i = 0; i < 10; i++) {
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
+}`,
+                infoBox: {
+                  type: "green",
+                  text: "🔁 void loop() ကိုယ်တိုင်က infinite while loop တစ်ခုဖြစ်ပါတယ် — ထပ်ကာထပ်ကာ run နေတာပဲ!",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "if (x > 5) {} မှာ x=3 ဆိုရင် ဘာဖြစ်မလဲ?",
+              opts: [
+                "Block ထဲ run မည်",
+                "Block ထဲ run မည်မဟုတ်",
+                "Error ဖြစ်မည်",
+                "x=5 ဖြစ်သွားမည်",
+              ],
+              ans: 1,
+              exp: "3 > 5 = false မို့ if block ထဲ မဝင်ဘဲ skip သွားပါတယ်",
+            },
+            {
+              q: "for(int i=0; i<3; i++) loop ဘယ်နှစ်ကြိမ် run မလဲ?",
+              opts: ["2 ကြိမ်", "3 ကြိမ်", "4 ကြိမ်", "0 ကြိမ်"],
+              ans: 1,
+              exp: "i=0,1,2 — 3 ကြိမ် run ပါတယ် (i<3 ဖြစ်နေစဥ်)",
+            },
+            {
+              q: "switch case မှာ break; ကို မထည့်ရင် ဘာဖြစ်မလဲ?",
+              opts: [
+                "Error ဖြစ်မည်",
+                "Case တိုင်း run မည် (fall-through)",
+                "ပထမ case ပဲ run မည်",
+                "Nothing",
+              ],
+              ans: 1,
+              exp: "break မပါရင် fall-through ဖြစ်ပြီး နောက် case တွေပါ ဆက် run သွားပါတယ်",
+            },
+          ],
+        },
+        {
+          id: 7,
+          emoji: "📋",
+          color: "#eab308",
+          bg: "rgba(234,179,8,.08)",
+          num: "07",
+          title: "Arrays",
+          sub: "1D, 2D, 3D Arrays",
+          mins: 12,
+          content: {
+            eyebrow: "Data Structures · Topic 07",
+            title: "Arrays",
+            sections: [
+              {
+                heading: "Array ဆိုတာ?",
+                icon: "📋",
+                body: `Array ဆိုတာ programming မှာဆိုရင် element (Data type အမျိုးအစားတူတဲ့ variable) တွေကို စနစ်တကျ အုပ်စုဖွဲ့ပေးတဲ့ စနစ် (သို့) စနစ်တကျ စုဖွဲ့ထားတဲ့ အုပ်စု၊ အဖွဲ့တွေကို ခေါ်ဆိုခြင်းပဲ ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "1D Array (Single-dimensional)",
+                icon: "➡️",
+                code: `// ကြေညာနည်း
+int myArray[5] = {10, 20, 30, 40, 50};
+
+// အသုံးပြုနည်း (Index က 0 ကနေ စတင်)
+int first  = myArray[0]; // = 10
+int second = myArray[1]; // = 20
+int third  = myArray[2]; // = 30`,
+              },
+              {
+                heading: "2D Array",
+                icon: "📊",
+                code: `int grid[3][4] = {
+  {0, 1, 2, 3},   // Row 0
+  {4, 5, 6, 7},   // Row 1
+  {8, 9,10,11}    // Row 2
+};
+
+// 5 ကိုယူချင်ရင် [row][col]
+int val = grid[1][1]; // = 5`,
+                infoBox: {
+                  type: "orange",
+                  text: "🔑 Index ဟာ အမြဲ 0 ကနေ စတင်ပါတယ် — myArray[5] မှာ elements 5 ခု ရှိပြီး index 0 to 4 ဖြစ်ပါတယ်",
+                },
+              },
+              {
+                heading: "Arduino မှာ Array သုံးပုံ",
+                icon: "🔵",
+                body: `Arduino မှာ Multiple LEDs, keypad buttons, sensor readings တွေကို array နဲ့ manage လုပ်ပါတယ်။`,
+                code: `// LED pins array
+int ledPins[] = {3, 5, 6, 9, 10, 11};
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(ledPins[i], OUTPUT); // LED 6 ခုလုံး setup
+  }
+}`,
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "int arr[4] = {5,10,15,20}; arr[2] ရဲ့ value က ဘာလဲ?",
+              opts: ["5", "10", "15", "20"],
+              ans: 2,
+              exp: "Index ဟာ 0 ကနေ စတင် — arr[0]=5, arr[1]=10, arr[2]=15",
+            },
+            {
+              q: "int arr[3] ကြေညာရင် array မှာ elements ဘယ်နှစ်ခု ဆံ့မလဲ?",
+              opts: ["2 ခု", "3 ခု", "4 ခု", "0 ခု"],
+              ans: 1,
+              exp: "int arr[3] ဆိုရင် index 0,1,2 — elements 3 ခု ဆံ့ပါတယ်",
+            },
+            {
+              q: "2D array grid[1][2] မှာ 1 ကဘာကို ညွှန်ပြသလဲ?",
+              opts: ["Column", "Row", "Value", "Size"],
+              ans: 1,
+              exp: "grid[row][column] — ပထမ index ဟာ row (တန်း) ကို ညွှန်ပြပြီး ဒုတိယ index ဟာ column ကို ညွှန်ပြပါတယ်",
+            },
+          ],
+        },
+        {
+          id: 8,
+          emoji: "🔌",
+          color: "#06b6d4",
+          bg: "rgba(6,182,212,.08)",
+          num: "08",
+          title: "Arduino Structure",
+          sub: "void setup() & void loop()",
+          mins: 8,
+          content: {
+            eyebrow: "Arduino Core · Topic 08",
+            title: "Arduino Structure",
+            sections: [
+              {
+                heading: "Arduino Program ရဲ့ အဆောက်အဦ",
+                icon: "🏗️",
+                body: `Arduino program တိုင်းမှာ မဖြစ်မနေ ပါရှိရမယ့် function နှစ်ခုရှိပါတယ် — void setup() နဲ့ void loop() ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "void setup()",
+                icon: "⚡",
+                body: `void setup() ဆိုတာ မိတ်ဆက်ပေးတဲ့ ကဏ္ဍဖြစ်ပြီး program start ဖြစ်တဲ့ အချိန်မှာ တစ်ကြိမ်တစ်ခါသာ run ပါတယ်။`,
+                code: `void setup() {
+  pinMode(13, OUTPUT);      // Pin 13 ကို output ကြေညာ
+  Serial.begin(9600);       // Serial monitor ဖွင့်
+  // ကြေညာချင်တာတွေ ဒီမှာ ထည့်
+}`,
+              },
+              {
+                heading: "void loop()",
+                icon: "🔁",
+                body: `void loop() ဆိုတာ အလုပ်လုပ်တဲ့ ကဏ္ဍဖြစ်ပြီး Arduino ဖွင့်နေသမျှ ထပ်ကာထပ်ကာ endless loop ပတ်နေပါတယ်။`,
+                code: `void loop() {
+  digitalWrite(13, HIGH);   // LED ဖွင့်
+  delay(1000);              // 1 စက္ကန့် စောင့်
+  digitalWrite(13, LOW);    // LED ပိတ်
+  delay(1000);              // 1 စက္ကန့် စောင့်
+  // ဒီ loop ဟာ ထပ်ကာထပ်ကာ run နေမယ်!
+}`,
+              },
+              {
+                heading: "Complete Program Example",
+                icon: "✅",
+                code: `// Blink LED Program
+void setup() {
+  pinMode(13, OUTPUT);  // Pin 13 = OUTPUT
+}
+
+void loop() {
+  digitalWrite(13, HIGH); // LED ON
+  delay(500);             // 0.5 sec
+  digitalWrite(13, LOW);  // LED OFF
+  delay(500);             // 0.5 sec
+}`,
+                infoBox: {
+                  type: "green",
+                  text: '🎯 ဒါဟာ Arduino ရဲ့ "Hello World" program ဖြစ်ပါတယ် — Blink! LED ကို မှိတ်တုတ်ပြီး programming လေ့လာ အစပြုကြမယ်!',
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "void setup() ဘယ်နှစ်ကြိမ် run သလဲ?",
+              opts: ["အမြဲ run", "တစ်ကြိမ်", "loop တိုင်း", "မ run ဘူး"],
+              ans: 1,
+              exp: "void setup() ဟာ Arduino power on ဖြစ်တဲ့အချိန် တစ်ကြိမ်တည်း run ပါတယ်",
+            },
+            {
+              q: "void loop() ကို ဘယ်သူ ခေါ်ဆိုနေသလဲ?",
+              opts: ["Programmer", "setup()", "Arduino OS itself", "User"],
+              ans: 2,
+              exp: "Arduino system ကိုယ်တိုင်က void loop() ကို ထပ်ကာထပ်ကာ ခေါ်ဆိုနေပါတယ် — infinite loop",
+            },
+            {
+              q: "delay(1000) ဆိုတာ ဘယ်လောက် စောင့်ဆိုင်းသလဲ?",
+              opts: [
+                "1 microsecond",
+                "1 millisecond",
+                "1 second",
+                "10 seconds",
+              ],
+              ans: 2,
+              exp: "delay() parameter ဟာ milliseconds ဖြစ်ပါတယ် — delay(1000) = 1000ms = 1 second",
+            },
+          ],
+        },
+        {
+          id: 9,
+          emoji: "🛠️",
+          color: "#a855f7",
+          bg: "rgba(168,85,247,.08)",
+          num: "09",
+          title: "Functions",
+          sub: "User-defined & Built-in Functions",
+          mins: 13,
+          content: {
+            eyebrow: "Arduino Core · Topic 09",
+            title: "Functions",
+            sections: [
+              {
+                heading: "Function ဆိုတာ?",
+                icon: "🛠️",
+                body: `Function ဆိုတာ လုပ်ဆောင်ချက်၊ လုပ်ငန်း၊ တာဝန်၊ ညွှန်ကြားချက် အစုအဝေးတွေကို ခေါ်ဆိုခြင်းပဲ ဖြစ်ပါတယ်။ Function နှစ်မျိုး ရှိပါတယ် — User define နဲ့ Build-in ဖြစ်ပါတယ်။`,
+              },
+              {
+                heading: "User Define Function",
+                icon: "✏️",
+                body: `Programmer မှ လိုအပ်သလို ဖန်တီးရေးသားထားတဲ့ ကိုယ်တိုင်ရေး Function တွေပဲ ဖြစ်ပါတယ်။`,
+                code: `// Function ကြေညာနည်း
+int sum(int x, int y) {
+  return x + y;
+}
+
+// Function အသုံးပြုနည်း
+void loop() {
+  int result = sum(5, 6);      // = 11
+  Serial.println(result);       // 11 ပြမည်
+}`,
+              },
+              {
+                heading: "Built-in Functions",
+                icon: "⚙️",
+                table: {
+                  headers: ["Category", "Functions"],
+                  rows: [
+                    ["Digital I/O", "pinMode(), digitalWrite(), digitalRead()"],
+                    ["Analog I/O", "analogRead(), analogWrite()"],
+                    ["Time", "delay(), delayMicroseconds()"],
+                    ["Math", "min(), max(), abs(), map(), pow()"],
+                    ["Trig", "sin(), cos(), tan()"],
+                    ["Random", "random(), randomSeed()"],
+                    ["Serial", "Serial.begin(), Serial.print(), Serial.read()"],
+                  ],
+                },
+              },
+              {
+                heading: "Digital I/O Functions",
+                icon: "🔌",
+                code: `pinMode(pin, OUTPUT);     // Pin ကို output သတ်မှတ်
+pinMode(pin, INPUT);      // Pin ကို input သတ်မှတ်
+
+digitalWrite(pin, HIGH);  // Pin ကို 5V ပေး
+digitalWrite(pin, LOW);   // Pin ကို 0V ပေး
+
+int val = digitalRead(pin); // Pin ရဲ့ value ဖတ်`,
+                infoBox: {
+                  type: "blue",
+                  text: "📌 map() function: sensor value ကို LED brightness အဖြစ် ပြောင်းလဲဖို့ map(val, 0, 1023, 0, 255) လိုပုံစံ သုံးပါတယ်!",
+                },
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "digitalWrite(13, HIGH) ဆိုတာ ဘာလုပ်သလဲ?",
+              opts: [
+                "Pin 13 ကို read",
+                "Pin 13 ကို 5V/HIGH ပေး",
+                "Pin 13 ကို setup",
+                "Serial print",
+              ],
+              ans: 1,
+              exp: "digitalWrite(pin, value) ဟာ digital pin ကို HIGH (5V) သို့ LOW (0V) ပေးပါတယ်",
+            },
+            {
+              q: "analogRead(A0) ဘာ value range return ပြန်သလဲ?",
+              opts: ["0 to 255", "0 to 512", "0 to 1023", "0 to 5"],
+              ans: 2,
+              exp: "analogRead() ဟာ 10-bit ADC ဖြစ်ပြီး 0 to 1023 return ပြန်ပါတယ်",
+            },
+            {
+              q: "map(500, 0, 1023, 0, 255) ရဲ့ result ဘာဖြစ်မလဲ (approximate)?",
+              opts: ["500", "255", "~124", "0"],
+              ans: 2,
+              exp: "500/1023 × 255 ≈ 124.6 ≈ 124 — analog sensor value ကို PWM value အဖြစ် map လုပ်",
+            },
+          ],
+        },
+        {
+          id: 10,
+          emoji: "🌐",
+          color: "#22c55e",
+          bg: "rgba(34,197,94,.08)",
+          num: "10",
+          title: "Serial Communication",
+          sub: "Serial Monitor, Read & Print",
+          mins: 10,
+          content: {
+            eyebrow: "Communication · Topic 10",
+            title: "Serial Communication",
+            sections: [
+              {
+                heading: "Serial Communication ဆိုတာ?",
+                icon: "🌐",
+                body: `Serial Communication ဆိုတာ Arduino နဲ့ Computer ကြားမှာ data တွေ ဖလှယ်ဆက်သွယ်တဲ့ နည်းလမ်းတစ်ခုဖြစ်ပါတယ်။ Arduino IDE မှာ Serial Monitor ပွင့်ပြီး debug လုပ်ဖို့ သတင်းပေးပို့ဖို့ အသုံးဝင်ပါတယ်။`,
+              },
+              {
+                heading: "Serial Functions",
+                icon: "📡",
+                table: {
+                  headers: ["Function", "အသုံးပြုပုံ"],
+                  rows: [
+                    [
+                      "Serial.begin(9600)",
+                      "Serial ကို 9600 baud rate နဲ့ စတင်",
+                    ],
+                    [
+                      "Serial.print(data)",
+                      "data ကို serial မှာ ပြ (newline မပါ)",
+                    ],
+                    [
+                      "Serial.println(data)",
+                      "data ကို serial မှာ ပြ (newline ပါ)",
+                    ],
+                    ["Serial.available()", "ဖတ်ဖို့ data ရှိမရှိ စစ်"],
+                    ["Serial.read()", "Serial မှ byte တစ်ခု ဖတ်"],
+                  ],
+                },
+              },
+              {
+                heading: "Complete Example",
+                icon: "💻",
+                code: `void setup() {
+  Serial.begin(9600);           // Serial ကို ဖွင့်
+  pinMode(A0, INPUT);           // A0 pin input
+}
+
+void loop() {
+  int sensorVal = analogRead(A0);  // sensor ဖတ်
+  Serial.print("Sensor: ");
+  Serial.println(sensorVal);       // Computer မှာ ပြ
+  delay(500);
+}`,
+                infoBox: {
+                  type: "green",
+                  text: "🖥️ Serial Monitor ဖွင့်ဖို့ Arduino IDE မှာ Tools → Serial Monitor ကို click (Ctrl+Shift+M) — baud rate ကို 9600 နဲ့ match ဖြစ်အောင် set လုပ်ပါ!",
+                },
+              },
+              {
+                heading: "Serial Input ဥပမာ",
+                icon: "⌨️",
+                code: `void loop() {
+  if (Serial.available() > 0) {  // data ရောက်နေလား?
+    char cmd = Serial.read();     // command ဖတ်
+    if (cmd == '1') {
+      digitalWrite(ledPin, HIGH); // '1' လာရင် LED ဖွင့်
+    } else if (cmd == '0') {
+      digitalWrite(ledPin, LOW);  // '0' လာရင် LED ပိတ်
+    }
+  }
+}`,
+              },
+            ],
+          },
+          quiz: [
+            {
+              q: "Serial.begin(9600) မှာ 9600 ကဘာကို သတ်မှတ်သလဲ?",
+              opts: ["Memory size", "Baud rate", "Pin number", "Frequency"],
+              ans: 1,
+              exp: "9600 ဟာ baud rate (bits per second) ဖြစ်ပါတယ် — Computer နဲ့ Arduino ကြားမှာ communication speed",
+            },
+            {
+              q: "Serial.println() နဲ့ Serial.print() ကွာခြားချက်?",
+              opts: [
+                "မကွာဘူး",
+                "println ဟာ newline ထည့်",
+                "print ဟာ integer only",
+                "println ဟာ faster",
+              ],
+              ans: 1,
+              exp: "Serial.println() ဟာ output ပြီးနောက် newline (\\n) ထပ်ထည့်ပေးပါတယ်",
+            },
+            {
+              q: "Serial.available() ဘာ return ပြန်သလဲ?",
+              opts: [
+                "true/false",
+                "ဖတ်ဖို့ available bytes အရေအတွက်",
+                "data တန်ဖိုး",
+                "baud rate",
+              ],
+              ans: 1,
+              exp: "Serial.available() ဟာ serial buffer မှာ ဖတ်ဖို့ ready ဖြစ်နေတဲ့ bytes အရေအတွက် return ပြန်ပါတယ်",
+            },
+          ],
+        },
+      ];
+
+      /* ════════════════════════════
+   STATE
+════════════════════════════ */
+      let completed = JSON.parse(localStorage.getItem("mh_done") || "[]");
+      let streakDays = parseInt(localStorage.getItem("mh_streak") || "0");
+      let lastStudy = localStorage.getItem("mh_last") || "";
+      let currentTopic = null;
+      let currentSection = 0;
+
+      /* ════════════════════════════
+   THEME
+════════════════════════════ */
+      const html = document.documentElement;
+      const themeBtn = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+      let isDark = localStorage.getItem("mh_theme") !== "light";
+      function applyTheme() {
+        html.setAttribute("data-theme", isDark ? "dark" : "light");
+        themeIcon.className = isDark
+          ? "bi bi-sun-fill"
+          : "bi bi-moon-stars-fill";
+      }
+      applyTheme();
+      themeBtn.addEventListener("click", () => {
+        isDark = !isDark;
+        localStorage.setItem("mh_theme", isDark ? "dark" : "light");
+        applyTheme();
+      });
+
+      /* ════════════════════════════
+   STREAK
+════════════════════════════ */
+      function updateStreak() {
+        const today = new Date().toDateString();
+        if (lastStudy !== today) {
+          const yesterday = new Date(Date.now() - 86400000).toDateString();
+          if (lastStudy === yesterday) streakDays++;
+          else streakDays = 1;
+          lastStudy = today;
+          localStorage.setItem("mh_streak", streakDays);
+          localStorage.setItem("mh_last", today);
+        }
+        document.getElementById("streak-count").textContent =
+          streakDays + " Day Streak!";
+        // dots — last 7 days
+        const dots = document.getElementById("streak-dots");
+        dots.innerHTML = "";
+        for (let i = 6; i >= 0; i--) {
+          const d = document.createElement("div");
+          d.style.cssText = `width:10px;height:10px;border-radius:3px;background:${i === 0 ? "var(--yellow)" : i < streakDays ? "var(--green)" : "var(--border2)"};`;
+          dots.appendChild(d);
+        }
+      }
+
+      /* ════════════════════════════
+   ROADMAP GRID
+════════════════════════════ */
+      function renderGrid() {
+        const grid = document.getElementById("topic-grid");
+        const done = completed.length;
+        document.getElementById("main-progress-fill").style.width =
+          (done / TOPICS.length) * 100 + "%";
+        document.getElementById("main-progress-label").textContent =
+          done + " / " + TOPICS.length + " done";
+
+        grid.innerHTML = TOPICS.map((t, i) => {
+          const isDone = completed.includes(t.id);
+          const isActive =
+            !isDone && (i === 0 || completed.includes(TOPICS[i - 1].id));
+          const isLocked = !isDone && !isActive;
+          return `
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+      <div class="topic-card ${isDone ? "completed" : ""} ${isLocked ? "locked" : ""} fade-up"
+           style="animation-delay:${i * 0.05}s;"
+           onclick="${isLocked ? "" : "openTopic(" + t.id + ")"}">
+        <div class="topic-card-top" style="background:${t.bg}">
+          <span style="font-size:2.2rem;">${t.emoji}</span>
+          <div class="topic-status ${isDone ? "status-done" : isActive ? "status-active" : "status-lock"}">
+            ${isDone ? "✓" : isActive ? "▶" : "🔒"}
+          </div>
+        </div>
+        <div class="topic-card-body">
+          <div class="topic-num" style="color:${t.color}">${t.num}</div>
+          <div class="topic-title">${t.title}</div>
+          <div class="topic-meta">
+            <span><i class="bi bi-clock" style="font-size:10px;margin-right:2px;"></i>${t.mins} min</span>
+            <span style="color:${isDone ? "var(--green)" : isActive ? "var(--blue)" : "var(--muted)"}">
+              ${isDone ? "✅ Done" : isActive ? "▶ Start" : "🔒 Locked"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+        }).join("");
+        updateStreak();
+      }
+
+      /* ════════════════════════════
+   OPEN TOPIC
+════════════════════════════ */
+      function openTopic(id) {
+        currentTopic = TOPICS.find((t) => t.id === id);
+        currentSection = 0;
+        document.getElementById("roadmap-view").style.display = "none";
+        document.getElementById("learn-view").style.display = "block";
+        document.getElementById("back-to-grid").style.display = "flex";
+        updateStreak();
+        renderSidebar();
+        renderContent();
+      }
+
+      function closeTopic() {
+        document.getElementById("learn-view").style.display = "none";
+        document.getElementById("roadmap-view").style.display = "block";
+        document.getElementById("back-to-grid").style.display = "none";
+        currentTopic = null;
+        renderGrid();
+      }
+      document
+        .getElementById("back-to-grid")
+        .addEventListener("click", closeTopic);
+
+      /* ════════════════════════════
+   SIDEBAR
+════════════════════════════ */
+      function renderSidebar() {
+        const nav = document.getElementById("sidebar-nav");
+        const sections = currentTopic.content.sections;
+        nav.innerHTML = sections
+          .map((s, i) => {
+            const done = i < currentSection;
+            const active = i === currentSection;
+            return `<div class="sidebar-item ${active ? "active" : ""} ${done ? "done-item" : ""}" onclick="goToSection(${i})">
+      <div class="sidebar-item-num" style="${active ? "background:rgba(34,197,94,.15);color:var(--green)" : ""}">${i + 1}</div>
+      <div class="sidebar-item-title">${s.heading}</div>
+      ${done ? '<i class="bi bi-check-circle-fill sidebar-item-check"></i>' : ""}
+    </div>`;
+          })
+          .join("");
+        // progress
+        const pct = Math.round((currentSection / sections.length) * 100);
+        document.getElementById("sidebar-progress-fill").style.width =
+          pct + "%";
+        document.getElementById("sidebar-progress-text").textContent =
+          pct + "% complete";
+      }
+
+      function goToSection(i) {
+        currentSection = i;
+        renderSidebar();
+        renderContent();
+      }
+
+      /* ════════════════════════════
+   CONTENT
+════════════════════════════ */
+      function renderContent() {
+        const sec = currentTopic.content.sections[currentSection];
+        const c = currentTopic.content;
+        const isLast = currentSection === c.sections.length - 1;
+        const isDone = completed.includes(currentTopic.id);
+
+        let html2 = `
+    <div style="font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:${currentTopic.color};margin-bottom:8px;">${c.eyebrow}</div>
+    <h1 class="content-title">${c.title}</h1>
+    <div class="content-section">
+      <h3 style="color:${currentTopic.color};">${sec.icon || ""} ${sec.heading}</h3>
+  `;
+
+        if (sec.body) html2 += `<p>${sec.body}</p>`;
+        if (sec.extra) html2 += `<p>${sec.extra}</p>`;
+        if (sec.code)
+          html2 += `<div class="code-block"><span class="code-label">Arduino Code</span><pre>${sec.code}</pre></div>`;
+        if (sec.table) {
+          html2 += `<table class="data-table"><thead><tr>${sec.table.headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>`;
+          html2 += sec.table.rows
+            .map((r) => `<tr>${r.map((c2) => `<td>${c2}</td>`).join("")}</tr>`)
+            .join("");
+          html2 += `</tbody></table>`;
+        }
+        if (sec.infoBox) {
+          const cls =
+            sec.infoBox.type === "green"
+              ? "info-box-green"
+              : sec.infoBox.type === "blue"
+                ? "info-box-blue"
+                : "info-box-orange";
+          html2 += `<div class="info-box ${cls}">${sec.infoBox.text}</div>`;
+        }
+        html2 += `</div>`;
+
+        // Section nav dots
+        html2 += `<div style="display:flex;gap:6px;margin-top:24px;">`;
+        c.sections.forEach((_, i) => {
+          html2 += `<div onclick="goToSection(${i})" style="width:8px;height:8px;border-radius:100px;background:${i === currentSection ? currentTopic.color : "var(--border2)"};cursor:pointer;transition:all .2s;${i < currentSection ? "background:var(--green)" : ""}"></div>`;
+        });
+        html2 += `</div>`;
+
+        document.getElementById("content-body").innerHTML = html2;
+
+        // Buttons
+        const prevBtn = document.getElementById("btn-prev");
+        const nextBtn = document.getElementById("btn-next");
+        const quizBtn = document.getElementById("btn-start-quiz");
+        prevBtn.disabled = currentSection === 0;
+        nextBtn.style.display = isLast ? "none" : "flex";
+        quizBtn.style.display = isLast ? "flex" : "none";
+        if (isDone)
+          quizBtn.innerHTML =
+            '<i class="bi bi-patch-check-fill"></i> Completed! Retake Quiz';
+
+        renderSidebar();
+      }
+
+      document.getElementById("btn-prev").addEventListener("click", () => {
+        if (currentSection > 0) {
+          currentSection--;
+          renderContent();
+        }
+      });
+      document.getElementById("btn-next").addEventListener("click", () => {
+        if (currentSection < currentTopic.content.sections.length - 1) {
+          currentSection++;
+          renderContent();
+        }
+      });
+
+      /* ════════════════════════════
+   QUIZ
+════════════════════════════ */
+      let quizIndex = 0;
+      let quizScore = 0;
+      let quizAnswered = false;
+      let quizQuestions = [];
+
+      document
+        .getElementById("btn-start-quiz")
+        .addEventListener("click", startQuiz);
+      document
+        .getElementById("quiz-close")
+        .addEventListener("click", closeQuiz);
+
+      function startQuiz() {
+        quizQuestions = currentTopic.quiz;
+        quizIndex = 0;
+        quizScore = 0;
+        quizAnswered = false;
+        document.getElementById("quiz-overlay").style.display = "flex";
+        renderQuizQuestion();
+      }
+
+      function closeQuiz() {
+        document.getElementById("quiz-overlay").style.display = "none";
+      }
+
+      function renderQuizQuestion() {
+        const q = quizQuestions[quizIndex];
+        const modal = document.getElementById("quiz-modal");
+        quizAnswered = false;
+
+        const dots = quizQuestions
+          .map(
+            (_, i) =>
+              `<div class="quiz-dot ${i < quizIndex ? "done" : i === quizIndex ? "current" : ""}"></div>`,
+          )
+          .join("");
+
+        modal.innerHTML = `
+    <button class="quiz-close" id="quiz-close2"><i class="bi bi-x"></i></button>
+    <div class="quiz-eyebrow">📝 Quiz — ${currentTopic.title}</div>
+    <div class="quiz-progress-bar">${dots}</div>
+    <div class="quiz-question-title">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map((o, i) => `<button class="quiz-opt" onclick="selectAnswer(${i})">${String.fromCharCode(65 + i)}. ${o}</button>`).join("")}
+    </div>
+    <div class="quiz-feedback" id="quiz-feedback"></div>
+    <div class="quiz-nav">
+      <span class="quiz-counter">Question ${quizIndex + 1} / ${quizQuestions.length}</span>
+      <button class="btn-next-q" id="btn-next-q" disabled onclick="nextQuestion()">
+        ${quizIndex === quizQuestions.length - 1 ? "See Result" : "Next"} <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+  `;
+        document
+          .getElementById("quiz-close2")
+          .addEventListener("click", closeQuiz);
+      }
+
+      function selectAnswer(idx) {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        const q = quizQuestions[quizIndex];
+        const opts = document.querySelectorAll(".quiz-opt");
+        const fb = document.getElementById("quiz-feedback");
+        const nextBtn = document.getElementById("btn-next-q");
+
+        opts[idx].classList.add(idx === q.ans ? "correct" : "wrong");
+        opts[q.ans].classList.add("correct");
+
+        if (idx === q.ans) {
+          quizScore++;
+          fb.className = "quiz-feedback correct show";
+          fb.innerHTML = `✅ မှန်ပါသည်! ${q.exp}`;
+        } else {
+          fb.className = "quiz-feedback wrong show";
+          fb.innerHTML = `❌ မမှန်ပါ။ ${q.exp}`;
+        }
+        nextBtn.disabled = false;
+      }
+
+      function nextQuestion() {
+        quizIndex++;
+        if (quizIndex >= quizQuestions.length) {
+          showResult();
+        } else {
+          renderQuizQuestion();
+        }
+      }
+
+      function showResult() {
+        const modal = document.getElementById("quiz-modal");
+        const pct = Math.round((quizScore / quizQuestions.length) * 100);
+        const pass = pct >= 60;
+        const emoji =
+          pct === 100 ? "🏆" : pct >= 80 ? "🌟" : pass ? "✅" : "😅";
+
+        modal.innerHTML = `
+    <div class="quiz-result">
+      <div class="result-icon">${emoji}</div>
+      <div class="result-score">${quizScore} / ${quizQuestions.length}</div>
+      <div style="font-size:1.3rem;font-weight:900;margin-bottom:6px;">${pct}% ${pass ? "Passed!" : "Try Again"}</div>
+      <div class="result-msg">${
+        pass
+          ? `ဒီ topic ကို ${pass ? "ကောင်းမွန်စွာ" : ""}နားလည်ပြီ! ဂုဏ်ယူပါတယ် 🎉`
+          : `60% ရဖို့ အနည်းဆုံး မှန်ဖို့ လိုပါတယ်။ ပြန်ကြိုးစားပါ!`
+      }
+      </div>
+      ${
+        pass
+          ? `<button class="btn-complete" onclick="completeTopic()">✅ Mark as Complete & Continue</button>`
+          : `<button class="btn-complete" onclick="startQuiz()">🔄 Retake Quiz</button>`
+      }
+      <button class="btn-retry" onclick="closeQuiz()">📖 Review Content</button>
+    </div>
+  `;
+      }
+
+      function completeTopic() {
+        if (!completed.includes(currentTopic.id)) {
+          completed.push(currentTopic.id);
+          localStorage.setItem("mh_done", JSON.stringify(completed));
+        }
+        closeQuiz();
+        closeTopic();
+      }
+
+      /* ════════════════════════════
+   INIT
+════════════════════════════ */
+      window.openTopic = openTopic;
+      window.goToSection = goToSection;
+      window.selectAnswer = selectAnswer;
+      window.nextQuestion = nextQuestion;
+      window.completeTopic = completeTopic;
+      window.startQuiz = startQuiz;
+      renderGrid();
+    </script>
+  </body>
+</html>

@@ -572,9 +572,11 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg) !important;
   padding: 18px !important;
-  transition:
-    border-color 0.25s,
-    box-shadow 0.25s;
+  transition: all 0.3s ease;
+  /* transition: */
+  /* border-color 0.25s, */
+  /* box-shadow 0.25s; */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card:hover {
@@ -851,6 +853,7 @@ body {
   position: relative;
   overflow: hidden; /* Glow ကတ်အပြင်မထွက်စေရန် */
   z-index: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .journey-card:hover {
@@ -1183,7 +1186,6 @@ body {
 .step-col:hover .step-icon-wrapper {
   border-color: var(--green) !important;
   color: var(--green);
-  background:;
   transform: translateY(-5px);
   transition: all 0.3s ease;
 }

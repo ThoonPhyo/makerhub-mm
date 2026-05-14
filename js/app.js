@@ -66,3 +66,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* ════════════════════════════
+   nav tabs
+════════════════════════════ */
+// const currentPath = window.location.pathname;
+// const navLinks = document.querySelectorAll('.nav-link');
+
+// navLinks.forEach(link => {
+//     link.classList.remove('active');
+    
+//     const linkPath = link.getAttribute('href');
+    
+//     if (currentPath === '/' || currentPath.endsWith('index.html')) {
+//         if (linkPath === '#' || linkPath.endsWith('index.html')) {
+//             if (!linkPath.includes('/Learning/')) {
+//                 link.classList.add('active');
+//             }
+//         }
+//     } 
+    
+//     if (linkPath !== '#' && currentPath.includes(linkPath)) {
+//         link.classList.add('active');
+//     }
+// });
