@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Arduino Lab - Lessons Section Custom Style (Using Theme Root Variables)
+   ========================================================================== */
+
+/* Bootstrap Default Layout Elements ကို သင့် Core Palette နှင့် အစားထိုးခြင်း */
+.bg-body-tertiary {
+  background-color: var(--bg-elevated) !important;
+}
+
+.border-secondary-subtle {
+  border-color: var(--border) !important;
+}
+
+/* 1. Sidebar Container Style */
+#sidebar-lessons {
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s var(--ease);
+}
+
+/* Sidebar Module Title (JS မှ လာမည့်ခေါင်းစဉ်) */
+#sidebar-lessons .text-secondary {
+  color: var(--text-muted) !important;
+}
+
+/* Sidebar Un-active Buttons */
+#sidebar-lessons .list-group-item {
+  background-color: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius-sm) !important;
+  text-align: left;
+  transition: all 0.2s var(--ease);
+}
+
+/* Hover Animation Effect */
+#sidebar-lessons .list-group-item:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text);
+  padding-left: 16px; /* ညာဘက်သို့ နည်းနည်းလေး တိုးသွားမည့် Micro-interaction */
+}
+
+/* 🌟 JS Active State Button (လက်ရှိဖတ်နေသော သင်ခန်းစာခလုတ်) */
+#sidebar-lessons .list-group-item.active {
+  background-color: var(
+    --purple-dim
+  ) !important; /* သင့် Theme ထဲက ခရမ်းရောင်ဖျော့ */
+  color: var(--purple) !important; /* ခရမ်းရောင်အစစ် */
+  border-left: 4px solid var(--purple) !important; /* ဘယ်ဘက်တွင် Active Line လင်းနေမည် */
+  font-weight: 600;
+  padding-left: 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; /* ဘယ်ဘက်ကပ်သွားအောင် ညှိခြင်း */
+}
+
+/* 2. Journey Progress Bar Component (JS မှ ဆောက်ပေးမည့် ကောင်) */
+.progress-container {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+
+.custom-progress {
+  background-color: var(--surface) !important;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.custom-progress .progress-bar {
+  background-color: var(
+    --green
+  ) !important; /* Progress တက်မည့် အစိမ်းရောင်လိုင်း */
+  box-shadow: var(--shadow-green);
+  transition: width 0.4s var(--ease);
+}
+
+/* 3. Right Main Content Area Styling */
+#dynamic-content {
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s var(--ease);
+}
+
+/* စာသားများ ရှင်းလင်းဖတ်ရလွယ်ကူစေရန် Typography */
+#dynamic-content p.text-secondary {
+  color: var(--text-muted) !important;
+  line-height: 1.85;
+  font-size: 15.5px;
+}
+
+/* 4. Source Code Box Styling */
+/* 📟 Code Block အား မည်သည့် Theme တွင်မဆို အမြဲတမ်း Dark Editor အဖြစ် ပုံသေထားခြင်း */
+pre.bg-dark {
+  background-color: #1e1e1e !important; /* VS Code / Arduino IDE Dark standard */
+  border: 1px solid #333333 !important;
+  border-radius: var(--radius);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+  padding: 16px !important;
+}
+
+/* 💻 စာသားအရောင်ကိုပါ Light Mode တွင် လိုက်မဖြူစေရန် ပုံသေ အလင်းရောင် သတ်မှတ်ခြင်း */
+pre code {
+  color: #f8f8f2 !important; /* Off-white color */
+  font-family:
+    "Fira Code", Consolas, Monaco, "Andale Mono", monospace !important;
+}
+/* Code Block ရဲ့ Custom Scrollbar */
+pre::-webkit-scrollbar {
+  height: 6px;
+}
+pre::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+pre::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+pre::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
+
+/* 5. XP Badge Custom Setup */
+#dynamic-content .badge.bg-success-subtle {
+  background-color: var(--green-dim) !important;
+  color: var(--green) !important;
+  border: 1px solid var(--border-accent) !important;
+  border-radius: var(--radius-sm);
+}
+
+/* Locked ကတ်ထဲက ပုံကို မှိန်ထားပြီး ကြည့်ရသူကို သော့ပိတ်ထားမှန်း သိသာစေမည့် နည်းလမ်း */
+.course-card.locked .card-img-box img {
+  filter: grayscale(100%) opacity(0.3);
+}
