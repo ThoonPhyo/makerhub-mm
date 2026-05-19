@@ -168,6 +168,45 @@ pre::-webkit-scrollbar-thumb:hover {
   filter: grayscale(100%) opacity(0.3);
 }
 
+/* quiz section css */
+/* Screen တစ်ခုလုံးကို မှောင်ချပြီး အောက်က ခလုတ်တွေ နှိပ်မရအောင် ဖုံးထားမည့် အဖုံး */
+.quiz-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* 0.5 သည် မှောင်မှုပမာဏ ဖြစ်သည် */
+  z-index: 1050; /* အခြား UI တွေထက် အမြဲအပေါ်ရောက်နေစေရန် */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+/* အလယ်က Quiz Box ၏ ပုံစံနှင့် အကျယ် */
+.quiz-box {
+  width: 100%;
+  max-width: 550px; /* Laptop ပေါ်တွင် အကျယ် 550px သာရှိပြီး သပ်ရပ်နေမည် */
+  animation: popUpEffect 0.3s ease-out; /* စပွင့်ချိန်တွင် အောက်မှအပေါ်သို့ တက်လာမည့်စနစ် */
+}
+
+/* Alert Box စတိုင် အောက်ကနေ အပေါ်သို့ ဖြည်းဖြည်းချင်းကျုံ့ချဲ့တက်လာမည့် Animation logic */
+@keyframes popUpEffect {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* မိုဘိုင်းဖုန်း Screen များအတွက် ကွက်တိဖြစ်အောင် ချိန်ညှိခြင်း */
+@media (max-width: 575.98px) {
+  .quiz-box {
+    max-width: 100%;
+  }
+}
+
 /* Mobile ဖုန်း (Screen size 768px အောက်) ဖြစ်ခဲ့ရင် ဘေးဘောင်အကုန်ဖြုတ်ပြီး Full Width လုပ်မည် */
 @media (max-width: 767.98px) {
   .mobile-full-width {

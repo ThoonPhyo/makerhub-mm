@@ -193,25 +193,71 @@ function renderLessonContent(lessonId) {
  * ၆။ Next, Previous နှင့် Mark as Complete ခလုတ်များ၏ အလုပ်လုပ်ပုံစနစ်
  */
 function setupNavigationEvents(isFinalLesson) {
-  // Next သို့မဟုတ် Mark as Complete ခလုတ် နှိပ်ချိန်
-  document.getElementById("content-btn").addEventListener("click", () => {
+  const contentBtn = document.getElementById("content-btn");
+  const prevBtn = document.getElementById("prev-btn");
+
+  if (!contentBtn) return;
+
+  // Event Listener တွေ ထပ်ပွားမလာအောင် Clean-up အရင်လုပ်ခြင်း
+  const newContentBtn = contentBtn.cloneNode(true);
+  contentBtn.parentNode.replaceChild(newContentBtn, contentBtn);
+
+  newContentBtn.addEventListener("click", () => {
+    const card = arduinoJourneyData.find((c) => c.id === currentCardId);
+    const currentLesson = card
+      ? card.lessons.find((l) => l.id === currentLessonId)
+      : null;
+    const earnedXP = currentLesson ? currentLesson.xp : 0;
+
+    // 💡 အစ်ကို့ရဲ့ မူရင်း Function ကို သုံးပြီး ဒီ Topic (Card) ကြီး တစ်ခုလုံး အောင်မြင်ပြီးသားလားလို့ လှမ်းစစ်တာပါ
+    const isTopicCompleted = getCardStatus(currentCardId);
+    let earnedXPMsg = "";
+
+    // 💡 တွေးခေါ်ပုံအသစ်: ဒီ Topic က လုံးဝမပြီးသေးဘူး (Incomplete ဖြစ်နေတုန်း) ဆိုမှပဲ XP ကို တိုးပေးပါမယ်
+    if (!isTopicCompleted) {
+      let totalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
+      totalXP += earnedXP;
+      localStorage.setItem("student_total_xp", totalXP);
+
+      earnedXPMsg = `\n🎉 You got : ${earnedXP} XP`;
+    } else {
+      // ကျောင်းသားက တစ်ကတ်လုံး ဖတ်ပြီးသွားလို့ (Completed ဖြစ်ပြီးသားကြီး) ထပ်လာဖတ်ရင် XP မတိုးတော့ပါ
+      earnedXPMsg = `\nℹ️ (ဤသင်ခန်းစာအုပ်စုအား လေ့လာပြီးဖြစ်၍ XP ထပ်မံမတိုးတော့ပါ)`;
+    }
+
+    // စာမျက်နှာ ကူးပြောင်းခြင်း Flow
     if (!isFinalLesson) {
+      alert(`✨ သင်ခန်းစာ ပြီးမြောက်သွားပါပြီ။${earnedXPMsg}`);
       renderLessonContent(currentLessonId + 1);
     } else {
-      // 🎉 နောက်ဆုံး သင်ခန်းစာဖြစ်ပါက ပရောဂျက်အောင်မြင်ကြောင်း localStorage တွင် သိမ်းဆည်းမည်
+      // 🎉 နောက်ဆုံးသင်ခန်းစာဆိုရင် အစ်ကို့ရဲ့ မူရင်း Function အတိုင်း လှမ်းသိမ်းလိုက်ပါပြီ
       saveCardComplete(currentCardId);
 
-      alert(`🎉 ဂုဏ်ယူပါတယ်ဗျာ! သင်ခန်းစာအားလုံးကို လေ့လာပြီးမြောက်သွားပါပြီ။`);
-      window.location.href = "index.html"; // Dashboard သို့ ပြန်လှည့်မည်
+      const finalTotalXP = parseInt(
+        localStorage.getItem("student_total_xp") ?? "0",
+      );
+      const formattedTotalXP = (finalTotalXP / 1000)
+        .toString()
+        .replace(".", ",");
+
+      alert(
+        `🎉 ဂုဏ်ယူပါတယ်ဗျာ! သင်ခန်းစာအားလုံးကို လေ့လာပြီးမြောက်သွားပါပြီ။${earnedXPMsg} \n Current Total XP: ${formattedTotalXP}`,
+      );
+
+      window.location.href = "index.html";
     }
   });
 
   // Previous ခလုတ် နှိပ်ချိန်
-  document.getElementById("prev-btn").addEventListener("click", () => {
-    if (currentLessonId > 1) {
-      renderLessonContent(currentLessonId - 1);
-    }
-  });
+  if (prevBtn) {
+    const newPrevBtn = prevBtn.cloneNode(true);
+    prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+    newPrevBtn.addEventListener("click", () => {
+      if (currentLessonId > 1) {
+        renderLessonContent(currentLessonId - 1);
+      }
+    });
+  }
 }
 
 /**

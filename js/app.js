@@ -7,6 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //   .then(response => response.json())
   //   .then(data => updateStreakUI(data))
   //   .catch(error => console.error('Error fetching data:', error));
+
+  // show current xp points
+  // ၁။ LocalStorage ထဲက စုစုပေါင်း XP နံပါတ်အပြည့်ကို လှမ်းယူတယ် (ဥပမာ - 7550)
+  const savedXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
+
+  // ၂။ Home Page ပေါ်က <span id="xpPoints"> နေရာကို လှမ်းဖမ်းတယ်
+  const xpPointsEl = document.getElementById("xpPoints");
+
+  if (xpPointsEl) {
+    // 💡 Advanced JS: .textContent ကိုသုံးပြီး တစ်လိုင်းတည်းဖြင့် format ချကာ တိုက်ရိုက် အစားထိုးလိုက်ခြင်း ဖြစ်ပါတယ်ဗျာ
+    xpPointsEl.textContent = savedXP.toString().replace(".", ",");
+  }
 });
 
 // Search icon ကို နှိပ်ရင် အလုပ်လုပ်ဖို့ simple logic
@@ -258,8 +270,8 @@ function renderLessons() {
   });
 }
 // <div class="card-img-box">
-          //     <img src="/assets/icons/${lesson.img}" alt="${lesson.title}">
-          // </div>
+//     <img src="/assets/icons/${lesson.img}" alt="${lesson.title}">
+// </div>
 /**
  * ၃။ ကတ်တစ်ခုကို နှိပ်လိုက်ချိန်တွင် လမ်းကြောင်းလွှဲပေးမည့် လုပ်ဆောင်ချက်
  */
@@ -275,4 +287,31 @@ function startLesson(id, unlocked) {
 // စာမျက်နှာ စတင်ပွင့်ချိန်တွင် ကတ်များကို ဆောက်ပေးရန် မောင်းနှင်ခြင်း
 document.addEventListener("DOMContentLoaded", () => {
   renderLessons();
+});
+
+// reset when click reload
+document.addEventListener("DOMContentLoaded", () => {
+  // 💡 Advanced JS: Browser ရဲ့ Navigation အမျိုးအစားကို စစ်ဆေးခြင်း
+  const navigationEntries = performance.getEntriesByType("navigation");
+
+  if (navigationEntries.length > 0) {
+    const navigationType = navigationEntries[0].type;
+
+    // 🚨 အကယ်၍ ကျောင်းသားက Chrome ရဲ့ Reload ခလုတ်ကို နှိပ်လိုက်တာ သေချာရင်...
+    if (navigationType === "reload") {
+      // ၁။ LocalStorage ထဲက ဒေတာတွေကို ချက်ချင်း ဖျက်ပစ်မယ်
+      localStorage.removeItem("student_total_xp");
+      localStorage.removeItem("arduino_progress");
+
+      // ၂။ ဖျက်ပြီးရင် UI ပေါ်မှာ 0,00 ဖြစ်သွားအောင် ချက်ချင်း ပြောင်းလဲပစ်မယ်
+      const xpPointsEl = document.getElementById("xpPoints");
+      if (xpPointsEl) {
+        xpPointsEl.textContent = "0,00";
+      }
+
+      alert(
+        "🔄 Chrome Browser Reload ကြောင့် ဒေတာများကို Reset လုပ်ပြီးပါပြီ။",
+      );
+    }
+  }
 });
