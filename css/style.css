@@ -10,6 +10,9 @@
    ============================================================ */
 :root {
   /* Core Palette */
+
+  /* Dark Mode မှာ အစ်ကို့ရဲ့ မူရင်း အဖြူလိုင်းလေး ဖြစ်သွားမည် */
+  --hero-grid-color: rgba(255, 255, 255, 0.025);
   /* --bg: #0d1117; */
   --bg: #0a0e0f;
   --bg-elevated: #161b22;
@@ -84,6 +87,9 @@
 
 .light-theme {
   /* Core Palette */
+  /* Light Mode မှာ အမည်းနုရောင် လိုင်းသုံးမည် */
+  --hero-grid-color: rgba(0, 0, 0, 0.04);
+
   --bg: #f8fafc; /* ပင်မအဖြူရောင်နောက်ခံ */
   --bg-elevated: #f0f1f3; /* အနည်းငယ် မီးခိုးရောင်သန်းသော နောက်ခံ (Sections များအတွက်) */
   --bg-subtle: #f1f5f9; /* ပိုမိုနက်ရှိုင်းသော မီးခိုးရောင်ဖျော့ */
@@ -409,13 +415,19 @@ body {
   content: "";
   position: absolute;
   inset: 0;
+  /* 💡 ထည့်သွင်းထားသော CSS Variable ကို ဤနေရာတွင် လှမ်းသုံးထားပါသည် */
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(var(--hero-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hero-grid-color) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
   mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    black 40%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
     ellipse 80% 60% at 50% 0%,
     black 40%,
     transparent 100%
