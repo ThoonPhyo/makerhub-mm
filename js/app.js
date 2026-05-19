@@ -236,8 +236,9 @@ function renderLessons() {
               ${status.statusIcon}
           </div>
 
+          
           <div class="card-img-box">
-              <img src="assets/icons/${lesson.img}" alt="${lesson.title}">
+               <i class="${lesson.icon}"></i> 
           </div>
 
           <div class="card-info">
@@ -256,7 +257,9 @@ function renderLessons() {
     gridContainer.appendChild(col);
   });
 }
-
+// <div class="card-img-box">
+          //     <img src="/assets/icons/${lesson.img}" alt="${lesson.title}">
+          // </div>
 /**
  * ၃။ ကတ်တစ်ခုကို နှိပ်လိုက်ချိန်တွင် လမ်းကြောင်းလွှဲပေးမည့် လုပ်ဆောင်ချက်
  */

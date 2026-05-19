@@ -154,7 +154,9 @@ function renderLessonContent(lessonId) {
       <span class="badge bg-success-subtle px-3 py-2 fw-bold">+${lesson.xp} XP</span>
     </div>
 
-    <p class="text-secondary leading-relaxed mb-4">${lesson.text}</p>
+    <div class="text-secondary leading-relaxed mb-4 lesson-content-body">
+      ${marked.parse(lesson.text)}
+    </div>
 
     ${
       lesson.code

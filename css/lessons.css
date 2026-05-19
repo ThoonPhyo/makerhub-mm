@@ -88,6 +88,41 @@
   line-height: 1.85;
   font-size: 15.5px;
 }
+/* 🎯 သင်ခန်းစာ ဧရိယာထဲက Markdown ခေါင်းစဉ် (###) များ၏ Font Size ကို လျှော့ချခြင်း */
+.lesson-content-body h3 {
+  font-size: 16px; /* 💡 အစ်ကို့စိတ်ကြိုက် ၁၄px သို့မဟုတ် ၁၆px အထိ သေးချနိုင်ပါတယ် */
+  font-weight: 700; /* စာသားကို အထူအတိုင်းပဲ ထားပါမယ် */
+  color: var(
+    --text-main
+  ); /* အစ်ကို့ Theme ရဲ့ Main စာသားရောင်အတိုင်း လိုက်စေရန် */
+  margin-top: 18px; /* အပေါ်စာကြောင်းနှင့် အရမ်းမကပ်စေရန် နေရာလွတ် */
+  margin-bottom: 8px; /* အောက်ကစာသားနှင့် အနည်းငယ် ကွာစေရန် */
+}
+
+/* တကယ်လို့ `## ခေါင်းစဉ်` (h2) သုံးခဲ့ရင်လည်း သေးနေစေဖို့အတွက် (Optional) */
+.lesson-content-body h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+/* သင်ခန်းစာ စာသားထဲက ပုံများကို Responsive ဖြစ်အောင် ထိန်းချုပ်ခြင်း */
+.lesson-content-body img {
+  margin: 20px;
+  max-width: 80%; /* Content Box အကျယ်ထက် ပုံကို ကျော်မထွက်စေရန် */
+  height: auto; /* ပုံစံမပျက်စေရန် */
+  border-radius: 8px; /* ထောင့်လေးများ ဝိုင်းပေးရန် */
+  margin: 16px auto; /* အပေါ်အောက် နေရာလွတ်ချပြီး ပုံကို အလယ်တည့်တည့် ပို့ရန် */
+  display: block; /* စာသားများနှင့် မရောထွေးစေရန် */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* ရိုးရှင်းသော အရိပ်လိုင်းလေး */
+}
+
+/* Markdown ထဲက List (Bullet points) တွေ စနစ်တကျ ပေါ်စေရန် */
+.lesson-content-body ul,
+.lesson-content-body ol {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
 
 /* 4. Source Code Box Styling */
 /* 📟 Code Block အား မည်သည့် Theme တွင်မဆို အမြဲတမ်း Dark Editor အဖြစ် ပုံသေထားခြင်း */
