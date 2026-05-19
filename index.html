@@ -209,10 +209,13 @@
             </p>
 
             <div class="d-flex flex-wrap gap-3 mb-5">
-              <a href="#" class="btn btn-neon-green">
+              <a href="/Learning/arduino/index.html" class="btn btn-neon-green">
                 Start Learning <i class="bi bi-arrow-right"></i>
               </a>
-              <a href="#" class="btn-outline-light-tech"> Explore Journeys </a>
+
+              <a href="#journeySection" class="btn-outline-light-tech">
+                Explore Journeys
+              </a>
             </div>
 
             <!-- Stat Cards -->
@@ -253,10 +256,12 @@
                   <div class="progress" style="height: 5px">
                     <div
                       class="progress-bar"
+                      id="xpProgressBar"
                       style="
-                        width: 75%;
+                        width: 0%;
                         background: linear-gradient(90deg, #22c55e, #06b6d4);
                         border-radius: 10px;
+                        color: #06b6d4;
                       "
                     ></div>
                   </div>
@@ -364,13 +369,19 @@
                       >Progress</span
                     >
                   </div>
-                  <div class="h3 fw-bold mb-1 text-info">68%</div>
+                  <div
+                    class="h3 fw-bold mb-1 text-info"
+                    id="total-journey-percent"
+                  >
+                    68%
+                  </div>
                   <div class="text-secondary mb-3" style="font-size: 12px">
                     Journey Completion
                   </div>
                   <div class="progress" style="height: 5px">
                     <div
                       class="progress-bar"
+                      id="total-journey-fill"
                       style="
                         width: 68%;
                         background: linear-gradient(90deg, #06b6d4, #8b5cf6);
@@ -452,7 +463,7 @@
     </section>
 
     <!-- ── LEARNING JOURNEYS ─────────────────────────────── -->
-    <section class="learning-section py-5">
+    <section class="learning-section py-5" id="journeySection">
       <!-- section header  -->
       <div class="text-center sectionHeader">
         <h1 class="fw-bold text-white" style="color: var(--text) !important">
@@ -485,7 +496,9 @@
                     robotics projects.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 42 lessons</span>
+                    <span id="arduino-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 2.3k</span>
                   </div>
                 </div>
@@ -517,8 +530,8 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1200 XP</span
+                  <span class="xp-text" id="arduino-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
                     href="/Learning/arduino/index.html"
@@ -554,7 +567,9 @@
                     microcontroller.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 38 lessons</span>
+                    <span id="esp32-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 1.8k</span>
                   </div>
                 </div>
@@ -582,11 +597,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1400 XP</span
+                  <span class="xp-text" id="esp32-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/esp32/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >
@@ -619,7 +634,9 @@
                     the affordable ESP8266.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 35 lessons</span>
+                    <span id="esp8266-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 2.1k</span>
                   </div>
                 </div>
@@ -648,11 +665,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1100 XP</span
+                  <span class="xp-text" id="esp8266-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/esp8266/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >
@@ -687,7 +704,9 @@
                     single-board computer.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 45 lessons</span>
+                    <span id="raspberry-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 1.5k</span>
                   </div>
                 </div>
@@ -719,11 +738,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1600 XP</span
+                  <span class="xp-text" id="raspberry-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/raspberry/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >

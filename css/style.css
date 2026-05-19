@@ -1706,7 +1706,7 @@ dotlottie-wc {
 /* Progress bar bootstrap reset */
 .progress {
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
+  background-color: var(--border);
 }
 
 /* ============================================================

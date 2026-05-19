@@ -1,3 +1,21 @@
+// 💡 URL လမ်းကြောင်းကိုကြည့်ပြီး ဘယ် Track ဒေတာကို သုံးမလဲဆိုတာ Dynamic ဆုံးဖြတ်ခြင်း
+let currentTrackData = [];
+const currentPath = window.location.pathname;
+
+if (currentPath.includes("/esp32/")) {
+  currentTrackData =
+    typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [];
+} else if (currentPath.includes("/esp8266/")) {
+  currentTrackData =
+    typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [];
+} else if (currentPath.includes("/raspberry/")) {
+  currentTrackData =
+    typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [];
+} else {
+  currentTrackData =
+    typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [];
+}
+
 // Example function to fetch dynamic data for the cards later
 document.addEventListener("DOMContentLoaded", () => {
   console.log("MakerHub MM Initialized!");
@@ -79,74 +97,81 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ════════════════════════════
-   nav tabs
-════════════════════════════ */
-// const currentPath = window.location.pathname;
-// const navLinks = document.querySelectorAll('.nav-link');
-
-// navLinks.forEach(link => {
-//     link.classList.remove('active');
-
-//     const linkPath = link.getAttribute('href');
-
-//     if (currentPath === '/' || currentPath.endsWith('index.html')) {
-//         if (linkPath === '#' || linkPath.endsWith('index.html')) {
-//             if (!linkPath.includes('/Learning/')) {
-//                 link.classList.add('active');
-//             }
-//         }
-//     }
-
-//     if (linkPath !== '#' && currentPath.includes(linkPath)) {
-//         link.classList.add('active');
-//     }
-// });
-
 /**
  * Main Hub ပေါ်ရှိ ပင်မကတ်ကြီး (၄) ခု၏ Progress များကို Dynamic တွက်ချက်ပြသပေးမည့် လုပ်ဆောင်ချက်
  */
 function updateMainHubProgress() {
-  // ၄ ခုလုံးအတွက် သက်ဆိုင်ရာ ဒေတာ အစုအဝေးများကို Object တစ်ခုအနေဖြင့် သတ်မှတ်ခြင်း
-  // (မှတ်ချက် - နောက်ပိုင်း ESP32, ESP8266 ဒေတာဖိုင်တွေ ဆောက်ရင် ဒီမှာ နာမည်လှမ်းချိတ်ရုံပါပဲ)
   const tracks = {
-    arduino:
-      typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
+    arduino: typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
     esp32: typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [],
-    esp8266:
-      typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
-    raspberry:
-      typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
+    esp8266: typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
+    raspberry: typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
   };
 
-  // Track တစ်ခုချင်းစီကို Loop ပတ်ပြီး ရာခိုင်နှုန်း ရှာဖွေခြင်း
+  let globalTotalTopics = 0;
+  let globalCompletedTopics = 0;
+
   Object.keys(tracks).forEach((trackName) => {
     const trackData = tracks[trackName];
 
+    // HTML ID ကို dynamic အတိုင်း တိကျစွာ ခေါ်
     const percentEl = document.getElementById(`${trackName}-percent`);
     const fillEl = document.getElementById(`${trackName}-fill`);
+    const lessonCountEl = document.getElementById(`${trackName}-lessons-count`);
+    const xpCountEl = document.getElementById(`${trackName}-xp-count`);
 
-    // HTML Element မရှိသေးပါက ကျော်သွားမည်
-    if (!percentEl || !fillEl) return;
-
-    const totalTopics = trackData.length; // ဥပမာ - Arduino မှာ ခေါင်းစဉ် ၇ ခု သို့မဟုတ် ၁၀ ခု
+    const totalTopics = trackData.length;
     let completedTopics = 0;
+    let totalLessonsInTrack = 0;
+    let totalXpInTrack = 0;
 
-    // LocalStorage ထဲတွင် ပြီးမြောက်ကြောင်း စစ်ဆေးခြင်း
+    trackData.forEach((card) => {
+      if (card.lessons) {
+        totalLessonsInTrack += card.lessons.length;
+        card.lessons.forEach((lesson) => {
+          totalXpInTrack += lesson.xp || 0;
+        });
+      }
+    });
+
     trackData.forEach((topic) => {
       if (getCardStatus(topic.id)) {
         completedTopics++;
       }
     });
 
-    // ရာခိုင်နှုန်းတွက်ချက်ခြင်း: (ပြီးစီးသည့်ခေါင်းစဉ် / ခေါင်းစဉ်စုစုပေါင်း) * ၁၀၀
-    const percentage =
-      totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+    globalTotalTopics += totalTopics;
+    globalCompletedTopics += completedTopics;
 
-    // 💻 UI ထဲသို့ တန်ဖိုးများ အစားထိုးထည့်သွင်းခြင်း
-    percentEl.textContent = `${percentage}%`;
-    fillEl.style.width = `${percentage}%`;
+    if (percentEl && fillEl) {
+      const percentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+      percentEl.textContent = `${percentage}%`;
+      fillEl.style.setProperty("width", `${percentage}%`, "important");
+    }
+
+    if (lessonCountEl) {
+      lessonCountEl.textContent = `${totalLessonsInTrack} lessons`;
+    }
+
+    if (xpCountEl) {
+      xpCountEl.textContent = `${totalXpInTrack} XP`;
+    }
   });
+
+  const totalPercentEl = document.getElementById("total-journey-percent");
+  const totalFillEl = document.getElementById("total-journey-fill");
+
+  if (totalPercentEl || totalFillEl) {
+    const totalPercentage =
+      globalTotalTopics > 0 ? Math.round((globalCompletedTopics / globalTotalTopics) * 100) : 0;
+
+    if (totalPercentEl) {
+      totalPercentEl.textContent = `${totalPercentage}%`;
+    }
+    if (totalFillEl) {
+      totalFillEl.style.setProperty("width", `${totalPercentage}%`, "important");
+    }
+  }
 }
 
 // စာမျက်နှာပွင့်ချိန်တွင် မောင်းနှင်ပေးရန် ချိတ်ဆက်ခြင်း
@@ -157,6 +182,35 @@ document.addEventListener("DOMContentLoaded", () => {
   updateMainHubProgress(); // 🌟 ပင်မကတ်ကြီး ၄ ခုလုံးရဲ့ Progress ဘားများကို အသက်သွင်းခြင်း
 });
 
+/* ════════════════════════════
+XP Progress Bar
+════════════════════════════ */
+function updateXpProgress() {
+  const fillEl = document.getElementById("xpProgressBar");
+  if (!fillEl) return; // 💡 Bug ကာကွယ်ရန်: Element မရှိရင် အောက်ကကုဒ်တွေကို ဆက်မောင်းမရအောင် တားခြင်း
+
+  // ၁။ LocalStorage ထဲက Pure Number ကို အရင်ယူမယ် (ဥပမာ - 7550)
+  const finalTotalXP = parseInt(
+    localStorage.getItem("student_total_xp") ?? "0",
+  );
+
+  // ၂။ 💡 Target XP ကို 10,000 လို့ ထားပြီး ရာခိုင်နှုန်းကို နံပါတ်ချင်း တိုက်ရိုက်တွက်ချက်မယ်
+  const targetXP = 10000;
+  const percentage = Math.round((finalTotalXP / targetXP) * 100);
+
+  // ၃။ ရလာတဲ့ ရာခိုင်နှုန်းကို CSS Width ထဲ ထည့်ပေးလိုက်တာပါဗျာ
+  // 💡 [FIXED TYPO] Bootstrap Overriding မဖြစ်အောင် setProperty အမှန်အတိုင်း ပြင်ဆင်ပြီး ဖြစ်ပါတယ်ဗျာ
+  fillEl.style.setProperty(
+    "width",
+    `${Math.min(percentage, 100)}%`,
+    "important",
+  );
+}
+// show when page start
+document.addEventListener("DOMContentLoaded", () => {
+  updateXpProgress();
+});
+
 /**
  * Hero Section ရှိ ပင်မ Progress Bar အား ဒေတာအလိုက် အသက်သွင်းပေးမည့် လုပ်ဆောင်ချက်
  */
@@ -164,24 +218,19 @@ function updateHeroProgress() {
   const heroProgressBar = document.getElementById("hero-progress-bar");
   const heroProgressLabel = document.getElementById("main-progress-label");
 
-  // Element များ မရှိပါက Error မတက်စေရန် စစ်ထုတ်ခြင်း
   if (!heroProgressBar || !heroProgressLabel) return;
 
-  const totalCards = arduinoJourneyData.length; // data.js ထဲက ကတ်စုစုပေါင်း အရေအတွက် (7 ကတ်)
+  const totalCards = currentTrackData.length;
   let completedCards = 0;
 
-  // 📊 LocalStorage ထဲတွင် ပြီးမြောက်ကြောင်း (True) ဖြစ်နေသည့် ကတ်များကို လိုက်လံရေတွက်ခြင်း
-  arduinoJourneyData.forEach((card) => {
+  currentTrackData.forEach((card) => {
     if (getCardStatus(card.id)) {
       completedCards++;
     }
   });
 
-  // 📈 ရာခိုင်နှုန်း ရှာဖွေခြင်း
-  const percentage =
-    totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
+  const percentage = totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
 
-  // 💻 UI Element များကို ပြောင်းလဲခြင်း
   heroProgressBar.style.width = `${percentage}%`;
   heroProgressBar.setAttribute("aria-valuenow", percentage);
   heroProgressLabel.textContent = `${completedCards} / ${totalCards} done`;
@@ -211,7 +260,8 @@ function getCardContentStatus(lesson, index) {
 
   // ဒုတိယကတ်မှစ၍ ရှေ့ကတ် ပြီးခဲ့သလား (Completed ဖြစ်ခဲ့သလား) ကို localStorage တွင် လှမ်းစစ်မည်
   if (index > 0) {
-    const prevCardId = arduinoJourneyData[index - 1].id;
+    // 💡 [DYNAMIC CHANGER] arduinoJourneyData နေရာတွင် ဘုံသုံးအဖြစ် ပြောင်းလဲခြင်း
+    const prevCardId = currentTrackData[index - 1].id;
     isUnlocked = getCardStatus(prevCardId);
   }
 
@@ -232,8 +282,8 @@ function renderLessons() {
   if (!gridContainer) return; // အကယ်၍ Grid Container မရှိပါက Error မတက်စေရန် စစ်ထုတ်ခြင်း
   gridContainer.innerHTML = "";
 
-  // data.js ထဲက arduinoJourneyData အာရ်ရေးကြီးကို Loop ပတ်မောင်းနှင်ခြင်း
-  arduinoJourneyData.forEach((lesson, index) => {
+  // 💡 [DYNAMIC CHANGER] currentTrackData ကို Loop ပတ်ပြီး Track အလိုက် ကတ်များဆောက်ခြင်း
+  currentTrackData.forEach((lesson, index) => {
     // လက်ရှိကတ်၏ Status များကို အပေါ်က Helper ထံမှ တောင်းယူခြင်း
     const status = getCardContentStatus(lesson, index);
 
@@ -242,7 +292,7 @@ function renderLessons() {
 
     col.innerHTML = `
       <div class="course-card h-100 ${status.cardClass}" 
-           onclick="startLesson(${lesson.id}, ${status.isUnlocked})">
+           onclick="startLesson('${lesson.id}', ${status.isUnlocked})">
           
           <div class="status-icon">
               ${status.statusIcon}
@@ -254,7 +304,7 @@ function renderLessons() {
           </div>
 
           <div class="card-info">
-              <span class="lesson-num">${String(lesson.id).padStart(2, "0")}</span>
+              <span class="lesson-num">${String(index + 1).padStart(2, "0")}</span>
               <h6 class="lesson-title">${lesson.title}</h6>
               
               <div class="lesson-footer">
@@ -269,9 +319,7 @@ function renderLessons() {
     gridContainer.appendChild(col);
   });
 }
-// <div class="card-img-box">
-//     <img src="/assets/icons/${lesson.img}" alt="${lesson.title}">
-// </div>
+
 /**
  * ၃။ ကတ်တစ်ခုကို နှိပ်လိုက်ချိန်တွင် လမ်းကြောင်းလွှဲပေးမည့် လုပ်ဆောင်ချက်
  */
@@ -290,28 +338,35 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // reset when click reload
+// reset when click reload
 document.addEventListener("DOMContentLoaded", () => {
-  // 💡 Advanced JS: Browser ရဲ့ Navigation အမျိုးအစားကို စစ်ဆေးခြင်း
   const navigationEntries = performance.getEntriesByType("navigation");
 
   if (navigationEntries.length > 0) {
     const navigationType = navigationEntries[0].type;
 
-    // 🚨 အကယ်၍ ကျောင်းသားက Chrome ရဲ့ Reload ခလုတ်ကို နှိပ်လိုက်တာ သေချာရင်...
     if (navigationType === "reload") {
-      // ၁။ LocalStorage ထဲက ဒေတာတွေကို ချက်ချင်း ဖျက်ပစ်မယ်
+      // ၁။ XP ကို အမြဲ Reset လုပ်မယ်
       localStorage.removeItem("student_total_xp");
-      localStorage.removeItem("arduino_progress");
 
-      // ၂။ ဖျက်ပြီးရင် UI ပေါ်မှာ 0,00 ဖြစ်သွားအောင် ချက်ချင်း ပြောင်းလဲပစ်မယ်
-      const xpPointsEl = document.getElementById("xpPoints");
-      if (xpPointsEl) {
-        xpPointsEl.textContent = "0,00";
+      // 💡 အဓိက ပြင်ဆင်ချက်:
+      // arduino_progress ကို အသေရေးမယ့်အစား getStorageKey() ကို သုံးပြီး လက်ရှိရောက်နေတဲ့ Track အလိုက် ဖျက်ပေးမယ်
+      if (typeof getStorageKey === "function") {
+        const currentKey = getStorageKey();
+        localStorage.removeItem(currentKey);
+      } else {
+        // Fallback အနေနဲ့ အဟောင်းကို ဖျက်ပေးထားမယ်
+        localStorage.removeItem("arduino_progress");
       }
 
-      alert(
-        "🔄 Chrome Browser Reload ကြောင့် ဒေတာများကို Reset လုပ်ပြီးပါပြီ။",
-      );
+      // ၂။ UI ကို ပြန်ရှင်းမယ်
+      const xpBadge = document.getElementById("xpPoints");
+      if (xpBadge) {
+        xpBadge.textContent = "0";
+      }
+
+      renderLessons();
+      console.log("Current track progress reset successfully!");
     }
   }
 });

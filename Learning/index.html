@@ -41,7 +41,7 @@
         <nav class="navbar navbar-expand-lg">
           <div class="container-fluid px-0">
             <!-- Brand -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/index.html">
               <i class="bi bi-cpu text-neon-green fs-5"></i>
               <span class="brand-text"
                 >Maker<span class="text-neon-green">Hub</span> MM</span
@@ -192,7 +192,7 @@
     </header>
 
     <!-- ── LEARNING JOURNEYS ─────────────────────────────── -->
-    <section class="learning-section py-5">
+    <section class="learning-section py-5" id="journeySection">
       <!-- section header  -->
       <div class="text-center sectionHeader">
         <h1 class="fw-bold text-white" style="color: var(--text) !important">
@@ -225,7 +225,9 @@
                     robotics projects.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 42 lessons</span>
+                    <span id="arduino-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 2.3k</span>
                   </div>
                 </div>
@@ -257,8 +259,8 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1200 XP</span
+                  <span class="xp-text" id="arduino-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
                     href="/Learning/arduino/index.html"
@@ -294,7 +296,9 @@
                     microcontroller.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 38 lessons</span>
+                    <span id="esp32-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 1.8k</span>
                   </div>
                 </div>
@@ -322,11 +326,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1400 XP</span
+                  <span class="xp-text" id="esp32-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/esp32/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >
@@ -359,7 +363,9 @@
                     the affordable ESP8266.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 35 lessons</span>
+                    <span id="esp8266-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 2.1k</span>
                   </div>
                 </div>
@@ -388,11 +394,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1100 XP</span
+                  <span class="xp-text" id="esp8266-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/esp8266/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >
@@ -427,7 +433,9 @@
                     single-board computer.
                   </p>
                   <div class="stats">
-                    <span><i class="fas fa-book-open"></i> 45 lessons</span>
+                    <span id="raspberry-lessons-count"
+                      ><i class="fas fa-book-open"></i> 0 lessons</span
+                    >
                     <span><i class="fas fa-users"></i> 1.5k</span>
                   </div>
                 </div>
@@ -459,11 +467,11 @@
                 <div
                   class="d-flex justify-content-between align-items-center mt-3"
                 >
-                  <span class="xp-text"
-                    ><i class="fas fa-star"></i> 1600 XP</span
+                  <span class="xp-text" id="raspberry-xp-count"
+                    ><i class="fas fa-star"></i> 0 XP</span
                   >
                   <a
-                    href="#"
+                    href="/Learning/raspberry/index.html"
                     class="btn-continue btn btn-sm border px-3 py-1 d-inline-flex align-items-center"
                     style="border-radius: 8px"
                   >

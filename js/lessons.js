@@ -1,39 +1,49 @@
 /* ==========================================================================
-   Arduino Lab - Lessons/Study Room Logic (Dynamic System)
+   Lab - Lessons/Study Room Logic (Dynamic Shared System)
    ========================================================================== */
 
 // ၁။ လက်ရှိ ဝင်ရောက်နေသော အခြေအနေများကို မှတ်သားထားမည့် Variables
 let currentCardId = null;
-let currentLessonId = 1; // ကနဦးတွင် ပထမဆုံးသင်ခန်းစာခွဲကို ပြပါမည်
+let currentLessonId = 1; 
+
+// 💡 URL လမ်းကြောင်းကိုကြည့်ပြီး ဘယ် Track ဒေတာကို သုံးမလဲဆိုတာ Dynamic ဆုံးဖြတ်ခြင်း
+let currentTrackData = [];
+const currentPath = window.location.pathname;
+
+if (currentPath.includes("/esp32/")) {
+  currentTrackData = typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [];
+} else if (currentPath.includes("/esp8266/")) {
+  currentTrackData = typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [];
+} else if (currentPath.includes("/raspberry/")) {
+  currentTrackData = typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [];
+} else {
+  currentTrackData = typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [];
+}
 
 /**
  * ၂။ စာမျက်နှာ စဖွင့်ချင်း URL ထဲမှ Card ID အား ဖတ်ယူပြီး လုပ်ဆောင်ချက်များကို စတင်ခြင်း
  */
 document.addEventListener("DOMContentLoaded", () => {
-  // URL parameters ကို ဖတ်ခြင်း (ဥပမာ- lessons.html?id=1)
   const urlParams = new URLSearchParams(window.location.search);
   const idParam = urlParams.get("id");
 
   if (idParam) {
-    currentCardId = parseInt(idParam);
+    // ID သည် String (ဥပမာ 'esp32_intro') ဖြစ်နိုင်သဖြင့် parseInt မလုပ်ဘဲ တိုက်ရိုက် သို့မဟုတ် ညှိယူစစ်ဆေးပါမည်
+    currentCardId = idParam;
 
-    // မူရင်းဒေတာထဲတွင် ဤ Card ID ရှိမရှိ စစ်ဆေးခြင်း
-    const cardExists = arduinoJourneyData.some(
-      (card) => card.id === currentCardId,
+    // 💡 [DYNAMIC] currentTrackData ထဲတွင် ဤ Card ID ရှိမရှိ စစ်ဆေးခြင်း
+    const cardExists = currentTrackData.some(
+      (card) => String(card.id) === String(currentCardId),
     );
 
     if (cardExists) {
-      // အဆင့် (က) - ဘယ်ဘက် Sidebar မီနူးအား Dynamic ဆောက်ခြင်း
       generateSidebar(currentCardId);
-
-      // အဆင့် (ခ) - ပထမဆုံး သင်ခန်းစာခွဲ (Lesson 1) ၏ Content အား ညာဘက်တွင် ပြသခြင်း
-      renderLessonContent(1);
+      renderLessonContent(1); // အခန်းခွဲ ၁ ကနေ စဖွင့်မည်
     } else {
       alert("တောင်းဆိုထားသော သင်ခန်းစာအုပ်စုကို မတွေ့ရှိပါ။");
       window.location.href = "index.html";
     }
   } else {
-    // ID မပါလာပါက ပင်မစာမျက်နှာသို့ ပြန်ပို့မည်
     window.location.href = "index.html";
   }
 });
@@ -42,12 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
  * ၃။ ရွေးချယ်လိုက်သော Card ID အလိုက် ဘယ်ဘက် Sidebar နှင့် Progress Bar အား တည်ဆောက်ခြင်း
  */
 function generateSidebar(cardId) {
-  const card = arduinoJourneyData.find((c) => c.id === cardId);
+  // 💡 [DYNAMIC] currentTrackData ထဲကနေ သက်ဆိုင်ရာ ကတ်ကို ရှာဖွေခြင်း
+  const card = currentTrackData.find((c) => String(c.id) === String(cardId));
   const sidebarContainer = document.getElementById("sidebar-lessons");
   if (!card || !sidebarContainer) return;
 
-  // Sidebar Header နှင့် Progress Bar အတွက် Template ဆောက်ခြင်း
-  // CSS ထဲက CSS Variable တွေနဲ့ ကွက်တိကိုက်အောင် ဖွဲ့စည်းထားပါတယ်
   let sidebarHTML = `
     <div class="text-secondary small fw-bold mb-2 px-2 text-uppercase">
       ${card.title}
@@ -77,17 +86,16 @@ function generateSidebar(cardId) {
   `;
 
   // Card အတွင်းရှိ သင်ခန်းစာခွဲ Button များကို ပတ်မောင်း၍ ထည့်သွင်းခြင်း
-  card.lessons.forEach((lesson) => {
+  card.lessons.forEach((lesson, index) => {
+    // UI တွင် အစီအစဉ်အတိုင်းပြရန် index + 1 ကိုသုံးပြီး၊ data-id တွင် မူရင်း ID အစစ်ကို ထည့်သွင်းပါသည်
     sidebarHTML += `
-      <button class="list-group-item list-group-item-action" data-id="${lesson.id}">
-        ${lesson.id}. ${lesson.title}
+      <button class="list-group-item list-group-item-action" data-id="${index + 1}">
+        ${index + 1}. ${lesson.name || lesson.title}
       </button>
     `;
   });
 
   sidebarContainer.innerHTML = sidebarHTML;
-
-  // Sidebar ခလုတ်များကို နှိပ်ပါက အလုပ်လုပ်စေရန် Event ချိတ်ဆက်ခြင်း
   setupSidebarClickEvents();
 }
 
@@ -101,8 +109,8 @@ function setupSidebarClickEvents() {
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      const lessonId = parseInt(e.currentTarget.getAttribute("data-id"));
-      renderLessonContent(lessonId);
+      const lessonIdx = parseInt(e.currentTarget.getAttribute("data-id"));
+      renderLessonContent(lessonIdx);
     });
   });
 }
@@ -110,20 +118,20 @@ function setupSidebarClickEvents() {
 /**
  * ၅။ ရွေးချယ်လိုက်သော သင်ခန်းစာအလိုက် ညာဘက်ခြမ်း Main Content နှင့် Progress ကို အပ်ဒိတ်လုပ်ခြင်း
  */
-function renderLessonContent(lessonId) {
-  const card = arduinoJourneyData.find((c) => c.id === currentCardId);
+function renderLessonContent(lessonIdx) {
+  // 💡 [DYNAMIC] currentTrackData မှ ရှာဖွေခြင်း
+  const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
   if (!card) return;
 
-  const lesson = card.lessons.find((l) => l.id === lessonId);
+  // Array index အနေဖြင့် သင်ခန်းစာခွဲကို ဖမ်းယူခြင်း
+  const lesson = card.lessons[lessonIdx - 1];
   if (!lesson) return;
 
-  currentLessonId = lessonId; // လက်ရှိဖတ်နေသော ID အား မှတ်သားခြင်း
+  currentLessonId = lessonIdx; // လက်ရှိ ဖတ်နေသော index အား မှတ်သားခြင်း
 
-  // 📈 ရာခိုင်နှုန်း Dynamic တွက်ချက်ခြင်း: (လက်ရှိသင်ခန်းစာခွဲ ID / သင်ခန်းစာခွဲစုစုပေါင်း) * ၁၀၀
   const totalLessons = card.lessons.length;
-  const progressPercentage = Math.round((lessonId / totalLessons) * 100);
+  const progressPercentage = Math.round((lessonIdx / totalLessons) * 100);
 
-  // Sidebar ပေါ်က Progress Bar နှင့် စာသားများကို အပ်ဒိတ်လုပ်ခြင်း
   const progressBar = document.getElementById("sidebar-progress-bar");
   const progressText = document.getElementById("sidebar-progress-text");
 
@@ -133,36 +141,35 @@ function renderLessonContent(lessonId) {
     progressText.textContent = `${progressPercentage}%`;
   }
 
-  // Top Navbar/Breadcrumb ပြောင်းလဲခြင်း
   const breadcrumbEl = document.getElementById("breadcrumb-lesson");
   if (breadcrumbEl) {
-    breadcrumbEl.textContent = `${card.title} / Lesson ${lesson.id}`;
+    breadcrumbEl.textContent = `${card.title} / Lesson ${lessonIdx}`;
   }
 
-  // နောက်ဆုံးသင်ခန်းစာ ဟုတ်မဟုတ် စစ်ဆေးပြီး ခလုတ်ပုံစံ ပြောင်းခြင်း
-  const isFinalLesson = lessonId === totalLessons;
+  const isFinalLesson = lessonIdx === totalLessons;
   let actionBtnHTML = isFinalLesson
     ? `<button class="btn btn-success fw-bold px-4 shadow-sm" id="content-btn">Mark as Complete</button>`
     : `<button class="btn btn-primary fw-bold px-4 shadow-sm" id="content-btn">Next</button>`;
 
   const prevDisabled = currentLessonId === 1 ? "disabled" : "";
 
-  // ညာဘက်ခြမ်း Dynamic Content Area ထဲသို့ HTML များ ထည့်သွင်းခြင်း
+  // ညာဘက်ခြမ်း Dynamic Content Area
+  // ဒေတာထဲတွင် lesson.text မရှိပါက ၎င်း၏ အမည်ကို ခေါင်းစဉ်အနေဖြင့် ပြသပါမည်
   document.getElementById("dynamic-content").innerHTML = `
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary-subtle">
-      <h2 class="h4 fw-bold mb-0 text-info">${lesson.title}</h2>
+      <h2 class="h4 fw-bold mb-0 text-info">${lesson.name || lesson.title}</h2>
       <span class="badge bg-success-subtle px-3 py-2 fw-bold">+${lesson.xp} XP</span>
     </div>
 
     <div class="text-secondary leading-relaxed mb-4 lesson-content-body">
-      ${marked.parse(lesson.text)}
+      ${lesson.text ? marked.parse(lesson.text) : "လေ့လာရန် အကြောင်းအရာများကို ဖြည့်စွက်ရန် ကျန်ရှိနေပါသည်။"}
     </div>
 
     ${
       lesson.code
         ? `
     <div class="mt-4">
-      <h6 class="text-uppercase text-success small fw-bold mb-2 font-monospace">📟 Arduino Source Code</h6>
+      <h6 class="text-uppercase text-success small fw-bold mb-2 font-monospace">📟 Source Code</h6>
       <pre class="bg-dark p-3 rounded-3 font-monospace" style="font-size: 14px"><code class="language-cpp">${escapeHTML(lesson.code)}</code></pre>
     </div>
     `
@@ -177,16 +184,12 @@ function renderLessonContent(lessonId) {
     </div>
   `;
 
-  // HTML အသစ်လဲပြီးတိုင်း ကုဒ်တွေကို လိုက်လံ အရောင်ခြယ်ခိုင်းခြင်း ဖြစ်ပါတယ်
   if (typeof Prism !== "undefined") {
     Prism.highlightAll();
   }
 
-  // အောက်ခြေ Navigation ခလုတ်များအတွက် Event ပြန်လည်ချိတ်ဆက်ခြင်း
   setupNavigationEvents(isFinalLesson);
-
-  // Sidebar ခလုတ်များထဲမှ လက်ရှိဖတ်နေသောခလုတ်အား Active Class ပေးခြင်း
-  updateSidebarActiveStyle(lessonId);
+  updateSidebarActiveStyle(lessonIdx);
 }
 
 /**
@@ -198,22 +201,18 @@ function setupNavigationEvents(isFinalLesson) {
 
   if (!contentBtn) return;
 
-  // Event Listener တွေ ထပ်ပွားမလာအောင် Clean-up အရင်လုပ်ခြင်း
   const newContentBtn = contentBtn.cloneNode(true);
   contentBtn.parentNode.replaceChild(newContentBtn, contentBtn);
 
   newContentBtn.addEventListener("click", () => {
-    const card = arduinoJourneyData.find((c) => c.id === currentCardId);
-    const currentLesson = card
-      ? card.lessons.find((l) => l.id === currentLessonId)
-      : null;
+    // 💡 [DYNAMIC] currentTrackData ထံမှ ဒေတာတောင်းယူခြင်း
+    const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
+    const currentLesson = card ? card.lessons[currentLessonId - 1] : null;
     const earnedXP = currentLesson ? currentLesson.xp : 0;
 
-    // 💡 အစ်ကို့ရဲ့ မူရင်း Function ကို သုံးပြီး ဒီ Topic (Card) ကြီး တစ်ခုလုံး အောင်မြင်ပြီးသားလားလို့ လှမ်းစစ်တာပါ
     const isTopicCompleted = getCardStatus(currentCardId);
     let earnedXPMsg = "";
 
-    // 💡 တွေးခေါ်ပုံအသစ်: ဒီ Topic က လုံးဝမပြီးသေးဘူး (Incomplete ဖြစ်နေတုန်း) ဆိုမှပဲ XP ကို တိုးပေးပါမယ်
     if (!isTopicCompleted) {
       let totalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
       totalXP += earnedXP;
@@ -221,24 +220,17 @@ function setupNavigationEvents(isFinalLesson) {
 
       earnedXPMsg = `\n🎉 You got : ${earnedXP} XP`;
     } else {
-      // ကျောင်းသားက တစ်ကတ်လုံး ဖတ်ပြီးသွားလို့ (Completed ဖြစ်ပြီးသားကြီး) ထပ်လာဖတ်ရင် XP မတိုးတော့ပါ
       earnedXPMsg = `\nℹ️ (ဤသင်ခန်းစာအုပ်စုအား လေ့လာပြီးဖြစ်၍ XP ထပ်မံမတိုးတော့ပါ)`;
     }
 
-    // စာမျက်နှာ ကူးပြောင်းခြင်း Flow
     if (!isFinalLesson) {
       alert(`✨ သင်ခန်းစာ ပြီးမြောက်သွားပါပြီ။${earnedXPMsg}`);
       renderLessonContent(currentLessonId + 1);
     } else {
-      // 🎉 နောက်ဆုံးသင်ခန်းစာဆိုရင် အစ်ကို့ရဲ့ မူရင်း Function အတိုင်း လှမ်းသိမ်းလိုက်ပါပြီ
       saveCardComplete(currentCardId);
 
-      const finalTotalXP = parseInt(
-        localStorage.getItem("student_total_xp") ?? "0",
-      );
-      const formattedTotalXP = (finalTotalXP / 1000)
-        .toString()
-        .replace(".", ",");
+      const finalTotalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
+      const formattedTotalXP = (finalTotalXP / 1000).toString().replace(".", ",");
 
       alert(
         `🎉 ဂုဏ်ယူပါတယ်ဗျာ! သင်ခန်းစာအားလုံးကို လေ့လာပြီးမြောက်သွားပါပြီ။${earnedXPMsg} \n Current Total XP: ${formattedTotalXP}`,
@@ -248,7 +240,6 @@ function setupNavigationEvents(isFinalLesson) {
     }
   });
 
-  // Previous ခလုတ် နှိပ်ချိန်
   if (prevBtn) {
     const newPrevBtn = prevBtn.cloneNode(true);
     prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
@@ -261,16 +252,16 @@ function setupNavigationEvents(isFinalLesson) {
 }
 
 /**
- * ၇။ Sidebar ခလုတ်များထဲမှ လက်ရှိ ဖတ်နေသော သင်ခန်းစာအား အပြာရောင် Active လိုင်းလေး ပြသပေးခြင်း
+ * ၇။ Sidebar ခလုတ်များထဲမှ လက်ရှိ ဖတ်နေသော သင်ခန်းစာအား Active ပြသပေးခြင်း
  */
-function updateSidebarActiveStyle(lessonId) {
+function updateSidebarActiveStyle(lessonIdx) {
   const buttons = document.querySelectorAll(
     "#sidebar-lessons .list-group-item",
   );
 
   buttons.forEach((btn) => {
     const btnId = parseInt(btn.getAttribute("data-id"));
-    if (btnId === lessonId) {
+    if (btnId === lessonIdx) {
       btn.classList.add("active");
     } else {
       btn.classList.remove("active");
@@ -278,9 +269,6 @@ function updateSidebarActiveStyle(lessonId) {
   });
 }
 
-/**
- * ၈။ Helper Function: ကုဒ်ထဲတွင် ပါဝင်သော HTML တဂ်များကို စာသားအဖြစ် ဘေးကင်းစွာ ပြသနိုင်ရန် ပြောင်းလဲပေးခြင်း
- */
 function escapeHTML(html) {
   return html
     .replace(/&/g, "&amp;")

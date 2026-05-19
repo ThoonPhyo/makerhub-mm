@@ -667,14 +667,632 @@ void loop() {
   },
 ];
 
-// 🔄 Progress ကို ထိန်းချုပ်မည့် Helper Functions (Local Storage စနစ်)
+// esp32 data
+const esp32JourneyData = [
+  {
+    id: 1,
+    title: "ESP32 Architecture & Pinout",
+    time: "45 mins",
+    icon: "fa-solid fa-microchip",
+    description:
+      "Learn about Dual-Core processor, Wi-Fi, Bluetooth, and GPIO capabilities of ESP32.",
+    lessons: [
+      {
+        id: 1,
+        title: "Introduction to ESP32 SoC",
+        xp: 100,
+        text: `### 🚀 Introduction to ESP32 SoC\n\n**ESP32** သည် Espressif Systems မှ ထုတ်လုပ်ထားသော ကမ္ဘာ့လူကြိုက်အများဆုံးနှင့် စွမ်းဆောင်ရည်အကောင်းဆုံး **IoT Microcontroller** တစ်ခု ဖြစ်သည်။ Arduino Uno ထက် အဆပေါင်းများစွာ ပိုမိုမြန်ဆန်ပြီး ဈေးနှုန်းချိုသာစွာဖြင့် ကွန်ရက်ချက်ဆက်မှုများကို လုပ်ဆောင်နိုင်သည်။\n\n#### 📊 Hardware Specifications:\n* **Processor:** Xtensa Dual-Core 32-bit LX6 Microprocessor\n* **Wireless:** Built-in Wi-Fi (802.11 b/g/n) နှင့် Bluetooth (v4.2 BR/EDR နှင့် BLE)\n* **Memory:** 520 KB SRAM ပါဝင်သောကြောင့် ကုဒ်အရှည်ကြီးများနှင့် Web Server များကို သက်တောင့်သက်သာ မောင်းနှင်နိုင်သည်။\n\n> 💡 **မှတ်ချက်:** ESP32 သည် Core (၂) ခု ပါဝင်သောကြောင့် Background တွင် Wi-Fi ကွန်ရက်အလုပ်လုပ်နေစဉ် အခြား Core တစ်ခုဖြင့် မော်တာထိန်းချုပ်ခြင်းလုပ်ငန်းများကို တစ်ပြိုင်နက် (Parallel Processing) လုပ်ဆောင်နိုင်စွမ်း ရှိပါသည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Understanding ESP32 Pinout & Power",
+        xp: 150,
+        text: `### 🔌 Understanding ESP32 Pinout & Power\n\nESP32 Board တစ်ခုကို စနစ်တကျ အသုံးပြုနိုင်ရန် ၎င်း၏ Pinout များနှင့် ပါဝါကျွေးရမည့် စနစ်ကို သေချာနားလည်ထားရန် လိုအပ်သည်။\n\n#### ⚡ Power Input Options:\n1. **Micro-USB/Type-C Port:** ကွန်ပျူတာနှင့် ချိတ်ဆက်၍ 5V ပေးသွင်းခြင်း (အန္တရာယ်အကင်းဆုံး)\n2. **VIN / 5V Pin:** ပြင်ပ 5V regulated ပါဝါအရင်းအမြစ်မှ ပေးသွင်းခြင်း\n\n#### 📌 Important GPIO Guidelines:\n* **Operating Voltage:** ESP32 ၏ GPIO Pins များသည် **3.3V Logic Level** ဖြင့်သာ အလုပ်လုပ်သည်။ Arduino ကဲ့သို့ 5V အာရုံခံကိရိယာများကို တိုက်ရိုက်ချိတ်ဆက်ပါက Pin များ ပျက်စီးလိမ့်မည်။\n* **Input-Only Pins:** GPIO 34, 35, 36, 39 တို့သည် Input အဖြစ်သာ သုံးနိုင်ပြီး Output ထုတ်၍ မရပါ။\n* **Built-in LED:** အပြာရောင် internal LED သည် အများအားဖြင့် **GPIO 2** တွင် ချိတ်ဆက်ထားလေ့ရှိသည်။`,
+        code: "",
+      },
+      {
+        id: 3,
+        title: "Setting up Arduino IDE for ESP32",
+        xp: 200,
+        text: `### 💻 Setting up Arduino IDE for ESP32\n\nESP32 အား Arduino IDE ဖြင့် ပရိုဂရမ်ရေးသားနိုင်ရန်အတွက် ပထမဦးစွာ Board Manager တွင် လမ်းကြောင်းထည့်သွင်းပေးရမည်။\n\n#### 🛠️ အဆင့်ဆင့် လုပ်ဆောင်ရန် လမ်းညွှန်:\n1. Arduino IDE ကို ဖွင့်ပါ။\n2. **File > Preferences** သို့ သွားပါ။\n3. **Additional Boards Manager URLs** တွင် အောက်ပါ Link အား ထည့်သွင်းပေးပါ -\n   \`https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json\`\n4. **Tools > Board > Boards Manager...** သို့ သွားပြီး **"esp32"** ဟု ရိုက်ရှာ၍ Install လုပ်ပါ။\n\n#### 🧪 ပထမဆုံး Blink ပရိုဂရမ် စမ်းသပ်ခြင်း:`,
+        code: `// ESP32 Built-in LED Blink Test\n#define LED_PIN 2\n\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_PIN, HIGH);\n  delay(1000);\n  digitalWrite(LED_PIN, LOW);\n  delay(1000);\n}`,
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Wi-Fi & Local Web Server",
+    time: "60 mins",
+    icon: "fa-solid fa-wifi",
+    description:
+      "Connect ESP32 to Wi-Fi and build a standalone web server to control appliances.",
+    lessons: [
+      {
+        id: 1,
+        title: "Connecting to Wi-Fi Network",
+        xp: 250,
+        text: `### 🌐 Connecting to Wi-Fi Network\n\nIoT စနစ်များ၏ အဓိက အသက်သွန်းမှုမှာ အင်တာနက် သို့မဟုတ် ပြင်ပ Router များနှင့် ချိတ်ဆက်ခြင်းဖြစ်သည်။ ESP32 တွင် ပါဝင်ပြီးသား \`<WiFi.h>\` library ကို သုံးပြီး အလွယ်တကူ ကွန်ရက်ချိတ်ဆက်နိုင်သည်။\n\n#### 📡 Wi-Fi Station (STA) Mode:\nဤ Mode သည် ESP32 ကို သင့်အိမ်ရှိ Wi-Fi Router သို့ ဖုန်း သို့မဟုတ် ကွန်ပျူတာများကဲ့သို့ သွားရောက်ချိတ်ဆက်စေသည့် စနစ်ဖြစ်သည်။ ချိတ်ဆက်မှု အောင်မြင်သွားပါက Router မှ ESP32 ထံသို့ သီးသန့် **IP Address** တစ်ခု ချပေးမည် ဖြစ်သည်။`,
+        code: `#include <WiFi.h>\n\nconst char* ssid = "Your_Wi-Fi_Name";\nconst char* password = "Your_Password";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin(ssid, password);\n\n  while (WiFi.status() != WL_CONNECTED) {\n    delay(500);\n    Serial.print(".");\n  }\n  Serial.println("\\nWi-Fi Connected!");\n  Serial.print("IP Address: ");\n  Serial.println(WiFi.localIP());\n}\n\nvoid loop() {}`,
+      },
+      {
+        id: 2,
+        title: "Creating an HTML Web Server",
+        xp: 300,
+        text: `### 🏠 Creating an HTML Web Server\n\nWi-Fi ချိတ်ဆက်ပြီးနောက် အဆင့်မြင့်ဆုံးအပိုင်းမှာ ဖုန်း သို့မဟုတ် ကွန်ပျူတာ ဘရောင်ဇာ (Browser) များမှ ဝင်ရောက်ကြည့်ရှုနိုင်မည့် **HTML Web Server** တစ်ခု တည်ဆောက်ခြင်း ဖြစ်သည်။\n\n#### 🏗️ မည်သို့ အလုပ်လုပ်သနည်း?\n* ESP32 ကို Port 80 (Standard Web Port) အဖြစ် သတ်မှတ်၍ Server မောင်းထားမည်။\n* ဖုန်း သို့မဟုတ် ကွန်ပျူတာမှ ESP32 ၏ IP Address ကို ရိုက်ထည့်လိုက်လျှင် ESP32 က မိမိရေးသားထားသော HTML Code များကို ရလဒ်အဖြစ် ဘရောင်ဇာထံ ပြန်လည်ပေးပို့ (Respond) မည်ဖြစ်သည်။`,
+        code: `#include <WiFi.h>\n\nconst char* ssid = "Your_SSID";\nconst char* password = "Your_PASSWORD";\nWiFiServer server(80);\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin(ssid, password);\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n  server.begin();\n}\n\nvoid loop() {\n  WiFiClient client = server.available();\n  if (client) {\n    String currentLine = "";\n    while (client.connected()) {\n      if (client.available()) {\n        char c = client.read();\n        if (c == '\\n') {\n          if (currentLine.length() == 0) {\n            client.println("HTTP/1.1 200 OK");\n            client.println("Content-type:text/html");\n            client.println();\n            client.println("<html><body><h1>Welcome to MakerHub ESP32 Server!</h1></body></html>");\n            break;\n          } else { currentLine = ""; }\n        } else if (c != '\\r') { currentLine += c; }\n      }\n    }\n    client.stop();\n  }\n}`,
+      },
+      {
+        id: 3,
+        title: "Controlling GPIO via Web Interface",
+        xp: 400,
+        text: `### 🎛️ Controlling GPIO via Web Interface\n\nဝဘ်စာမျက်နှာပေါ်က ခလုတ်ကို နှိပ်လိုက်ရုံဖြင့် ESP32 ပေါ်က မီးလုံး (သို့မဟုတ် ရီလေးလ်များကို) အဝေးမှ **ON/OFF** လုပ်နိုင်မည့် ပရောဂျက်ဖြစ်သည်။\n\n#### 📟 အသုံးပြုပုံ လမ်းညွှန်:\nကုဒ်ကို Upload လုပ်ပြီးလျှင် Serial Monitor တွင် ပေါ်လာသော IP Address ကို ဖုန်း Browser တွင် ရိုက်ထည့်ပါ။ စာမျက်နှာပေါ်တွင် **TURN ON** နှင့် **TURN OFF** ဆိုသော ခလုတ်ကလေးများကို နှိပ်၍ စမ်းသပ်နိုင်ပါပြီဗျာ!`,
+        code: `#include <WiFi.h>\n\nconst char* ssid = "Your_SSID";\nconst char* password = "Your_PASSWORD";\nWiFiServer server(80);\nconst int ledPin = 2;\n\nvoid setup() {\n  Serial.begin(115200);\n  pinMode(ledPin, OUTPUT);\n  WiFi.begin(ssid, password);\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n  server.begin();\n}\n\nvoid loop() {\n  WiFiClient client = server.available();\n  if (client) {\n    String currentLine = "";\n    while (client.connected()) {\n      if (client.available()) {\n        char c = client.read();\n        if (c == '\\n') {\n          if (currentLine.length() == 0) {\n            client.println("HTTP/1.1 200 OK");\n            client.println("Content-type:text/html");\n            client.println();\n            client.println("<html><body><h1>ESP32 Web Control</h1>");\n            client.println("<a href=\\"/H\\"><button>TURN ON</button></a>");\n            client.println("<a href=\\"/L\\"><button>TURN OFF</button></a>");\n            client.println("</body></html>");\n            break;\n          } else { currentLine = ""; }\n        } else if (c != '\\r') { currentLine += c; }\n        \n        if (currentLine.endsWith("GET /H")) { digitalWrite(ledPin, HIGH); }\n        if (currentLine.endsWith("GET /L")) { digitalWrite(ledPin, LOW); }\n      }\n    }\n    client.stop();\n  }\n}`,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Deep Sleep & Power Saving",
+    time: "40 mins",
+    icon: "fa-solid fa-moon",
+    description:
+      "Optimize ESP32 power consumption for battery-powered and off-grid IoT projects.",
+    lessons: [
+      {
+        id: 1,
+        title: "Introduction to ESP32 Sleep Modes",
+        xp: 200,
+        text: `### 💤 Introduction to ESP32 Sleep Modes\n\nဘက်ထရီ သို့မဟုတ် နေရောင်ခြည်စွမ်းအင် (Solar) ဖြင့် မောင်းနှင်မည့် IoT ပရောဂျက်များတွင် ပါဝါစားသက်သာရန် အလွန်အရေးကြီးသည်။ ESP32 တွင် **Modem Sleep, Light Sleep** နှင့် **Deep Sleep** ဟူ၍ ပါဝါချွေတာနိုင်သော စနစ်များ ပါရှိသည်။\n\n#### 🔋 Deep Sleep အလုပ်လုပ်ပုံ:\nDeep Sleep စနစ်ထဲ ဝင်သွားသောအခါ ESP32 ၏ CPU, Wi-Fi, Bluetooth နှင့် Peripherals အားလုံးကို ပိတ်ချလိုက်ပြီး **RTC (Real-Time Clock)** Memory တစ်ခုတည်းကိုသာ အသက်ရှင်ပေးထားသည်။ ဤအချိန်တွင် ပါဝါစားသုံးမှုသည် **10µA (Micro-Amps)** ခန့်သာ ရှိတော့သဖြင့် ဘက်ထရီ သက်တမ်းကို လနှင့်ချီ၍ ကြာရှည်ခံစေနိုင်ပါသည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Timer Wakeup Implementation",
+        xp: 300,
+        text: `### ⏱️ Timer Wakeup Implementation\n\nသတ်မှတ်ထားသော အချိန်ကာလတစ်ခု ရောက်တိုင်း (ဥပမာ - နာရီဝက်တစ်ခါ) ESP32 ကို အလိုအလျောက် ပြန်နိုးလာစေပြီး Sensor Data များ ပေးပို့ခိုင်းမည့် စနစ်ဖြစ်သည်။\n\n#### ⚙️ Formula Config:\n\`esp_sleep_enable_timer_wakeup(time_in_us)\` function အား အသုံးပြုပြီး အချိန်ကို **Microseconds** ဖြင့် သတ်မှတ်ပေးရမည် ဖြစ်သည်။ (1 Second = 1,000,000 Microseconds)`,
+        code: `#define BUTTON_PIN_BITMASK 0x200000000\n#define uS_TO_S_FACTOR 1000000  // Conversion factor for micro seconds to seconds\n#define TIME_TO_SLEEP  5        // Time ESP32 will go to sleep (in seconds)\n\nvoid setup(){\n  Serial.begin(115200);\n  delay(1000); \n\n  Serial.println("ESP32 နိုးလာပါပြီ။ အလုပ်လုပ်နေသည်။");\n  \n  // ၅ စက္ကန့်အကြာတွင် ပြန်နိုးရန် Setup လုပ်ခြင်း\n  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);\n  Serial.println("Setup ESP32 to sleep for " + String(TIME_TO_SLEEP) + " Seconds");\n\n  Serial.println("Going to sleep now...");\n  Serial.flush(); \n  esp_deep_sleep_start(); // Deep Sleep စတင်ဝင်ရောက်ခြင်း\n}\n\nvoid loop() {}`,
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "ESP-NOW Wireless Protocol",
+    time: "50 mins",
+    icon: "fa-solid fa-network-wired",
+    description:
+      "Low-power, direct wireless communication between multiple ESP32 boards without Wi-Fi router.",
+    lessons: [
+      {
+        id: 1,
+        title: "Understanding ESP-NOW Protocol",
+        xp: 250,
+        text: `### 📡 Understanding ESP-NOW\n\n**ESP-NOW** သည် Espressif မှ ထုတ်လုပ်ထားသော Smart Connection Protocol တစ်ခု ဖြစ်ပြီး Wi-Fi Router မလိုဘဲ ESP32 Board တစ်ခုနှင့်တစ်ခု (သို့မဟုတ် ESP8266 နှင့်) **တိုက်ရိုက်အချက်ပြစနစ် (Peer-to-Peer)** ဖြင့် ချိတ်ဆက်ပေးပို့နိုင်သော စနစ်ဖြစ်သည်။\n\n#### 🌟 အားသာချက်များ:\n* Wi-Fi Router ချိတ်ဆက်စရာမလိုသဖြင့် ချိတ်ဆက်မှုမြန်ဆန်ခြင်း (Instant connection)\n* ပါဝါစားသုံးမှု အလွန်နည်းခြင်း\n* အကွာအဝေး မီတာ ၂၀၀ ကျော်အထိ အလုပ်လုပ်နိုင်ခြင်း\n\n#### 📌 Mac Address Requirement:\nဘုတ်တစ်ခုဆီသို့ တိုက်ရိုက်လှမ်းပို့ရမှာဖြစ်လို့ လက်ခံမည့် ဘုတ်အဖွဲ့ရဲ့ **MAC Address** (ထူးခြားဆန်းသစ်သော ကိုယ်ပိုင်နံပါတ်) ကို အရင်ဆုံး ရှာဖွေသိရှိထားရပါမည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "ESP-NOW Sender & Receiver Code",
+        xp: 350,
+        text: `### 💻 ESP-NOW Sender Implementation\n\nအောက်ပါကုဒ်သည် အချက်အလက်များကို လက်ခံမည့် Receiver Board ဆီသို့ ဖွဲ့စည်းပုံစနစ် (Structure) အလိုက် အဝေးမှ လှမ်းဖမ်းပို့ပေးမည့် Master Sender ကုဒ်ဖြစ်သည်ခင်ဗျာ။`,
+        code: `#include <esp_now.h>\n#include <WiFi.h>\n\n// လက်ခံမည့် ဘုတ်၏ MAC Address ထည့်ရန်\nuint8_t broadcastAddress[] = {0x24, 0x0A, 0xC4, 0x81, 0x3A, 0xBC};\n\ntypedef struct struct_message {\n  char a[32];\n  int b;\n} struct_message;\n\nstruct_message myData;\nesp_now_peer_info_t peerInfo;\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_STA);\n\n  if (esp_now_init() != ESP_OK) {\n    Serial.println("Error initializing ESP-NOW");\n    return;\n  }\n\n  memcpy(peerInfo.peer_addr, broadcastAddress, 6);\n  peerInfo.channel = 0;  \n  peerInfo.encrypt = false;\n  \n  if (esp_now_add_peer(&peerInfo) != ESP_OK){\n    Serial.println("Failed to add peer");\n    return;\n  }\n}\n \nvoid loop() {\n  strcpy(myData.a, "Hello Receiver!");\n  myData.b = 100;\n  \n  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));\n  delay(2000);\n}`,
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Capacitive Touch Pins",
+    time: "30 mins",
+    icon: "fa-solid fa-hand-pointer",
+    description:
+      "Use ESP32 built-in touch sensors to create touch-activated switches without external buttons.",
+    lessons: [
+      {
+        id: 1,
+        title: "Working with Touch Pins",
+        xp: 150,
+        text: `### 👆 Working with Capacitive Touch Pins\n\nESP32 တွင် ပုံမှန်ခလုတ်များ နှိပ်စရာမလိုဘဲ လူ၏အရေပြားနှင့် ထိတွေ့ရုံဖြင့် သိရှိနိုင်သော **Capacitive Touch Sensors (၁၀) ခု** Built-in ပါဝင်ပြီးသား ဖြစ်သည်။\n\n#### 📌 Touch Pins Mapping:\nGPIO pins 4, 2, 15, 13, 12, 14, 27, 33, 32 တို့သည် Touch Pins များဖြစ်ကြပြီး ကုဒ်ရေးသည့်အခါ \`touchRead(T0)\` သို့မဟုတ် \`touchRead(4)\` စသည်ဖြင့် တိုက်ရိုက်ဖတ်ယူ အသုံးပြုနိုင်ပါသည်ဗျာ။`,
+        code: `// Simple Touch Test\nvoid setup() {\n  Serial.begin(115200);\n  delay(1000);\n  Serial.println("ESP32 Touch Test Initialized");\n}\n\nvoid loop() {\n  // GPIO 4 (T0) ကို ဖတ်ပြီး တန်ဖိုးအား Serial Monitor တွင် ပြခြင်း\n  Serial.print("Touch Value: ");\n  Serial.println(touchRead(T0)); \n  delay(500);\n}`,
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Analog to Digital (ADC & DAC)",
+    time: "45 mins",
+    icon: "fa-solid fa-sliders",
+    description:
+      "Read analog sensors like potentiometers, LDRs, and output true analog voltage using DAC.",
+    lessons: [
+      {
+        id: 1,
+        title: "ESP32 12-bit ADC Resolution",
+        xp: 200,
+        text: `### 📊 ESP32 12-bit ADC Resolution\n\nArduino Uno တွင် Analog အာရုံခံကိရိယာများ ဖတ်လျှင် 10-bit Resolution (0 မှ 1023) သာ ရှိသော်လည်း ESP32 တွင် **12-bit ADC Resolution** ပါဝင်သောကြောင့် **0 မှ 4095** အထိ အလွန်တိကျသော တန်ဖိုးများကို ဖတ်ယူနိုင်သည်။\n\n#### ⚠️ သတိပြုရန် ရေးထုံး:\nအာရုံခံကိရိယာမှ ဝင်လာမည့် ဗို့အားသည် **3.3V** ထက် မကျော်စေရန် သတိပြုရပါမည်။ ကျော်လွန်ပါက Analog Pin ပျက်စီးသွားပါလိမ့်မည်။`,
+        code: `const int potPin = 34; // Analog input pin\nint potValue = 0;\n\nvoid setup() {\n  Serial.begin(115200);\n  pinMode(potPin, INPUT);\n}\n\nvoid loop() {\n  potValue = analogRead(potPin); // Read 0 to 4095\n  Serial.print("Analog Pure Value: ");\n  Serial.println(potValue);\n  \n  float voltage = (potValue * 3.3) / 4095.0; // ဗို့အားအဖြစ် ပြောင်းလဲတွက်ချက်ခြင်း\n  Serial.print("Voltage: ");\n  Serial.println(voltage);\n  delay(500);\n}`,
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: "Blynk IoT Cloud Integration",
+    time: "60 mins",
+    icon: "fa-solid fa-cloud",
+    description:
+      "Connect ESP32 to Blynk Cloud to control home appliances and monitor sensor data from anywhere in the world.",
+    lessons: [
+      {
+        id: 1,
+        title: "Blynk Cloud Setup & Config",
+        xp: 300,
+        text: `### ☁️ Blynk IoT Cloud Integration\n\nဒေသတွင်း Web Server ထက် ပိုမိုကောင်းမွန်ပြီး ကမ္ဘာ့ဘယ်နေရာကမဆို ဖုန်း App ဖြင့် လှမ်းကြည့်ထိန်းချုပ်နိုင်ရန် **Blynk IoT Cloud** နှင့် ချိတ်ဆက်အသုံးပြုရမည်။\n\n#### 🛠️ Setup Steps:\n1. [blynk.cloud](https://blynk.cloud) တွင် အကောင့်ဖွင့်၍ **Template** နှင့် **Device** အသစ်တစ်ခု ဆောက်ပါ။\n2. ၎င်းမှ ပေးလာသော \`BLYNK_TEMPLATE_ID\`, \`BLYNK_TEMPLATE_NAME\` နှင့် \`BLYNK_AUTH_TOKEN\` များကို ရယူပါ။\n3. ဖုန်းထဲတွင် Blynk App ကို သွင်းပြီး ON/OFF ခလုတ် Widget တစ်ခု ဖန်တီးပါ (Virtual Pin V1 ဟု ထားပါ)။`,
+        code: `#define BLYNK_TEMPLATE_ID   "Your_Template_ID"\n#define BLYNK_TEMPLATE_NAME "Your_Template_Name"\n#define BLYNK_AUTH_TOKEN    "Your_Auth_Token"\n\n#include <WiFi.h>\n#include <WiFiClient.h>\n#include <BlynkSimpleEsp32.h>\n\nchar auth[] = BLYNK_AUTH_TOKEN;\nchar ssid[] = "Your_WiFi_SSID";\nchar pass[] = "Your_WiFi_Password";\n\n// Blynk App က ခလုတ်နှိပ်လိုက်လျှင် အလုပ်လုပ်မည့်အပိုင်း\nBLYNK_WRITE(V1) {\n  int value = param.asInt(); // Get button state\n  digitalWrite(2, value);    // Control internal LED\n}\n\nvoid setup() {\n  pinMode(2, OUTPUT);\n  Blynk.begin(auth, ssid, pass);\n}\n\nvoid loop() {\n  Blynk.run(); // Keep Blynk running\n}`,
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Bluetooth (Classic & BLE)",
+    time: "45 mins",
+    icon: "fa-brands fa-bluetooth",
+    description:
+      "Control ESP32 over Bluetooth using Serial Terminal and explore Bluetooth Low Energy (BLE) beacons.",
+    lessons: [
+      {
+        id: 1,
+        title: "Bluetooth Serial Terminal",
+        xp: 200,
+        text: `### 📱 Bluetooth Serial Terminal Control\n\nESP32 တွင် အင်တာနက်မရှိသော နေရာများ၌ ဖုန်းနှင့် ဘုတ်အား **Bluetooth Serial** စနစ်ဖြင့် ချိတ်ဆက်ကာ အမိန့်ပေးစေခိုင်းနိုင်သည်။\n\n#### 📟 စမ်းသပ်ပုံ လမ်းညွှန်:\n1. ဖုန်းထဲတွင် "Bluetooth Serial Terminal" App အား Play Store မှ ဒေါင်းလုဒ်ဆွဲပါ။\n2. ဖုန်း Bluetooth ကိုဖွင့်၍ **"ESP32_MakerHub"** နှင့် ချိတ်ဆက် (Pair) ပါ။\n3. App ထဲမှနေ၍ '1' ဟု ပို့လျှင် မီးလင်းပြီး '0' ပို့လျှင် မီးပိတ်သွားမည် ဖြစ်သည်။`,
+        code: `#include "BluetoothSerial.h"\n\nBluetoothSerial ESP_BT; \nint ledPin = 2;\n\nvoid setup() {\n  Serial.begin(115200);\n  ESP_BT.begin("ESP32_MakerHub"); // Bluetooth Device Name\n  pinMode(ledPin, OUTPUT);\n  Serial.println("Bluetooth အသင့်ဖြစ်ပါပြီ။ ဖုန်းနှင့် ချိတ်ဆက်နိုင်ပါပြီ။");\n}\n\nvoid loop() {\n  if (ESP_BT.available()) {\n    char incomingChar = ESP_BT.read();\n    if (incomingChar == '1') {\n      digitalWrite(ledPin, HIGH);\n      ESP_BT.println("LED Turned ON");\n    }\n    if (incomingChar == '0') {\n      digitalWrite(ledPin, LOW);\n      ESP_BT.println("LED Turned OFF");\n    }\n  }\n}`,
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "PWM & DC Motor Speed Control",
+    time: "40 mins",
+    icon: "fa-solid fa-gear",
+    description:
+      "Generate PWM signals using ESP32 ledc peripheral to control DC Motor speed and LED brightness.",
+    lessons: [
+      {
+        id: 1,
+        title: "ESP32 LEDC PWM System",
+        xp: 200,
+        text: `### ⚙️ ESP32 LEDC PWM System\n\nESP32 တွင် ပုံမှန် Arduino ကဲ့သို့ \`analogWrite()\` ကို သုံးလေ့မရှိဘဲ ပိုမိုအဆင့်မြင့်ပြီး တိကျသော **LEDC Peripheral** ဟုခေါ်သည့် စနစ်ကို အသုံးပြု၍ **PWM (Pulse Width Modulation)** လှိုင်းများ ထုတ်လွှတ်သည်။\n\n#### 🛠️ အဓိက အဆင့် ၃ ဆင့်:\n1. \`ledcSetup(channel, frequency, resolution)\` ဖြင့် လှိုင်းနှုန်းသတ်မှတ်ခြင်း။\n2. \`ledcAttachPin(pin, channel)\` ဖြင့် မည်သည့် Pin က ထွက်မည်ကို ချိတ်ဆက်ခြင်း။\n3. \`ledcWrite(channel, dutyCycle)\` ဖြင့် မော်တာ အမြန်နှုန်း သို့မဟုတ် မီးအလင်းအမှောင်ကို ထိန်းချုပ်ခြင်း။`,
+        code: `const int ledPin = 2;  // GPIO 2\nconst int freq = 5000; // 5 kHz\nconst int ledChannel = 0;\nconst int resolution = 8; // 8-bit resolution (0-255)\n \nvoid setup(){\n  ledcSetup(ledChannel, freq, resolution);\n  ledcAttachPin(ledPin, ledChannel);\n}\n \nvoid loop(){\n  // Fade In\n  for(int dutyCycle = 0; dutyCycle <= 255; dutyCycle++){\n    ledcWrite(ledChannel, dutyCycle);\n    delay(5);\n  }\n  // Fade Out\n  for(int dutyCycle = 255; dutyCycle >= 0; dutyCycle--){\n    ledcWrite(ledChannel, dutyCycle);\n    delay(5);\n  }\n}`,
+      },
+    ],
+  },
+  {
+    id: 10,
+    title: "OTA (Over-The-Air) Updates",
+    time: "55 mins",
+    icon: "fa-solid fa-upload",
+    description:
+      "Upload new program code to ESP32 wirelessly over Wi-Fi without plugging in the USB cable.",
+    lessons: [
+      {
+        id: 1,
+        title: "Wireless Code Upload (OTA)",
+        xp: 350,
+        text: `### 🚀 Wireless Code Upload (OTA Update)\n\nအကယ်၍ အစ်ကို့ရဲ့ ESP32 ဘုတ်ကြီးက အိမ်ခေါင်မိုးပေါ်က Solar panel နားမှာဖြစ်ဖြစ်၊ ရေတိုင်ကီအမြင့်ကြီးပေါ်မှာ ဖြစ်ဖြစ် တပ်ဆင်ထားပြီး USB ကြိုးသွားထိုးရခက်ခဲတဲ့အချိန်မှာ **OTA (Over-The-Air)** စနစ်က အသက်ကယ်ပေးမည့် နည်းပညာ ဖြစ်သည်။\n\n#### 📡 မည်သို့ လုပ်ဆောင်သနည်း?\n**ArduinoOTA** library ကို ကုဒ်ထဲ ထည့်သွင်းထားခြင်းဖြင့် ESP32 သည် Wi-Fi ပေါ်တွင် Network Port တစ်ခုအဖြစ် ပွင့်နေမည် ဖြစ်ပြီး၊ အစ်ကို့ရဲ့ Arduino IDE ထဲက **Tools > Port** နေရာတွင် ၎င်း၏ IP Address က ကွန်ပျူတာမှာ ကြိုးထိုးစရာမလိုဘဲ ကွန်ရက်ပေါ်တွင် အလိုအလျောက် ပေါ်လာမည် ဖြစ်သည်။ ၎င်းကို ရွေးချယ်၍ ကုဒ်အသစ်များကို လေလှိုင်းပေါ်မှတစ်ဆင့် အဝေးမှ လှမ်းတင် (Upload) နိုင်ပါသည်ဗျာ။`,
+        code: `#include <WiFi.h>\n#include <ESPmDNS.h>\n#include <WiFiUdp.h>\n#include <ArduinoOTA.h>\n\nconst char* ssid = "Your_SSID";\nconst char* password = "Your_PASSWORD";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_STA);\n  WiFi.begin(ssid, password);\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n\n  // OTA စနစ် စတင်မောင်းနှင်ခြင်း\n  ArduinoOTA.begin();\n}\n\nvoid loop() {\n  ArduinoOTA.handle(); // 🚨 Upload အသစ် ဝင်လာမလား အမြဲနားစွင့်နေရမည့် နေရာ\n}`,
+      },
+    ],
+  },
+];
+
+// esp8266 data
+const esp8266JourneyData = [
+  {
+    id: 1,
+    title: "ESP8266 Intro & NodeMCU V3 Pinout",
+    time: "35 mins",
+    icon: "fa-solid fa-microchip",
+    description:
+      "Discover the legendary low-cost Wi-Fi microchip and learn its GPIO mapping secrets.",
+    lessons: [
+      {
+        id: 1,
+        title: "Introduction to ESP8266 & NodeMCU",
+        xp: 100,
+        text: `### 🚀 Introduction to ESP8266 & NodeMCU\n\n**ESP8266** သည် IoT (Internet of Things) နည်းပညာကို တစ်ကမ္ဘာလုံးတွင် အရှိန်အဟုန်ဖြင့် ခေတ်စားလာစေခဲ့သည့် အဓိကတရားခံ Chipset ဖြစ်သည်။ မူလက Arduino ထဲတွင် Wi-Fi သုံးနိုင်ရန် Module အဖြစ်သာ ထုတ်လုပ်ခဲ့သော်လည်း နောက်ပိုင်းတွင် ၎င်းကိုယ်တိုင် သီးသန့် Microcontroller အဖြစ် ပရိုဂရမ်ရေးသားကာ အသုံးပြုလာကြသည်။\n\n#### 📊 Hardware Specifications:\n* **Processor:** Tensilica L106 32-bit Single-Core Processor (80 MHz / 160 MHz)\n* **Wireless:** Built-in Wi-Fi (802.11 b/g/n - 2.4 GHz)\n* **Flash Memory:** 4 MB (NodeMCU V3 Board များတွင် ပုံမှန်ပါဝင်သောကြောင့် ကုဒ်များနှင့် HTML Web Page များကို ကောင်းမွန်စွာ သိမ်းဆည်းနိုင်သည်)\n\n> 💡 **NodeMCU ဆိုတာဘာလဲ?** NodeMCU ဆိုသည်မှာ ESP8266 Chip အား အောက်ခြေတွင် USB Controller, Voltage Regulator များနှင့် တွဲဖက်ကာ Arduino Board ကဲ့သို့ အလွယ်တကူ ကြိုးထိုးစမ်းသပ်နိုင်ရန် ပြုလုပ်ထားသော ဖွံ့ဖြိုးရေးဘုတ် (Development Board) ဖြစ်သည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "The Danger of NodeMCU Pin Mapping",
+        xp: 150,
+        text: `### 🚨 The Danger of NodeMCU Pin Mapping\n\nESP8266 NodeMCU ကို အသုံးပြုရာတွင် အဓိက သတိထားရမည့်အချက်မှာ **Board ပေါ်တွင် ရေးထားသော အမည် (D1, D2)** နှင့် **ကုဒ်ထဲတွင် ရေးရမည့် GPIO နံပါတ် (5, 4)** များသည် တူညီမှုမရှိခြင်း (Mismatch ဖြစ်ခြင်း) ပင် ဖြစ်သည်။\n\n#### 📌 Important Pin Mapping Guide:\n* **D0** = GPIO 16 (Wake up pin for deep sleep)\n* **D1** = GPIO 5 (I2C SCL)\n* **D2** = GPIO 4 (I2C SDA)\n* **D3** = GPIO 0 (Flash pin - 🚨 Power တက်ချိန်တွင် Low ဖြစ်နေပါက Code တင်မရဘဲ Flash Mode ဝင်သွားတတ်သည်)\n* **D4** = GPIO 2 (Built-in LED)\n\n#### ⚡ Power Warning:\nESP8266 သည် **3.3V Logic Level** ဖြင့်သာ အလုပ်လုပ်သည်။ ၎င်း၏ မည်သည့် Pin ကိုမဆို 5V နှင့် တိုက်ရိုက်ထိတွေ့မိပါက Chip တစ်ခုလုံး လောင်ကျွမ်းသွားမည် ဖြစ်သည်။`,
+        code: "",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Setting up Arduino IDE & Blink Test",
+    time: "30 mins",
+    icon: "fa-solid fa-laptop-code",
+    description:
+      "Install ESP8266 board definitions and upload your first wireless hardware test program.",
+    lessons: [
+      {
+        id: 1,
+        title: "Installing ESP8266 Core Libraries",
+        xp: 150,
+        text: `### 💻 Installing ESP8266 Core Libraries\n\nArduino IDE တွင် ESP8266 ဘုတ်များကို အသိအမှတ်ပြုစေရန် အောက်ပါအတိုင်း အဆင့်ဆင့် လုပ်ဆောင်ပေးရပါမည်။\n\n#### 🛠️ Setup Steps:\n1. Arduino IDE ကို ဖွင့်ပါ။\n2. **File > Preferences** သို့ ဝင်ပါ။\n3. **Additional Boards Manager URLs** ကွက်လပ်တွင် အောက်ပါ Link အား ထည့်ပါ -\n   \`http://arduino.esp8266.com/stable/package_esp8266com_index.json\`\n4. **Tools > Board > Boards Manager...** သို့သွားပြီး **"esp8266"** ဟု ရိုက်ရှာကာ Install နှိပ်ပါ။\n5. သွင်းပြီးလျှင် **Tools > Board** တွင် **"NodeMCU 1.0 (ESP-12E Module)"** အား ရွေးချယ်ပေးရမည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Writing the ESP8266 Blink Code",
+        xp: 200,
+        text: `### 🧪 First Blink Test\n\nNodeMCU ၏ Built-in LED သည် **GPIO 2 (D4)** တွင် ချိတ်ဆက်ထားလေ့ရှိသည်။ သို့သော် သတိပြုရန်မှာ ESP8266 ၏ မူရင်း LED ဖွဲ့စည်းပုံသည် **Active-LOW** ဖြစ်သည်။ ဆိုလိုသည်မှာ ကုဒ်ထဲတွင် \`LOW\` ပေးပါက မီးလင်းမည်ဖြစ်ပြီး \`HIGH\` ပေးပါက မီးပိတ်မည်ဖြစ်သည်။`,
+        code: `// ESP8266 Built-in LED Blink (Active-Low Switch)\n#define LED_PIN 2 // သို့မဟုတ် D4 ဟု တိုက်ရိုက်ရေးနိုင်သည်\n\nvoid setup() {\n  pinMode(LED_PIN, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(LED_PIN, LOW);  // LED မီးလင်းမည် (Active-LOW)\n  delay(500);\n  digitalWrite(LED_PIN, HIGH); // LED မီးပိတ်မည်\n  delay(500);\n}`,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Wi-Fi Connectivity (STA vs AP Mode)",
+    time: "45 mins",
+    icon: "fa-solid fa-wifi",
+    description:
+      "Master Station Mode to connect to home routers and Access Point Mode to broadcast its own Wi-Fi network.",
+    lessons: [
+      {
+        id: 1,
+        title: "Station (STA) Mode Implementation",
+        xp: 200,
+        text: `### 📡 ESP8266 Station (STA) Mode\n\nESP8266 အား အိမ်ရှိ Wi-Fi Router သို့ စနစ်တကျ သွားရောက်ချက်ဆက်ခိုင်းပြီး ကွန်ရက်ပေါ်မှ IP Address တောင်းခံယူမည့် စနစ်ဖြစ်သည်။ ဤစနစ်အတွက် \`<ESP8266WiFi.h>\` library အား အသုံးပြုရမည်။`,
+        code: `#include <ESP8266WiFi.h>\n\nconst char* ssid = "Your_WiFi_Name";\nconst char* password = "Your_Password";\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_STA); // Station Mode အဖြစ် သတ်မှတ်ခြင်း\n  WiFi.begin(ssid, password);\n\n  while (WiFi.status() != WL_CONNECTED) {\n    delay(500);\n    Serial.print(".");\n  }\n  \n  Serial.println("\\nWiFi Connected!");\n  Serial.print("IP Address: ");\n  Serial.println(WiFi.localIP());\n}\n\nvoid loop() {}`,
+      },
+      {
+        id: 2,
+        title: "Access Point (AP) Mode Creation",
+        xp: 250,
+        text: `### 🗼 Access Point (AP) Mode Creation\n\nအကယ်၍ အနီးအနားတွင် မည်သည့် Wi-Fi Router မှ မရှိပါက ESP8266 ကိုယ်တိုင် Wi-Fi အချက်ပြလှိုင်း ထုတ်လွှင့်စေပြီး (Hotspot ကဲ့သို့) ဖုန်းများဖြင့် ၎င်းထံသို့ လာရောက်ချိတ်ဆက်စေမည့် စနစ်ဖြစ်သည်။ Default IP သည် များသောအားဖြင့် **192.168.4.1** ဖြစ်သည်။`,
+        code: `#include <ESP8266WiFi.h>\n\nconst char* ap_ssid = "NodeMCU_Hotspot";\nconst char* ap_password = "password123"; // အနည်းဆုံး ၈ လုံး ရှိရမည်\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_AP); // Access Point Mode ပြောင်းခြင်း\n  WiFi.softAP(ap_ssid, ap_password);\n\n  Serial.println("Wi-Fi Hotspot Started!");\n  Serial.print("IP Address for clients: ");\n  Serial.println(WiFi.softAPIP());\n}\n\nvoid loop() {}`,
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Asynchronous Web Server",
+    time: "60 mins",
+    icon: "fa-solid fa-server",
+    description:
+      "Build an ultra-fast, non-blocking Web Server using ESP8266AsyncWebServer library.",
+    lessons: [
+      {
+        id: 1,
+        title: "Setting Up Async Web Server Libraries",
+        xp: 250,
+        text: `### 🏗️ Async Web Server ဆိုတာဘာလဲ?\n\nပုံမှန် standard Web Server ကုဒ်များသည် Client တစ်ဦး ဝင်ကြည့်နေစဉ်အတွင်း Loop ပတ်မှုကြီးတစ်ခုလုံးကို ခေတ္တရပ် (Block) ထားလေ့ရှိသည်။ **Asynchronous Web Server** စနစ်ကမူ နောက်ကွယ်တွင် Client ပေါင်းများစွာ၏ Request များကို စက္ကန့်ပိုင်းအတွင်း တပြိုင်နက်တည်း Non-blocking စနစ်ဖြင့် မြန်ဆန်စွာ ကိုင်တွယ်ပေးနိုင်သည်။\n\n#### 📦 လိုအပ်သော ပြင်ပ Libraries များ:\nဤသင်ခန်းစာကို စမ်းသပ်ရန် GitHub မှ အောက်ပါ zip libraries နှစ်ခုကို ဒေါင်းလုဒ်လုပ်ပြီး Sketch > Include Library > Add .ZIP Library လုပ်ပေးထားရပါမည်။\n1. \`ESPAsyncWebServer\`\n2. \`ESPAsyncTCP\``,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Async Web Server Code Structure",
+        xp: 350,
+        text: `### 💻 Complete Async Code\n\nအောက်ပါကုဒ်သည် IP Address သို့ ဝင်လာလျှင် လှပသော HTML စာမျက်နှာကို ပြသပေးပြီး \`/led/on\` သို့မဟုတ် \`/led/off\` လမ်းကြောင်းများသို့ အလိုအလျောက် ခွဲထုတ်မောင်းနှင်ပေးမည့် အဆင့်မြင့် ကုဒ်ပုံစံဖြစ်သည်ဗျာ။`,
+        code: `#include <ESP8266WiFi.h>\n#include <ESPAsyncTCP.h>\n#include <ESPAsyncWebServer.h>\n\nAsyncWebServer server(80);\nconst int ledPin = 2; // GPIO 2 (D4)\n\nvoid setup() {\n  Serial.begin(115200);\n  pinMode(ledPin, OUTPUT);\n  digitalWrite(ledPin, HIGH); // Default TURN OFF\n\n  WiFi.begin("Your_SSID", "Your_PASS");\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n\n  // Root Page Handler\n  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){\n    request->send(200, "text/html", "<h1>NodeMCU Async Control Panel</h1><a href='/on'>ON</a> | <a href='/off'>OFF</a>");\n  });\n\n  // ON Command Handler\n  server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){\n    digitalWrite(ledPin, LOW); // Active-Low လင်းစေရန်\n    request->send(200, "text/plain", "LED IS NOW ON");\n  });\n\n  // OFF Command Handler\n  server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){\n    digitalWrite(ledPin, HIGH);\n    request->send(200, "text/plain", "LED IS NOW OFF");\n  });\n\n  server.begin();\n}\n\nvoid loop() {}`,
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Analog Readings (Single TOUT Pin)",
+    time: "30 mins",
+    icon: "fa-solid fa-gauge-high",
+    description:
+      "Understand the limitation of ESP8266's single analog input pin and read LDR sensor data.",
+    lessons: [
+      {
+        id: 1,
+        title: "The 10-bit ADC A0 Limitation",
+        xp: 200,
+        text: `### 📊 The 10-bit ADC A0 Limitation\n\nESP32 တွင် Analog Pins အမြောက်အမြား ပါဝင်သော်လည်း ESP8266 တွင် **A0 (TOUT)** ဟုခေါ်သော **Analog Input Pin တစ်ခုတည်းသာ** ပါဝင်သည်။ ၎င်းသည် **10-bit Resolution** ရှိသဖြင့် ဖတ်ယူရရှိမည့် တန်ဖိုးအပိုင်းအခြားမှာ **0 မှ 1023** အထိသာ ရှိသည်။\n\n#### 🚨 Pin Voltage Warning (⚠️ အရေးကြီးဆုံးအချက်):\nESP8266 Chip အစစ်၏ တိုက်ရိုက် Analog pin သက်သက်သည် ဗို့အား **1.0V** အထိသာ ခံနိုင်ရည်ရှိသည်။ သို့သော် အစ်ကိုတို့ သုံးနေသည့် **NodeMCU Board** ပေါ်တွင် ပါဝင်ပြီးသား internal Resistor Divider Network ကြောင့်သာ ပြင်ပမှ **3.3V** အထိ တိုက်ရိုက် ထိုးဖတ်ခွင့် ရရှိထားခြင်း ဖြစ်ပါသည်ဗျာ။`,
+        code: `// Reading Analog LDR Sensor\nconst int analogPin = A0;\n\nvoid setup() {\n  Serial.begin(115200);\n}\n\nvoid loop() {\n  int rawValue = analogRead(analogPin); // Get value between 0 and 1023\n  Serial.print("Raw Analog Value: ");\n  Serial.println(rawValue);\n  \n  delay(500);\n}`,
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "ESP8266 Deep Sleep & Timer Wakeup",
+    time: "40 mins",
+    icon: "fa-solid fa-moon",
+    description:
+      "Hardware jumper trick to wake up ESP8266 from micro-power Deep Sleep mode.",
+    lessons: [
+      {
+        id: 1,
+        title: "The Jumper Trick (RST to D0)",
+        xp: 250,
+        text: `### 🔌 The Jumper Trick (RST to D0)\n\nESP8266 ကို Deep Sleep ချခြင်းသည် အလွန်လွယ်ကူသော်လည်း ၎င်းသတ်မှတ်ချိန်ပြည့်၍ အလိုအလျောက် ပြန်နိုးလာစေရန်အတွက် **Hardware တွင် Jumper ကြိုးတစ်ချောင်း ချိတ်ဆက်ပေးရန် မဖြစ်မနေ လိုအပ်သည်**။\n\n#### 🛠️ မည်သို့လုပ်ဆောင်ရမည်နည်း?\nESP8266 သည် အချိန်ပြည့်ပါက ၎င်း၏ **D0 (GPIO 16)** Pin မှတစ်ဆင့် စက္ကန့်ပိုင်းမျှ \`LOW\` Pulse အချက်ပြလှိုင်း ထုတ်ပေးပြီး နိုးထလေ့ရှိသည်။ ထို့ကြောင့် အဆိုပါ လှိုင်းအား ဘုတ်၏ ပင်မ **RST (Reset)** Pin ထံ ရောက်ရှိသွားစေရန်အတွက် **D0 Pin နှင့် RST Pin အား ဂျန်ပါကြိုးဖြင့် တွဲဖက်ချိတ်ဆက်ပေးရမည်** ဖြစ်သည်။\n\n> ⚠️ **သတိပြုရန်:** ဤကြိုးချိတ်ထားစဉ်အတွင်း ကွန်ပျူတာမှ Code အသစ်လှမ်းတင် (Upload) ပါက Error တက်တတ်သဖြင့် ကုဒ်တင်ချိန်တွင် ကြိုးခေတ္တဖြုတ်ထားပြီး၊ တင်ပြီးမှ ပြန်တပ်ဆင်ပေးရပါမည်။`,
+        code: `// Deep Sleep Test For 10 Seconds\nvoid setup() {\n  Serial.begin(115200);\n  delay(1000);\n  \n  Serial.println("NodeMCU is AWAKE now!");\n  \n  Serial.println("Going into Deep Sleep for 10 seconds...");\n  // ESP8266 အား ၁၀ စက္ကန့်ကြာ အိပ်ခိုင်းခြင်း\n  ESP.deepSleep(10 * 1000000); \n}\n\nvoid loop() {\n  // Deep sleep ထဲဝင်သွားသဖြင့် ဤနေရာမှ ကုဒ်များ ဘယ်တော့မှ အလုပ်လုပ်မည်မဟုတ်ပါ\n}`,
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: "MQTT Protocol Architecture",
+    time: "50 mins",
+    icon: "fa-solid fa-circle-nodes",
+    description:
+      "Learn Publish/Subscribe light-weight protocol for fast machine-to-machine IoT communication.",
+    lessons: [
+      {
+        id: 1,
+        title: "Understanding MQTT Architecture",
+        xp: 250,
+        text: `### 📡 MQTT Protocol Architecture\n\n**MQTT (Message Queuing Telemetry Transport)** သည် HTTP ထက် အဆပေါင်းများစွာ ပိုမိုပေါ့ပါးပြီး မြန်ဆန်သော IoT သီးသန့် Protocol တစ်ခု ဖြစ်သည်။ ၎င်းသည် **Publish (သတင်းထုတ်ပြန်ခြင်း)** နှင့် **Subscribe (သတင်းနားစွင့်ခြင်း)** ပုံစံဖြင့် အလုပ်လုပ်သည်။\n\n#### 🏗️ Core Components:\n* **Broker:** ဗဟိုဆာဗာ (ဥပမာ - HiveMQ, Mosquitto) ဖြစ်ပြီး သတင်းစကားများကို လမ်းကြောင်းခွဲပေးသည်။\n* **Topic:** သတင်းလမ်းကြောင်း အမည်များ (ဥပမာ - \`home/kitchen/pump\`) ဖြစ်ကြသည်။\n\nကျောင်းသားများအနေဖြင့် \`PubSubClient\` library အား အသုံးပြုပြီး MQTT Broker များဆီသို့ ဒေတာများကို ကီလိုဘိုက်အနည်းငယ်မျှဖြင့် အချိန်နှင့်တပြေးညီ ပေးပို့ ထိန်းချုပ်နိုင်မည် ဖြစ်သည်။`,
+        code: "",
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Firebase Realtime Database",
+    time: "55 mins",
+    icon: "fa-solid fa-database",
+    description:
+      "Store and sync data in real-time between ESP8266 and Google Firebase Database.",
+    lessons: [
+      {
+        id: 1,
+        title: "Connecting ESP8266 to Google Firebase",
+        xp: 300,
+        text: `### 💾 Firebase Realtime Database\n\nGoogle ၏ **Firebase Realtime Database** ကို သုံး၍ Sensor Data များကို Cloud ပေါ်တွင် NoSQL စနစ်ဖြင့် တိုက်ရိုက်သိမ်းဆည်းပြီး ဖုန်း App သို့မဟုတ် Web App များဆီသို့ စက္ကန့်ပိုင်းအတွင်း ဒေတာ အပြန်အလှန် ချိတ်ဆက်ပြသပေးမည့် နည်းပညာဖြစ်သည်။\n\n#### 📟 Library Requirement:\nArduino Library Manager တွင် **"Firebase ESP8266"** ဟု ရိုက်ရှာပြီး Mobizt ထုတ်လုပ်ထားသော library အား သွင်းပေးရမည် ဖြစ်သည်။`,
+        code: `#include <ESP8266WiFi.h>\n#include <FirebaseESP8266.h>\n\n#define FIREBASE_HOST "YOUR_PROJECT_ID.firebaseio.com"\n#define FIREBASE_AUTH "YOUR_DATABASE_SECRET"\n\nFirebaseData firebaseData;\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin("SSID", "PASSWORD");\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n\n  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);\n  Firebase.reconnectWiFi(true);\n}\n\nvoid loop() {\n  // Firebase ပေါ်ရှိ "water_level" တန်ဖိုးအား 85 သို့ ပြောင်းလဲသိမ်းဆည်းခြင်း\n  if (Firebase.setInt(firebaseData, "/system/water_level", 85)) {\n    Serial.println("Data Synced to Firebase Successfully!");\n  } else {\n    Serial.print("Error : ");\n    Serial.println(firebaseData.errorReason());\n  }\n  delay(5000);\n}`,
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "LittleFS Internal File System",
+    time: "45 mins",
+    icon: "fa-solid fa-folder-open",
+    description:
+      "Store permanent settings and configuration logs inside NodeMCU's onboard Flash Memory.",
+    lessons: [
+      {
+        id: 1,
+        title: "Introduction to LittleFS File System",
+        xp: 200,
+        text: `### 📂 LittleFS Internal File System\n\nESP8266 တွင် ပြင်ပ SD Card စိုက်စရာမလိုဘဲ ၎င်း၏အတွင်းရှိ 4MB Flash Memory ထဲတွင် စာသားဖိုင် (.txt) များ၊ HTML, CSS, JS ဖိုင်များကို ကွန်ပျူတာ Hard Drive ကဲ့သို့ အမြဲတမ်း (Permanently) သိမ်းဆည်းထားနိုင်သည့် **LittleFS** စနစ် ပါဝင်သည်။\n\n#### 🌟 အသုံးဝင်ပုံ:\nအစ်ကိုထုတ်လုပ်ထားသော မော်တာကွန်ထရိုးစနစ်တွင် အိမ်ရှင်၏ Wi-Fi အမည်နှင့် Password များ ပြောင်းလဲသတ်မှတ်ချက်များကို မီးပိတ်သွားသော်လည်း ပျောက်မသွားစေရန် ဤအတွင်းပိုင်း Flash memory ဖိုင်စနစ်ထဲတွင် ရေးသားသိမ်းဆည်းထားလေ့ ရှိကြပါတယ်ဗျာ။`,
+        code: `#include "LittleFS.h"\n\nvoid setup() {\n  Serial.begin(115200);\n  \n  // LittleFS စနစ်ကို စတင်မောင်းနှင်ခြင်း\n  if(!LittleFS.begin()){\n    Serial.println("An Error has occurred while mounting LittleFS");\n    return;\n  }\n  \n  // ဖိုင်အသစ်တစ်ခုဆောက်၍ စာသားရေးခြင်း\n  File file = LittleFS.open("/config.txt", "w");\n  if(file){\n    file.println("MOTOR_THRESHOLD=75");\n    file.close();\n    Serial.println("File Written Successfully!");\n  }\n}\n\nvoid loop() {}`,
+      },
+    ],
+  },
+  {
+    id: 10,
+    title: "ThingSpeak Weather Station Project",
+    time: "60 mins",
+    icon: "fa-solid fa-cloud-sun",
+    description:
+      "Final Capstone Project: Create a fully automated cloud logging system for agricultural IoT.",
+    lessons: [
+      {
+        id: 1,
+        title: "ThingSpeak Cloud IoT Dashboards",
+        xp: 400,
+        text: `### 🌤️ ThingSpeak Weather Station Project\n\nESP8266 Journey ၏ နောက်ဆုံး ပရောဂျက်အဖြစ် MATLAB မှ ပံ့ပိုးထားသော **ThingSpeak IoT Cloud** ပေါ်သို့ လယ်ယာစိုက်ပျိုးရေးသုံး အာရုံခံကိရိယာများမှ အချက်အလက်များကို ပို့ဆောင်ပြီး လှပသော Analytics Graphs များ အခမဲ့ ဖန်တီးပုံကို လေ့လာပါမည်။\n\n#### 📊 Project Setup Instructions:\n1. [thingspeak.com](https://thingspeak.com) တွင် အကောင့်ဖွင့်ပြီး **Channel** အသစ်တစ်ခု တည်ဆောက်ပါ။\n2. Field 1 အား Temperature ဟု အမည်ပေးပြီး **Write API Key** ကို ကူးယူပါ။\n3. အောက်ပါ ကုဒ်ကို အသုံးပြု၍ Cloud ပေါ်သို့ အဝေးမှ ဒေတာများ လှမ်းတင်နိုင်ပါပြီဗျာ။`,
+        code: `#include <ESP8266WiFi.h>\n#include <WiFiClient.h>\n\nconst char* server = "api.thingspeak.com";\nString apiKey = "YOUR_WRITE_API_KEY"; // Insert your API key\n\nWiFiClient client;\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.begin("SSID", "PASS");\n  while (WiFi.status() != WL_CONNECTED) { delay(500); }\n}\n\nvoid loop() {\n  int mockTemperature = random(25, 40); // ဥပမာ အာရုံခံကိရိယာမှ ရရှိလာသော အပူချိန်တန်ဖိုး\n  \n  if (client.connect(server, 80)) {\n    String postStr = apiKey;\n    postStr +="&field1=";\n    postStr += String(mockTemperature);\n    postStr += "\\r\\n\\r\\n";\n    \n    // ThingSpeak API သို့ HTTP POST format ဖြင့် ပေးပို့ခြင်း\n    client.print("POST /update HTTP/1.1\\n");\n    client.print("Host: api.thingspeak.com\\n");\n    client.print("Connection: close\\n");\n    client.print("X-THINGSPEAKAPIKEY: "+apiKey+"\\n");\n    client.print("Content-Type: application/x-www-form-urlencoded\\n");\n    client.print("Content-Length: "+String(postStr.length())+"\\n\\n");\n    client.print(postStr);\n    \n    Serial.println("Data Sent to ThingSpeak Cloud.");\n  }\n  client.stop();\n  delay(20000); // ThingSpeak free tier သည် စက္ကန့် ၂၀ လျှင် တစ်ကြိမ်သာ ဒေတာလက်ခံသည်\n}`,
+      },
+    ],
+  },
+];
+
+// RaspberryPi data
+const raspberryJourneyData= [
+  {
+    id: 1,
+    title: "Raspberry Pi Hardware Architecture",
+    time: "45 mins",
+    icon: "fa-solid fa-computer",
+    description:
+      "Understand the differences between an SBC and Microcontrollers, and explore Pi 4/5 hardware layout.",
+    lessons: [
+      {
+        id: 1,
+        title: "SBC vs Microcontroller Concepts",
+        xp: 100,
+        text: `### 🚀 Single Board Computer (SBC) ဆိုတာဘာလဲ?\n\n**Raspberry Pi** သည် Microcontroller (ဥပမာ - Arduino) မဟုတ်ဘဲ **Single Board Computer (SBC)** ဖြစ်သည်။ ဆိုလိုသည်မှာ Board အသေးစားလေးတစ်ခုပေါ်တွင် ကွန်ပျူတာတစ်လုံးလုံး ဖြစ်လာစေမည့် CPU, RAM, USB Ports, HDMI Display Output နှင့် Network Units များအားလုံး စုစည်းတည်ဆောက်ထားခြင်း ဖြစ်သည်။\n\n#### 📊 Hardware Architecture Comparison:\n* **Operating System:** Arduino တွင် OS မရှိဘဲ ကုဒ်တစ်ခုတည်းကိုသာ ထပ်ခါတလဲလဲ Run သော်လည်း Raspberry Pi တွင် **Linux OS (Raspberry Pi OS)** အပြည့်အစုံ မောင်းနှင်နိုင်သည်။\n* **Multitasking:** သီချင်းဖွင့်ရင်း၊ Python ကုဒ်မောင်းရင်း၊ Web Browser ဖွင့်ကြည့်ခြင်းများကို တစ်ပြိုင်နက် လုပ်ဆောင်နိုင်သည်။\n* **Storage:** ၎င်းတွင် Hard Drive မပါဝင်ဘဲ **MicroSD Card** ကို သုံး၍ OS နှင့် ဖိုင်များကို သိမ်းဆည်းရယူသည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Raspberry Pi 4 Pinout Ecosystem",
+        xp: 150,
+        text: `### 📌 Raspberry Pi 40-Pin GPIO Header\n\nRaspberry Pi ကို သာမန်ကွန်ပျူတာများနှင့် ကွဲပြားစေပြီး IoT ပရောဂျက်များ လုပ်ဆောင်နိုင်စေသည့် အဓိကအချက်မှာ အပေါ်ဘက်ရှိ **40-Pin GPIO Header** ကြောင့် ဖြစ်သည်။\n\n#### ⚡ Power and Logic System:\n* **5V Pins (Pin 2, 4):** ပြင်ပ Fan များ သို့မဟုတ် Sensor များကို 5V ပါဝါထုတ်ပေးနိုင်သည်။\n* **3.3V Pins (Pin 1, 17):** 3.3V ပါဝါ ထုတ်ပေးနိုင်သည်။\n* **GND Pins:** Ground ချိတ်ဆက်ရန် Pin အမြောက်အမြား ပါဝင်သည်။\n\n#### 🚨 Operating Voltage Warning:\nRaspberry Pi ၏ GPIO pins များသည် **3.3V Logic Level** သာ ဖြစ်သည်။ 5V ရှိသော Sensor Output များကို တိုက်ရိုက်လာထိုးပါက SoC Chip ချက်ချင်းလောင်သွားပြီး ဘုတ်တစ်ခုလုံး ပျက်စီးသွားလိမ့်မည်။`,
+        code: "",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "OS Flashing & Headless Setup",
+    time: "40 mins",
+    icon: "fa-solid fa-compact-disc",
+    description:
+      "Flash Raspberry Pi OS using Imager and configure SSH/Wi-Fi for a monitorless headless setup.",
+    lessons: [
+      {
+        id: 1,
+        title: "Flashing with Raspberry Pi Imager",
+        xp: 150,
+        text: `### 💻 Raspberry Pi OS Flashing\n\nRaspberry Pi စတင်အသုံးပြုရန် ကွန်ပျူတာတွင် **Raspberry Pi Imager** ဆော့ဖ်ဝဲကို ဒေါင်းလုဒ်ဆွဲပြီး MicroSD Card ထဲသို့ OS တင်ပေးရမည်။\n\n#### 🛠️ အဆင့်ဆင့် လုပ်ဆောင်ရန် လမ်းညွှန်:\n1. SD Card ကို ကွန်ပျူတာတွင် စိုက်ပါ။\n2. Raspberry Pi Imager ကို ဖွင့်ပြီး မိမိဘုတ်မော်ဒယ် (ဥပမာ - Pi 4 သို့မဟုတ် Pi 5) ကို ရွေးပါ။\n3. Operating System နေရာတွင် **Raspberry Pi OS (64-bit)** အား ရွေးချယ်ပါ။\n4. **🚨 OS Customization Setting (⚙️ Gear Icon):** ဤနေရာတွင် အလွန်အရေးကြီးသော **Username, Password, Wi-Fi SSID** နှင့် **SSH စနစ်** ကို တစ်ခါတည်း အမြဲတမ်းဖွင့်ပေးရန် သတ်မှတ်ပေးရမည် ဖြစ်သည်။`,
+        code: "",
+      },
+      {
+        id: 2,
+        title: "Headless SSH Connection Method",
+        xp: 200,
+        text: `### 📟 Headless Setup (မော်နီတာမလိုဘဲ ချိတ်ဆက်နည်း)\n\n**Headless Setup** ဆိုသည်မှာ Raspberry Pi တွင် သီးသန့် Monitor, Keyboard, Mouse များ တပ်ဆင်မထားဘဲ လက်ရှိ အစ်ကိုတို့ သုံးနေကျ Laptop ကွန်ပျူတာထဲကနေ လေလှိုင်း (Wi-Fi) ပေါ်မှတစ်ဆင့် **SSH Protocol** ဖြင့် လှမ်းမောင်းနှင် ထိန်းချုပ်ခြင်း ဖြစ်သည်။\n\n#### 🖥️ Connecting via Terminal:\nLaptop ကွန်ပျူတာ၏ Terminal / Command Prompt ကို ဖွင့်ပြီး အောက်ပါ Command အတိုင်း ရိုက်ထည့်ကာ ချိတ်ဆက်နိုင်ပါသည်ဗျာ။`,
+        code: `# Terminal ထဲတွင် Raspberry Pi အား လှမ်းခေါ်ချိတ်ဆက်ခြင်း\nssh pi_username@raspberrypi.local\n\n# အကယ်၍ မရပါက IP Address ဖြင့် တိုက်ရိုက် ခေါ်ယူပါ\nssh pi_username@192.168.1.50`,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Python Environment & RPi.GPIO",
+    time: "35 mins",
+    icon: "fa-brands fa-python",
+    description:
+      "Set up virtual environments in Linux and control hardware pins using Python programming.",
+    lessons: [
+      {
+        id: 1,
+        title: "Python Control over Linux Terminal",
+        xp: 200,
+        text: `### 🐍 Linux Python & Hardware Control\n\nRaspberry Pi တွင် Hardware pins များကို ထိန်းချုပ်ရန် **Python** ကို အဓိက အသုံးပြုသည်။ ပထမဦးစွာ သတ်မှတ်ထားသော \`RPi.GPIO\` library သွင်းရန်အတွက် Virtual Environment ဆောက်ပေးရန် လိုအပ်သည်။\n\n#### 🧪 LED Circuit Blinking Project:\nမီးလုံးအပေါင်းစွန်းကို **GPIO 18 (Physical Pin 12)** တွင် ချိတ်ဆက်ပြီး၊ အနှုတ်စွန်းကို **GND (Physical Pin 14)** တွင် ထိုး၍ စမ်းသပ်ရမည့် Python Script ဖြစ်ပါတယ်ဗျာ။`,
+        code: `import RPi.GPIO as GPIO\nimport time\n\n# Pin Numbering စနစ်အား Broadcom SOC (GPIO နံပါတ်) အတိုင်း သတ်မှတ်ခြင်း\nGPIO.setmode(GPIO.BCM)\n\nLED_PIN = 18\nGPIO.setup(LED_PIN, GPIO.OUT)\n\ntry:\n    print("Raspberry Pi Python Blinking Started... Press Ctrl+C to Stop")\n    while True:\n        GPIO.output(LED_PIN, GPIO.HIGH) # မီးလင်းမည် (3.3V ထွက်မည်)\n        time.sleep(1.0)\n        GPIO.output(LED_PIN, GPIO.LOW)  # မီးပိတ်မည်\n        time.sleep(1.0)\nexcept KeyboardInterrupt:\n    print("\\nCleaning up GPIO pins...")\n    GPIO.cleanup() # GPIO pin အားလုံးကို မူလအခြေအနေသို့ ပြန်လည်သန့်စင်ခြင်း`,
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Linux Command Line Basics",
+    time: "30 mins",
+    icon: "fa-solid fa-terminal",
+    description:
+      "Master essential Linux commands like cd, ls, mkdir, nano, and package management via apt.",
+    lessons: [
+      {
+        id: 1,
+        title: "Essential Terminal Cheat Sheet",
+        xp: 150,
+        text: `### 📟 Essential Linux Terminal Commands\n\nRaspberry Pi ကို ကျွမ်းကျင်စွာ အသုံးပြုနိုင်ရန် Linux Command များကို မဖြစ်မနေ အလွတ်ရထားရန် လိုအပ်သည်။\n\n#### 📌 Top Key Commands:\n* \`ls\` - လက်ရှိ Folder ထဲရှိ ဖိုင်တွဲစာရင်းများကို ကြည့်ခြင်း\n* \`cd folder_name\` - သတ်မှတ်ထားသော ဖိုင်တွဲထဲသို့ ဝင်ခြင်း\n* \`mkdir my_project\` - Directory (Folder) အသစ်တစ်ခု တည်ဆောက်ခြင်း\n* \`nano script.py\` - Terminal ပေါ်တွင် စာသား/ကုဒ်များ တိုက်ရိုက်ရေးသားရန် Editor ဖွင့်ခြင်း\n* \`sudo apt update && sudo apt upgrade\` - System တစ်ခုလုံးကို Update မြှင့်တင်ခြင်း`,
+        code: `# Linux Update packages command\nsudo apt update && sudo apt upgrade -y`,
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Digital Inputs (Reading Push Buttons)",
+    time: "40 mins",
+    icon: "fa-solid fa-toggle-on",
+    description:
+      "Configure internal pull-up/pull-down resistors to register tactile switch events in Python.",
+    lessons: [
+      {
+        id: 1,
+        title: "Internal Pull-Up Programming",
+        xp: 200,
+        text: `### 🎛️ Digital Inputs & Internal Pull-Up\n\nခလုတ် (Push Button) တစ်ခုကို ဖတ်သည့်အခါ Pin သည် လေလွင့်မနေဘဲ တန်ဖိုး တည်ငြိမ်နေစေရန်အတွက် Internal Pull-Up Resistor ကို ကုဒ်ထဲကနေ ဆွဲတင်ပေးထားရန် လိုအပ်သည်။\n\n#### 💡 Logic Flow:\nPull-Up ကို သုံးထားသဖြင့် ပုံမှန်အချိန်တွင် တန်ဖိုးသည် **HIGH (1)** ဖြစ်နေမည်ဖြစ်ပြီး၊ ခလုတ်ကို ဖိနှိပ်လိုက်သည့် အခါမှသာ Ground သို့ ထိမိသွားပြီး **LOW (0)** ဖြစ်သွားမည် ဖြစ်သည်။`,
+        code: `import RPi.GPIO as GPIO\nimport time\n\nGPIO.setmode(GPIO.BCM)\nBUTTON_PIN = 24\n\n# Internal PUD_UP ခံ၍ Input အဖြစ် သတ်မှတ်ခြင်း\nGPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)\n\ntry:\n    while True:\n        button_state = GPIO.input(BUTTON_PIN)\n        if button_state == GPIO.LOW:\n            print("Button Pressed! 🎯")\n            time.sleep(0.2) # Debounce delay ခံခြင်း\n        time.sleep(0.05)\nexcept KeyboardInterrupt:\n    GPIO.cleanup()`,
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "I2C Sensor Communications",
+    time: "45 mins",
+    icon: "fa-solid fa-circle-nodes",
+    description:
+      "Enable I2C interface and extract multi-byte accurate sensor values from sensors like BMP280/OLED.",
+    lessons: [
+      {
+        id: 1,
+        title: "Enabling I2C via raspi-config",
+        xp: 250,
+        text: `### 📡 I2C Sensor Communications\n\nRaspberry Pi တွင် I2C protocol သုံး အာရုံခံကိရိယာများ ချိတ်ဆက်ရန်အတွက် ရှေးဦးစွာ Linux kernel ထဲတွင် I2C interface ကို ဖွင့်ပေးရမည်။\n\n#### ⚙️ How to Enable:\n1. Terminal တွင် \`sudo raspi-config\` ဟု ရိုက်ပါ။\n2. **Interface Options** သို့ သွားပါ။\n3. **I2C** အား ရွေးချယ်ပြီး **Enable > Yes** နှိပ်ပါ။\n4. Reboot ချပြီးနောက် ပြင်ပ I2C sensor ချိတ်ထားခြင်း ရှိမရှိကို အောက်ပါ Command ဖြင့် စစ်ဆေးနိုင်သည်။`,
+        code: `# I2C Bus ပေါ်တွင် ချိတ်ဆက်ထားသော Address များကို ရှာဖွေစစ်ဆေးခြင်း command\nsudo i2cdetect -y 1`,
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: "Camera Module & OpenCV Intro",
+    time: "60 mins",
+    icon: "fa-solid fa-camera",
+    description:
+      "Connect Pi Camera, capture image assets, and use OpenCV framework for computer vision.",
+    lessons: [
+      {
+        id: 1,
+        title: "Realtime Face Detection Pipeline",
+        xp: 400,
+        text: `### 📸 Camera Module & Computer Vision (OpenCV)\n\nRaspberry Pi သည် အစွမ်းထက် CPU ပါဝင်သောကြောင့် ကင်မရာချိတ်ဆက်၍ လူမျက်နှာများကို မှတ်မိစေခြင်း (Face Detection) ၊ ပစ္စည်းများကို ခွဲခြားခြင်း (Object Tracking) စသည့် **AI & Computer Vision** လုပ်ငန်းများကို သက်တောင့်သက်သာ လုပ်ဆောင်နိုင်သည်။\n\n#### 📦 Installation Requirement:\nTerminal တွင် Python သုံး ကွန်ပျူတာဗစ်ရှင်း library ကို အောက်ပါအတိုင်း အရင်သွင်းရပါမည် -\n\`pip install opencv-python\``,
+        code: `import cv2\n\n# Built-in သို့မဟုတ် USB Web Camera အား ချိတ်ဆက်ခြင်း\ncap = cv2.VideoCapture(0)\n\nprint("Camera Active... Press 'q' to Exit Window")\nwhile True:\n    ret, frame = cap.read()\n    if not ret: break\n    \n    # ပုံရိပ်ကို အမည်းရောင်ပြောင်း၍ စစ်ဆေးခြင်းမျိုး ပြုလုပ်နိုင်သည်\n    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)\n    \n    # Display window ပြသခြင်း\n    cv2.imshow('Raspberry Pi AI Vision Feed', gray_frame)\n    \n    if cv2.waitKey(1) & 0xFF == ord('q'):\n        break\n\ncap.release()\ncv2.destroyAllWindows()`,
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Local Python Flask Web Server",
+    time: "50 mins",
+    icon: "fa-solid fa-globe",
+    description:
+      "Develop a full-stack local web dashboard using Python Flask framework to toggle GPIOs.",
+    lessons: [
+      {
+        id: 1,
+        title: "Flask Routing and Microframework",
+        xp: 300,
+        text: `### 🌐 Local Python Flask Web Server\n\nESP32 ကဲ့သို့ HTML ကုဒ်တွေကို စာသားကြီးအတိုင်း ရောရေးစရာမလိုဘဲ Raspberry Pi တွင် **Python Flask Framework** ကို သုံးပြီး တကယ့်လုပ်ငန်းသုံး Web Server ကြီးတစ်ခုကို အလွယ်တကူ တည်ဆောက်နိုင်သည်။\n\n#### 🏗️ Flask Architecture:\nFlask သည် အလွန်ပေါ့ပါးသော Python Web Framework ဖြစ်ပြီး URL Routes (\`/@app.route("/")\`) များကို သန့်ရှင်းစွာ ဖန်တီးပေးနိုင်ပါသည်။`,
+        code: `from flask import Flask\nimport RPi.GPIO as GPIO\n\napp = Flask(__name__)\nLED_PIN = 18\n\nGPIO.setmode(GPIO.BCM)\nGPIO.setup(LED_PIN, GPIO.OUT)\n\n@app.route("/")\ndef index():\n    return "<h3>Welcome to Raspberry Pi Server!</h3><a href='/on'>ON</a> | <a href='/off'>OFF</a>"\n\n@app.route("/on")\ndef led_on():\n    GPIO.output(LED_PIN, GPIO.HIGH)\n    return "LED turned ON"\n\n@app.route("/off")\ndef led_off():\n    GPIO.output(LED_PIN, GPIO.LOW)\n    return "LED turned OFF"\n\nif __name__ == "__main__":\n    # IP Address အားလုံးမှ ဝင်ကြည့်နိုင်ရန် port 5000 တွင် Server မောင်းခြင်း\n    app.run(host='0.0.0.0', port=5000)`,
+      },
+    ],
+  },
+  {
+    id: 9,
+    title: "Crontab (Automation Script Tasks)",
+    time: "35 mins",
+    icon: "fa-solid fa-clock",
+    description:
+      "Automate Python scripts to run periodically or auto-start on every Linux boot up sequence.",
+    lessons: [
+      {
+        id: 1,
+        title: "Linux Cron System Integration",
+        xp: 200,
+        text: `### ⏱️ Crontab (Automation Task Scheduler)\n\nအစ်ကို့ရဲ့ ပရိုဂျက်ဖိုင်တွေကို လူကိုယ်တိုင် လာနှိပ်စရာမလိုဘဲ **မနက် ၈ နာရီထိုးတိုင်း မော်တာကုဒ်ကို အော်တိုမောင်းချင်တာမျိုး** ဒါမှမဟုတ် **ဘုတ်ထဲကို ပါဝါကြိုးထိုးလိုက်တာနဲ့ ကုဒ်ကြီးက နောက်ကွယ်ကနေ အလိုအလျောက် ပွင့်မောင်းလာစေချင်တာမျိုး** အတွက် Linux ၏ **Crontab System** ကို အသုံးပြုရသည်။\n\n#### ⚙️ Configuration Setup:\nTerminal တွင် \`crontab -e\` ဟု ရိုက်ထည့်ပြီး ဖိုင်၏ အောက်ဆုံးလိုင်းတွင် မိမိအလိုရှိသော စနစ်ပုံစံကို ဖြည့်စွက်ပေးရုံပါပဲဗျာ။`,
+        code: `# Linux Crontab Configuration Examples\n\n# နမူနာ ၁ - ဘုတ်ပါဝါစတက်လာတိုင်း Python Script အား နောက်ကွယ်မှ အော်တို Run ခိုင်းခြင်း\n@reboot python3 /home/pi/my_project/motor_control.py &\n\n# နမူနာ ၂ - ညစဉ် ည ၁၂ နာရီထိုးတိုင်း Database Backup ကုဒ်ကို Run ခိုင်းခြင်း\n0 0 * * * python3 /home/pi/backup.py`,
+      },
+    ],
+  },
+  {
+    id: 10,
+    title: "Edge Gateway & Node-RED IoT Cloud",
+    time: "60 mins",
+    icon: "fa-solid fa-diagram-project",
+    description:
+      "Transform Raspberry Pi into a central IoT Edge Gateway using Node-RED visual programming tool.",
+    lessons: [
+      {
+        id: 1,
+        title: "Visual Flow-Based Edge Systems",
+        xp: 400,
+        text: `### 🌐 Raspberry Pi IoT Edge Gateway\n\nRaspberry Pi Journey ၏ နောက်ဆုံး Capstone သင်ခန်းစာတွင် ပတ်ဝန်းကျင်ရှိ Arduino နှင့် ESP32 ဘုတ်ကလေးများအားလုံးထံမှ Sensor Data များကို ဗဟိုမှ စုစည်းစီမံပေးမည့် **Edge Gateway** အဖြစ် ပြောင်းလဲပုံကို လေ့လာပါမည်။\n\n#### 📊 Node-RED Visual Tool:\n**Node-RED** သည် IBM မှ ထုတ်လုပ်ထားသော Flow-based Visual Programming Tool ဖြစ်သည်။ ကုဒ်အရှည်ကြီးတွေ ရေးစရာမလိုဘဲ UI Nodes တုံးလေးတွေကို ကြိုးဆွဲချိတ်ဆက်ရုံဖြင့် MQTT ၊ HTTP ၊ Firebase Cloud များနှင့် ဒေတာများကို သန့်ရှင်းမြန်ဆန်စွာ အပေးအယူလုပ်နိုင်သော Smart Industrial Dashboard ကြီးများကို ဖန်တီးသွားနိုင်မှာ ဖြစ်ပါတယ်ဗျာ။`,
+        code: "",
+      },
+    ],
+  },
+];
+
+// 🎯 လက်ရှိဝင်ရောက်နေသော Track အလိုက် Local Storage Key ကို အလိုအလျောက် ခွဲခြားပေးမည့် Helper
+function getStorageKey() {
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes("/arduino/")) return "arduino_progress";
+  if (path.includes("/esp32/")) return "esp32_progress";
+  if (path.includes("/esp8266/")) return "esp8266_progress";
+  if (path.includes("/raspberry/")) return "raspberry_progress";
+  return "arduino_progress"; // Fallback default
+}
+
+// 🔄 Progress ကို ထိန်းချုပ်မည့် Helper Functions (Dynamic Local Storage စနစ်)
 function getCardStatus(cardId) {
-  const progress = JSON.parse(localStorage.getItem("arduino_progress")) || {};
+  const key = getStorageKey();
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
   return progress[cardId] || false; // true = completed, false = incomplete
 }
 
 function saveCardComplete(cardId) {
-  const progress = JSON.parse(localStorage.getItem("arduino_progress")) || {};
+  const key = getStorageKey();
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
   progress[cardId] = true;
-  localStorage.setItem("arduino_progress", JSON.stringify(progress));
+  localStorage.setItem(key, JSON.stringify(progress));
 }
