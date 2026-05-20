@@ -2,6 +2,28 @@
    Lab - Lessons/Study Room Logic (Dynamic Shared System)
    ========================================================================== */
 
+// 🎯 သင်ခန်းစာ ပြီးဆုံးကြောင်းကို လက်ရှိ Track အလိုက် မှန်ကန်စွာ စစ်ဆေး/သိမ်းဆည်းရန် Helpers
+function getStorageKey() {
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes("/esp32/")) return "esp32_progress";
+  if (path.includes("/esp8266/")) return "esp8266_progress";
+  if (path.includes("/raspberry/")) return "raspberry_progress";
+  return "arduino_progress"; // Default
+}
+
+function getCardStatus(cardId) {
+  const key = getStorageKey();
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  return progress[cardId] || false;
+}
+
+function saveCardComplete(cardId) {
+  const key = getStorageKey();
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  progress[cardId] = true;
+  localStorage.setItem(key, JSON.stringify(progress));
+}
+
 // ၁။ လက်ရှိ ဝင်ရောက်နေသော အခြေအနေများကို မှတ်သားထားမည့် Variables
 let currentCardId = null;
 let currentLessonId = 1; 
@@ -28,10 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const idParam = urlParams.get("id");
 
   if (idParam) {
-    // ID သည် String (ဥပမာ 'esp32_intro') ဖြစ်နိုင်သဖြင့် parseInt မလုပ်ဘဲ တိုက်ရိုက် သို့မဟုတ် ညှိယူစစ်ဆေးပါမည်
     currentCardId = idParam;
 
-    // 💡 [DYNAMIC] currentTrackData ထဲတွင် ဤ Card ID ရှိမရှိ စစ်ဆေးခြင်း
+    // currentTrackData ထဲတွင် ဤ Card ID ရှိမရှိ စစ်ဆေးခြင်း
     const cardExists = currentTrackData.some(
       (card) => String(card.id) === String(currentCardId),
     );
@@ -52,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
  * ၃။ ရွေးချယ်လိုက်သော Card ID အလိုက် ဘယ်ဘက် Sidebar နှင့် Progress Bar အား တည်ဆောက်ခြင်း
  */
 function generateSidebar(cardId) {
-  // 💡 [DYNAMIC] currentTrackData ထဲကနေ သက်ဆိုင်ရာ ကတ်ကို ရှာဖွေခြင်း
   const card = currentTrackData.find((c) => String(c.id) === String(cardId));
   const sidebarContainer = document.getElementById("sidebar-lessons");
   if (!card || !sidebarContainer) return;
@@ -87,7 +107,6 @@ function generateSidebar(cardId) {
 
   // Card အတွင်းရှိ သင်ခန်းစာခွဲ Button များကို ပတ်မောင်း၍ ထည့်သွင်းခြင်း
   card.lessons.forEach((lesson, index) => {
-    // UI တွင် အစီအစဉ်အတိုင်းပြရန် index + 1 ကိုသုံးပြီး၊ data-id တွင် မူရင်း ID အစစ်ကို ထည့်သွင်းပါသည်
     sidebarHTML += `
       <button class="list-group-item list-group-item-action" data-id="${index + 1}">
         ${index + 1}. ${lesson.name || lesson.title}
@@ -119,11 +138,9 @@ function setupSidebarClickEvents() {
  * ၅။ ရွေးချယ်လိုက်သော သင်ခန်းစာအလိုက် ညာဘက်ခြမ်း Main Content နှင့် Progress ကို အပ်ဒိတ်လုပ်ခြင်း
  */
 function renderLessonContent(lessonIdx) {
-  // 💡 [DYNAMIC] currentTrackData မှ ရှာဖွေခြင်း
   const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
   if (!card) return;
 
-  // Array index အနေဖြင့် သင်ခန်းစာခွဲကို ဖမ်းယူခြင်း
   const lesson = card.lessons[lessonIdx - 1];
   if (!lesson) return;
 
@@ -153,8 +170,7 @@ function renderLessonContent(lessonIdx) {
 
   const prevDisabled = currentLessonId === 1 ? "disabled" : "";
 
-  // ညာဘက်ခြမ်း Dynamic Content Area
-  // ဒေတာထဲတွင် lesson.text မရှိပါက ၎င်း၏ အမည်ကို ခေါင်းစဉ်အနေဖြင့် ပြသပါမည်
+  // ညာဘက်ခြမ်း Dynamic Content Area (Markdown Parsing & Source Code)
   document.getElementById("dynamic-content").innerHTML = `
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary-subtle">
       <h2 class="h4 fw-bold mb-0 text-info">${lesson.name || lesson.title}</h2>
@@ -205,7 +221,6 @@ function setupNavigationEvents(isFinalLesson) {
   contentBtn.parentNode.replaceChild(newContentBtn, contentBtn);
 
   newContentBtn.addEventListener("click", () => {
-    // 💡 [DYNAMIC] currentTrackData ထံမှ ဒေတာတောင်းယူခြင်း
     const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
     const currentLesson = card ? card.lessons[currentLessonId - 1] : null;
     const earnedXP = currentLesson ? currentLesson.xp : 0;

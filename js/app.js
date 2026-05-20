@@ -1,3 +1,30 @@
+/* =====================================================================
+   🎯 LocalStorage Key များကို Track အလိုက် သီးသန့်ခွဲထုတ်ပေးမည့် Helpers
+   (ဒါတွေက data.js ထဲက အဟောင်းတွေကို အစားထိုး အလုပ်လုပ်ပေးသွားပါမည်)
+===================================================================== */
+function getStorageKey() {
+  const path = window.location.pathname.toLowerCase();
+  if (path.includes("/esp32/")) return "esp32_progress";
+  if (path.includes("/esp8266/")) return "esp8266_progress";
+  if (path.includes("/raspberry/")) return "raspberry_progress";
+  return "arduino_progress"; // Default
+}
+
+function getCardStatus(cardId) {
+  const key = getStorageKey();
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  return progress[cardId] || false;
+}
+
+// 💡 အဓိက ပြင်ဆင်ချက် - Dashboard တွင် Track ၄ ခုလုံးကို သီးသန့်စီ မှန်ကန်စွာဖတ်ရန်
+function getTrackCardStatus(trackName, cardId) {
+  const key = trackName + "_progress"; // ဥပမာ- "esp32_progress"
+  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  return progress[cardId] || false;
+}
+
+/* ===================================================================== */
+
 // 💡 URL လမ်းကြောင်းကိုကြည့်ပြီး ဘယ် Track ဒေတာကို သုံးမလဲဆိုတာ Dynamic ဆုံးဖြတ်ခြင်း
 let currentTrackData = [];
 const currentPath = window.location.pathname;
@@ -20,21 +47,11 @@ if (currentPath.includes("/esp32/")) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("MakerHub MM Initialized!");
 
-  // Future API call example:
-  // fetch('https://api.yourbackend.com/v1/user/streak')
-  //   .then(response => response.json())
-  //   .then(data => updateStreakUI(data))
-  //   .catch(error => console.error('Error fetching data:', error));
-
   // show current xp points
-  // ၁။ LocalStorage ထဲက စုစုပေါင်း XP နံပါတ်အပြည့်ကို လှမ်းယူတယ် (ဥပမာ - 7550)
   const savedXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
-
-  // ၂။ Home Page ပေါ်က <span id="xpPoints"> နေရာကို လှမ်းဖမ်းတယ်
   const xpPointsEl = document.getElementById("xpPoints");
 
   if (xpPointsEl) {
-    // 💡 Advanced JS: .textContent ကိုသုံးပြီး တစ်လိုင်းတည်းဖြင့် format ချကာ တိုက်ရိုက် အစားထိုးလိုက်ခြင်း ဖြစ်ပါတယ်ဗျာ
     xpPointsEl.textContent = savedXP.toString().replace(".", ",");
   }
 });
@@ -60,8 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
 ════════════════════════════ */
 document.addEventListener("DOMContentLoaded", () => {
   const themeBtns = document.querySelectorAll(".btn-theme-toggle");
-
-  // 👉 load saved theme
   const savedTheme = localStorage.getItem("theme");
 
   if (savedTheme === "light") {
@@ -71,23 +86,17 @@ document.addEventListener("DOMContentLoaded", () => {
     updateIcons(false);
   }
 
-  // 👉 click toggle
   themeBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const isLight = document.body.classList.toggle("light-theme");
-
-      // save to localStorage
       localStorage.setItem("theme", isLight ? "light" : "dark");
-
       updateIcons(isLight);
     });
   });
 
-  // 👉 icon updater function
   function updateIcons(isLight) {
     document.querySelectorAll(".theme-icon").forEach((icon) => {
       icon.classList.remove("bi-moon-stars-fill", "bi-sun-fill");
-
       if (isLight) {
         icon.classList.add("bi-sun-fill");
       } else {
@@ -114,7 +123,6 @@ function updateMainHubProgress() {
   Object.keys(tracks).forEach((trackName) => {
     const trackData = tracks[trackName];
 
-    // HTML ID ကို dynamic အတိုင်း တိကျစွာ ခေါ်
     const percentEl = document.getElementById(`${trackName}-percent`);
     const fillEl = document.getElementById(`${trackName}-fill`);
     const lessonCountEl = document.getElementById(`${trackName}-lessons-count`);
@@ -134,8 +142,9 @@ function updateMainHubProgress() {
       }
     });
 
+    // 💡 အဓိက ပြင်ဆင်ချက် - Track အလိုက် သီးသန့် LocalStorage များကို ဖတ်စေခြင်း
     trackData.forEach((topic) => {
-      if (getCardStatus(topic.id)) {
+      if (getTrackCardStatus(trackName, topic.id)) {
         completedTopics++;
       }
     });
@@ -143,10 +152,10 @@ function updateMainHubProgress() {
     globalTotalTopics += totalTopics;
     globalCompletedTopics += completedTopics;
 
-    if (percentEl && fillEl) {
+    if (percentEl || fillEl) {
       const percentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
-      percentEl.textContent = `${percentage}%`;
-      fillEl.style.setProperty("width", `${percentage}%`, "important");
+      if (percentEl) percentEl.textContent = `${percentage}%`;
+      if (fillEl) fillEl.style.setProperty("width", `${percentage}%`, "important");
     }
 
     if (lessonCountEl) {
@@ -162,9 +171,7 @@ function updateMainHubProgress() {
   const totalFillEl = document.getElementById("total-journey-fill");
 
   if (totalPercentEl || totalFillEl) {
-    const totalPercentage =
-      globalTotalTopics > 0 ? Math.round((globalCompletedTopics / globalTotalTopics) * 100) : 0;
-
+    const totalPercentage = globalTotalTopics > 0 ? Math.round((globalCompletedTopics / globalTotalTopics) * 100) : 0;
     if (totalPercentEl) {
       totalPercentEl.textContent = `${totalPercentage}%`;
     }
@@ -174,12 +181,11 @@ function updateMainHubProgress() {
   }
 }
 
-// စာမျက်နှာပွင့်ချိန်တွင် မောင်းနှင်ပေးရန် ချိတ်ဆက်ခြင်း
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof renderLessons === "function") {
-    renderLessons(); // အကယ်၍ ဒိုင်နမစ်ကတ်ဆောက်တဲ့ စာမျက်နှာဖြစ်ပါက မောင်းနှင်မည်
+    renderLessons();
   }
-  updateMainHubProgress(); // 🌟 ပင်မကတ်ကြီး ၄ ခုလုံးရဲ့ Progress ဘားများကို အသက်သွင်းခြင်း
+  updateMainHubProgress();
 });
 
 /* ════════════════════════════
@@ -187,33 +193,19 @@ XP Progress Bar
 ════════════════════════════ */
 function updateXpProgress() {
   const fillEl = document.getElementById("xpProgressBar");
-  if (!fillEl) return; // 💡 Bug ကာကွယ်ရန်: Element မရှိရင် အောက်ကကုဒ်တွေကို ဆက်မောင်းမရအောင် တားခြင်း
+  if (!fillEl) return;
 
-  // ၁။ LocalStorage ထဲက Pure Number ကို အရင်ယူမယ် (ဥပမာ - 7550)
-  const finalTotalXP = parseInt(
-    localStorage.getItem("student_total_xp") ?? "0",
-  );
-
-  // ၂။ 💡 Target XP ကို 10,000 လို့ ထားပြီး ရာခိုင်နှုန်းကို နံပါတ်ချင်း တိုက်ရိုက်တွက်ချက်မယ်
+  const finalTotalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
   const targetXP = 10000;
   const percentage = Math.round((finalTotalXP / targetXP) * 100);
 
-  // ၃။ ရလာတဲ့ ရာခိုင်နှုန်းကို CSS Width ထဲ ထည့်ပေးလိုက်တာပါဗျာ
-  // 💡 [FIXED TYPO] Bootstrap Overriding မဖြစ်အောင် setProperty အမှန်အတိုင်း ပြင်ဆင်ပြီး ဖြစ်ပါတယ်ဗျာ
-  fillEl.style.setProperty(
-    "width",
-    `${Math.min(percentage, 100)}%`,
-    "important",
-  );
+  fillEl.style.setProperty("width", `${Math.min(percentage, 100)}%`, "important");
 }
-// show when page start
+
 document.addEventListener("DOMContentLoaded", () => {
   updateXpProgress();
 });
 
-/**
- * Hero Section ရှိ ပင်မ Progress Bar အား ဒေတာအလိုက် အသက်သွင်းပေးမည့် လုပ်ဆောင်ချက်
- */
 function updateHeroProgress() {
   const heroProgressBar = document.getElementById("hero-progress-bar");
   const heroProgressLabel = document.getElementById("main-progress-label");
@@ -236,36 +228,25 @@ function updateHeroProgress() {
   heroProgressLabel.textContent = `${completedCards} / ${totalCards} done`;
 }
 
-// 🔄 စာမျက်နှာ စတင်ပွင့်ချိန် (DOM Loaded) တွင် အလုပ်လုပ်စေရန် ချိတ်ဆက်ခြင်း
 document.addEventListener("DOMContentLoaded", () => {
-  renderLessons(); // ရှိပြီးသား ကတ်များထုတ်ပေးသည့် function
-  updateHeroProgress(); // 🌟 Hero Progress ကိုပါ တစ်ခါတည်း မောင်းနှင်ခိုင်းလိုက်ခြင်း
+  renderLessons();
+  updateHeroProgress();
 });
 
 /* ════════════════════════════
-   topic grid (Dynamic & LocalStorage System)
+   topic grid 
 ════════════════════════════ */
-
 const gridContainer = document.getElementById("learning-grid");
 
-/**
- * ၁။ ကတ်တစ်ခုချင်းစီ၏ Lock/Unlock နှင့် Done/Start အခြေအနေကို တွက်ချက်ပေးမည့် လုပ်ဆောင်ချက်
- */
 function getCardContentStatus(lesson, index) {
-  // localStorage ထဲမှ ဤကတ်၏ ပြီးမြောက်မှု အခြေအနေကို စစ်ဆေးခြင်း (data.js ထဲက function ကို လှမ်းသုံးသည်)
   const isCompleted = getCardStatus(lesson.id);
-
-  // ပထမဆုံးကတ် ဖြစ်ပါက အလိုအလျောက် ပွင့်မည် (Unlocked)
   let isUnlocked = index === 0;
 
-  // ဒုတိယကတ်မှစ၍ ရှေ့ကတ် ပြီးခဲ့သလား (Completed ဖြစ်ခဲ့သလား) ကို localStorage တွင် လှမ်းစစ်မည်
   if (index > 0) {
-    // 💡 [DYNAMIC CHANGER] arduinoJourneyData နေရာတွင် ဘုံသုံးအဖြစ် ပြောင်းလဲခြင်း
     const prevCardId = currentTrackData[index - 1].id;
     isUnlocked = getCardStatus(prevCardId);
   }
 
-  // UI ပေါ်တွင် ပြသမည့် စာသား၊ အိုင်ကွန် နှင့် Class များကို စနစ်တကျ သတ်မှတ်ခြင်း
   return {
     isUnlocked: isUnlocked,
     isCompleted: isCompleted,
@@ -275,16 +256,11 @@ function getCardContentStatus(lesson, index) {
   };
 }
 
-/**
- * ၂။ data.js မှ ဗဟိုဒေတာများကို ယူ၍ Dashboard ပေါ်တွင် ကတ်များ လာရောက်ဆောက်ပေးမည့် လုပ်ဆောင်ချက်
- */
 function renderLessons() {
-  if (!gridContainer) return; // အကယ်၍ Grid Container မရှိပါက Error မတက်စေရန် စစ်ထုတ်ခြင်း
+  if (!gridContainer) return;
   gridContainer.innerHTML = "";
 
-  // 💡 [DYNAMIC CHANGER] currentTrackData ကို Loop ပတ်ပြီး Track အလိုက် ကတ်များဆောက်ခြင်း
   currentTrackData.forEach((lesson, index) => {
-    // လက်ရှိကတ်၏ Status များကို အပေါ်က Helper ထံမှ တောင်းယူခြင်း
     const status = getCardContentStatus(lesson, index);
 
     const col = document.createElement("div");
@@ -297,7 +273,6 @@ function renderLessons() {
           <div class="status-icon">
               ${status.statusIcon}
           </div>
-
           
           <div class="card-img-box">
                <i class="${lesson.icon}"></i> 
@@ -320,25 +295,21 @@ function renderLessons() {
   });
 }
 
-/**
- * ၃။ ကတ်တစ်ခုကို နှိပ်လိုက်ချိန်တွင် လမ်းကြောင်းလွှဲပေးမည့် လုပ်ဆောင်ချက်
- */
 function startLesson(id, unlocked) {
   if (!unlocked) {
     alert("အရင်သင်ခန်းစာကို အရင်ပြီးအောင် လုပ်ပေးပါ။");
     return;
   }
-  // သက်ဆိုင်ရာ Card ID ကို URL Parameter အနေဖြင့် သယ်ဆောင်သွားမည်
   window.location.href = `lessons.html?id=${id}`;
 }
 
-// စာမျက်နှာ စတင်ပွင့်ချိန်တွင် ကတ်များကို ဆောက်ပေးရန် မောင်းနှင်ခြင်း
 document.addEventListener("DOMContentLoaded", () => {
   renderLessons();
 });
 
-// reset when click reload
-// reset when click reload
+
+// reset all
+// 🔄 Reload လုပ်လျှင် Data "အားလုံးကို" အကုန်ရှင်းလင်းမည့် စနစ် (Clear All)
 document.addEventListener("DOMContentLoaded", () => {
   const navigationEntries = performance.getEntriesByType("navigation");
 
@@ -346,27 +317,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const navigationType = navigationEntries[0].type;
 
     if (navigationType === "reload") {
-      // ၁။ XP ကို အမြဲ Reset လုပ်မယ်
+      // ၁။ XP များကို အကုန်ရှင်းလင်းမည်
       localStorage.removeItem("student_total_xp");
 
-      // 💡 အဓိက ပြင်ဆင်ချက်:
-      // arduino_progress ကို အသေရေးမယ့်အစား getStorageKey() ကို သုံးပြီး လက်ရှိရောက်နေတဲ့ Track အလိုက် ဖျက်ပေးမယ်
-      if (typeof getStorageKey === "function") {
-        const currentKey = getStorageKey();
-        localStorage.removeItem(currentKey);
-      } else {
-        // Fallback အနေနဲ့ အဟောင်းကို ဖျက်ပေးထားမယ်
-        localStorage.removeItem("arduino_progress");
-      }
+      // 💡 ၂။ Track အားလုံး၏ Progress များကို တစ်ပြိုင်နက်တည်း အကုန်ရှင်းလင်းမည် (Clear All Data)
+      localStorage.removeItem("arduino_progress");
+      localStorage.removeItem("esp32_progress");
+      localStorage.removeItem("esp8266_progress");
+      localStorage.removeItem("raspberry_progress");
 
-      // ၂။ UI ကို ပြန်ရှင်းမယ်
+      // ၃။ UI ပေါ်က XP တန်ဖိုးကို 0 ပြန်ထားမည်
       const xpBadge = document.getElementById("xpPoints");
       if (xpBadge) {
         xpBadge.textContent = "0";
       }
 
-      renderLessons();
-      console.log("Current track progress reset successfully!");
+      // ၄။ Card များကို Lock အနေအထားဖြင့် အသစ်ပြန်ဆောက်မည်
+      if (typeof renderLessons === "function") {
+        renderLessons();
+      }
+      
+      // ၅။ Main Hub ၏ Progress ကိုလည်း ပြန်လည် Refresh လုပ်မည်
+      if (typeof updateMainHubProgress === "function") {
+        updateMainHubProgress();
+      }
+
+      console.log("🔄 Chrome Browser Reload ကြောင့် Track အားလုံးရှိ ဒေတာများကို ရှင်းလင်းပြီးပါပြီ (Clear All)။");
     }
   }
 });
