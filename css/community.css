@@ -1,0 +1,35 @@
+/* hero section */
+
+/* Hero Image ကို Narrow ဖြစ်အောင် ထိန်းချုပ်ခြင်း */
+.hero-img-narrow {
+  height: 150px !important; /* Mobile မှာ အရမ်းကျဉ်းသွားအောင် 150px ထားပါမယ် */
+  width: 100%;
+  object-fit: cover !important; /* ပုံကို နောက်ခံအဖြစ် ဖြည့်ပေးပါမယ် */
+  filter: brightness(0.85);
+}
+
+@media (min-width: 768px) {
+  .hero-img-narrow {
+    height: 250px !important; /* Desktop မှာဆို 250px ပဲ ထားပါမယ် */
+  }
+}
+
+/* Screen အလိုက် အလိုလို ကြီး/သေး ပြောင်းပေးမယ့် Classes */
+.hero-title {
+  /* အသေးဆုံး 1.2rem ကနေ အကြီးဆုံး 2.5rem ထိ Screen အလိုက် ပြောင်းမယ် */
+  font-size: clamp(1.2rem, 4vw, 2.5rem) !important;
+  line-height: 1.2;
+}
+
+.hero-btn {
+  padding: 0.4rem 1rem !important; /* ဖုန်းအတွက် Button Size */
+  font-size: 0.85rem !important;
+}
+
+/* Desktop (Tablet နဲ့အထက်) ရောက်ရင် Button ကို ပြန်ကြီးပေးမယ် */
+@media (min-width: 768px) {
+  .hero-btn {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 1.1rem !important;
+  }
+}
