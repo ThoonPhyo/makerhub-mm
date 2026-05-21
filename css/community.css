@@ -33,3 +33,117 @@
     font-size: 1.1rem !important;
   }
 }
+
+
+/* carousel nav bar */
+/* Categories Nav Slider Layout */
+/* ==========================================================================
+   CATEGORIES SLIDER NAV BAR (Org Root Colors Only)
+   ========================================================================== */
+
+/* ၁။ ဘယ်/ညာ ရွှေ့သည့် မြှားခလုတ်များ ဒီဇိုင်း */
+#prevBtn, #nextBtn {
+  background-color: var(--bg-elevated);      /* ကြွတက်နေသော နောက်ခံအရောင် */
+  border: 1px solid var(--c-card-border);    /* Card Border အတိုင်း သုံးမယ် */
+  color: var(--text);                        /* ပုံမှန် စာသားအရောင် */
+  transition: all 0.2s var(--ease);
+}
+
+#prevBtn:hover, #nextBtn:hover {
+  background-color: var(--bg-surface);       /* Hover လုပ်ရင် အရောင်ပြောင်းမယ် */
+  color: var(--text-accent);                 /* Org ရဲ့ ထင်ရှားစေမည့် အရောင်ပြောင်းမယ် */
+  border-color: var(--border-accent);
+}
+
+/* ၂။ Category Link တစ်ခုချင်းစီ၏ ပုံမှန်အခြေအနေ (Default/Unselected) */
+.category-link {
+  min-width: 110px;
+  text-decoration: none;
+  color: var(--text-muted) !important;       /* ပုံမှန်အချိန်မှာ စာသားကို မှိန်ထားမယ် */
+  transition: all 0.25s var(--ease);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;      /* အောက်ခြေလိုင်းကို ကြိုတင်နေရာချထားခြင်း */
+}
+
+/* Category Link ထဲက Icon များ */
+.category-link i {
+  color: var(--text-subtle);                 /* Icon ကိုလည်း ခပ်မှိန်မှိန်ပဲ ပြထားမယ် */
+  transition: color 0.25s var(--ease);
+}
+
+/* ၃။ Mouse တင်လိုက်သည့် အခြေအနေ (Hover Effect) */
+.category-link:hover {
+  color: var(--green) !important;             /* Hover လုပ်ရင် စာသား ပိုလင်းလာမယ် */
+}
+
+.category-link:hover i {
+  color: var(--text-accent);                 /* Hover လုပ်ရင် Icon က Org Color တန်းပြောင်းမယ် */
+}
+
+/* ==========================================================================
+   JAVASCRIPT ကနေ လာတပ်ပေးမည့် ACTIVE CLASS (နှိပ်ထားသော ခလုတ်ဒီဇိုင်း)
+   ========================================================================== */
+/* အစ်ကို နှိပ်လိုက်တဲ့ Category ကို လိုင်းအပြာ/လိုင်းတောက်တောက်လေး ပေါ်စေဖို့ပါ */
+.category-link.active-category {
+  color: var(--green) !important;             /* စာသား အတောက်ဆုံး ဖြစ်သွားမယ် */
+  font-weight: 700 !important;               /* စာသား ပိုကြီး/တောက်သွားမယ် */
+  border-bottom-color: var(--green) !important; /* အောက်ခြေလိုင်းကို Org Color တားမယ် */
+}
+
+.category-link.active-category i {
+  color: var(--green) !important;    /* Active ဖြစ်နေတဲ့ Icon ကို Org Color ပြောင်းမယ် */
+}
+
+/* Showcase Card Custom Hover Effects */
+.showcase-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.showcase-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+/* ==========================================================================
+   MOBILE RESPONSIVE: Screen 768px ထက် သေးသွားလျှင် Nav Bar ကို ကျစ်လစ်စေခြင်း
+   ========================================================================== */
+@media (max-width: 767.98px) {
+  
+  /* ၁။ Category တစ်ခုချင်းစီရဲ့ Gap (ကြားအကွာအဝေး) ကို ကျဉ်းပစ်မယ် */
+  #navTrack {
+    gap: 1.9rem !important; /* နဂို 1.5rem ကနေ 0.8rem ကို လျှော့ချတာပါ */
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  /* ၂။ Category Link တစ်ခုချင်းစီရဲ့ Box အရွယ်အစားကို လျှော့ချခြင်း */
+  .category-link {
+    min-width: 85px !important;  /* နဂို 110px ကနေ 85px ကို လျှော့ပြီး နေရာချွေတာမယ် */
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    padding-bottom: 6px !important;
+    border-bottom-width: 2px !important; /* အောက်ခြေလိုင်းကိုလည်း ၂ ပစ်ဇယ်ပဲ ထားမယ် */
+  }
+
+  /* ၃။ Link ထဲက Icon အရွယ်အစားကို ပိုသေးအောင် ညှိမယ် */
+  .category-link .fs-4 {
+    font-size: 1.15rem !important; /* Bootstrap .fs-4 (1.5rem) နေရာမှာ 1.15rem ပဲ ထားမယ် */
+    margin-bottom: 2px !important;
+  }
+
+  /* ၄။ Icon ထဲက စာလုံး (Small Text) ကို ပိုကျစ်လစ်သွားစေမယ် */
+  .category-link small {
+    font-size: 0.72rem !important; /* စာလုံးကို 11px ဝန်းကျင်အထိ သေးပစ်မယ် */
+    display: block;
+    white-space: nowrap;           /* စာလုံးတွေ အောက်လိုင်း ဆင်းမသွားအောင် တားဆီးမယ် */
+  }
+
+  /* ၅။ ဘယ်/ညာ ရွှေ့တဲ့ မြှားခလုတ်လေးတွေကိုပါ ဖုန်း screen နဲ့ ကိုက်အောင် သေးပစ်မယ် */
+
+}
+
+
+
+
+

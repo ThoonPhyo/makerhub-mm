@@ -111,10 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 function updateMainHubProgress() {
   const tracks = {
-    arduino: typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
+    arduino:
+      typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
     esp32: typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [],
-    esp8266: typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
-    raspberry: typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
+    esp8266:
+      typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
+    raspberry:
+      typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
   };
 
   let globalTotalTopics = 0;
@@ -153,9 +156,11 @@ function updateMainHubProgress() {
     globalCompletedTopics += completedTopics;
 
     if (percentEl || fillEl) {
-      const percentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+      const percentage =
+        totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
       if (percentEl) percentEl.textContent = `${percentage}%`;
-      if (fillEl) fillEl.style.setProperty("width", `${percentage}%`, "important");
+      if (fillEl)
+        fillEl.style.setProperty("width", `${percentage}%`, "important");
     }
 
     if (lessonCountEl) {
@@ -171,12 +176,19 @@ function updateMainHubProgress() {
   const totalFillEl = document.getElementById("total-journey-fill");
 
   if (totalPercentEl || totalFillEl) {
-    const totalPercentage = globalTotalTopics > 0 ? Math.round((globalCompletedTopics / globalTotalTopics) * 100) : 0;
+    const totalPercentage =
+      globalTotalTopics > 0
+        ? Math.round((globalCompletedTopics / globalTotalTopics) * 100)
+        : 0;
     if (totalPercentEl) {
       totalPercentEl.textContent = `${totalPercentage}%`;
     }
     if (totalFillEl) {
-      totalFillEl.style.setProperty("width", `${totalPercentage}%`, "important");
+      totalFillEl.style.setProperty(
+        "width",
+        `${totalPercentage}%`,
+        "important",
+      );
     }
   }
 }
@@ -195,11 +207,17 @@ function updateXpProgress() {
   const fillEl = document.getElementById("xpProgressBar");
   if (!fillEl) return;
 
-  const finalTotalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
+  const finalTotalXP = parseInt(
+    localStorage.getItem("student_total_xp") ?? "0",
+  );
   const targetXP = 10000;
   const percentage = Math.round((finalTotalXP / targetXP) * 100);
 
-  fillEl.style.setProperty("width", `${Math.min(percentage, 100)}%`, "important");
+  fillEl.style.setProperty(
+    "width",
+    `${Math.min(percentage, 100)}%`,
+    "important",
+  );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -221,7 +239,8 @@ function updateHeroProgress() {
     }
   });
 
-  const percentage = totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
+  const percentage =
+    totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
 
   heroProgressBar.style.width = `${percentage}%`;
   heroProgressBar.setAttribute("aria-valuenow", percentage);
@@ -307,7 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLessons();
 });
 
-
 // reset all
 // 🔄 Reload လုပ်လျှင် Data "အားလုံးကို" အကုန်ရှင်းလင်းမည့် စနစ် (Clear All)
 document.addEventListener("DOMContentLoaded", () => {
@@ -336,13 +354,199 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderLessons === "function") {
         renderLessons();
       }
-      
+
       // ၅။ Main Hub ၏ Progress ကိုလည်း ပြန်လည် Refresh လုပ်မည်
       if (typeof updateMainHubProgress === "function") {
         updateMainHubProgress();
       }
 
-      console.log("🔄 Chrome Browser Reload ကြောင့် Track အားလုံးရှိ ဒေတာများကို ရှင်းလင်းပြီးပါပြီ (Clear All)။");
+      console.log(
+        "🔄 Chrome Browser Reload ကြောင့် Track အားလုံးရှိ ဒေတာများကို ရှင်းလင်းပြီးပါပြီ (Clear All)။",
+      );
     }
   }
 });
+
+// --------- community page--------------
+
+// ==========================================================================
+// ၁။ HTML နေရာများကို လှမ်းဖမ်းခြင်း (DOM Selection)
+// ==========================================================================
+const track = document.getElementById("navTrack");
+const prev = document.getElementById("prevBtn");
+const next = document.getElementById("nextBtn");
+
+// Page အလိုက် Container ၂ ခုလုံးကို လှမ်းဖမ်းထားမယ်
+const projectContainer = document.getElementById("projectContainer"); // Community Page အတွက်
+const homeProjectContainer = document.getElementById("homeProjectContainer"); // Home Page အတွက်
+
+// ==========================================================================
+// ၂။ COMMUNITY PAGE အတွက် - ကတ်ပြားအားလုံး ဆွဲတင်ပြသမည့် စက်ရုံ (Render Function)
+// ==========================================================================
+function displayProjects(projectsList) {
+  if (!projectContainer) return; // ဒီနေရာမရှိရင် (ဥပမာ Home Page ဆိုရင်) အောက်ကကုဒ်တွေကို ဆက်မလုပ်ဘဲ ရပ်မယ်
+  projectContainer.innerHTML = "";
+
+  if (projectsList.length === 0) {
+    projectContainer.innerHTML = `<div class="col-12 text-muted text-center py-5">No projects found here yet!</div>`;
+    return;
+  }
+
+  projectsList.forEach((project) => {
+    projectContainer.innerHTML += `
+    <div class="col">
+      <a href="project-detail.html?id=${project.id}" class="text-decoration-none text-dark">
+        <div class="showcase-card">
+          <div class="post-img-container">
+            <img src="${project.image}" class="showcase-img" alt="Project" />
+          </div>
+          <div class="card-content p-3 d-flex flex-column flex-grow-1">
+            <h5 class="project-title mb-1">${project.title}</h5>
+            <p class="project-desc mb-3">${project.description}</p>
+            
+            <div class="d-flex justify-content-between align-items-center mt-auto">
+              <div class="d-flex align-items-center">
+                <img src="${project.userAvatar}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
+                <span class="user-name">${project.userName}</span>
+              </div>
+              <div class="stats-group d-flex gap-3">
+                <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
+                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  `;
+  });
+}
+
+// ==========================================================================
+// ၃။ HOME PAGE အတွက် - နောက်ဆုံးပေါ် ကတ် ၃ ခုတည်းသာ ပြသမည့် စက်ရုံ
+// ==========================================================================
+function displayHomeProjects(projectsList) {
+  if (!homeProjectContainer) return;
+  homeProjectContainer.innerHTML = "";
+
+  const latestThree = projectsList.slice(0, 3);
+
+  latestThree.forEach((project) => {
+    homeProjectContainer.innerHTML += `
+      <div class="col">
+          <a href="community/project-detail.html?id=${project.id}" class="text-decoration-none text-dark">
+            <div class="showcase-card">
+          <div class="post-img-container">
+            <img src="${project.image}" class="showcase-img" alt="Project" />
+          </div>
+          <div class="card-content p-3 d-flex flex-column flex-grow-1">
+            <h5 class="project-title mb-1">${project.title}</h5>
+            <p class="project-desc mb-3">${project.description}</p>
+            
+            <div class="d-flex justify-content-between align-items-center mt-auto">
+              <div class="d-flex align-items-center">
+                <img src="${project.userAvatar}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
+                <span class="user-name">${project.userName}</span>
+              </div>
+              <div class="stats-group d-flex gap-3">
+                <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
+                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+          </a>
+        </div>
+      </div>
+    `;
+  });
+}
+// ==========================================================================
+// ၄။ COMMUNITY PAGE အတွက် - Category ဇကာတင် စစ်ထုတ်ခြင်း (Safe Filtering Logic)
+// ==========================================================================
+function filterCategory(categoryName, element) {
+  const allLinks = document.querySelectorAll(".category-link");
+  allLinks.forEach((link) => {
+    link.classList.remove("active-category");
+  });
+
+  element.classList.add("active-category");
+
+  // 💡 စာလုံးအကြီးအသေးကြောင့် အလုပ်မလုပ်ပဲဖြစ်ခြင်းကို ကာကွယ်ရန် toLowerCase() သုံးပြီး တိုက်စစ်ခြင်း
+  const selectedCategory = categoryName.toLowerCase().trim();
+
+  if (selectedCategory === "all") {
+    displayProjects(myProjects);
+  } else {
+    const filtered = myProjects.filter((project) => {
+      // project.category ရှိမရှိ အရင်စစ်ပြီးမှ စာလုံးအသေးပြောင်းပြီး တိုက်စစ်ပါမယ်
+      return (
+        project.category &&
+        project.category.toLowerCase().trim() === selectedCategory
+      );
+    });
+    displayProjects(filtered);
+  }
+}
+
+// ==========================================================================
+// ၅။ စာမျက်နှာနှစ်ခုလုံး စဖွင့်ချင်းမှာ အလိုအလျောက် စစ်ဆေးပြီး ပတ်ပေးမည့်စနစ်
+// ==========================================================================
+// ၁။ API ကနေလာမည့် ဒေတာများကို သိမ်းဆည်းရန် Array အလွတ်
+let myProjects = [];
+
+// 🌐 Cloud API ဆီကနေ Live ဒေတာ လှမ်းဆွဲမည့် စက်ရုံ (Async/Await Fetch)
+async function fetchLiveProjects() {
+  try {
+    // 🔗 အစ်ကို့ရဲ့ MockAPI လင့်ခ်အစစ်ကို တိုက်ရိုက် တပ်ဆင်ပေးထားပါတယ်
+    const apiUrl =
+      "https://6a0e53941736097c3609b735.mockapi.io/api/v1/projects";
+
+    // အင်တာနက်ပေါ်က API ဆီကို လှမ်းခေါ်ခြင်း
+    const response = await fetch(apiUrl);
+
+    // API က ပေးလိုက်တဲ့ JSON ဒေတာကို JavaScript Array ပုံစံ ပြောင်းလဲခြင်း
+    myProjects = await response.json();
+
+    // 💡 ဒေတာထဲမှာ id အမှန်တကယ် ပါမပါ Browser Console (F12) တွင် ကြည့်ရန် လိုင်းတိုးခြင်း
+    console.log("MockAPI မှ ကျလာသော ဒေတာပုံစံ -", myProjects);
+
+    // ဒေတာတွေ အောင်မြင်စွာ ရောက်ရှိလာပြီဆိုမှ မူလ Render စက်ရုံများကို လှမ်းခေါ်ခြင်း
+    displayProjects(myProjects); // Community Page အတွက်
+    displayHomeProjects(myProjects); // Home Page အတွက်
+  } catch (error) {
+    console.error("Live API မှ ဒေတာဆွဲရာတွင် အမှားအယွင်းရှိနေပါသည် -", error);
+    if (projectContainer) {
+      projectContainer.innerHTML = `
+        <div class="col-12 text-center text-danger py-5">
+          <i class="bi bi-exclamation-triangle-fill fs-2 d-block mb-2"></i>
+          Server connection failed! Please check your internet.
+        </div>`;
+    }
+  }
+}
+
+// ၃။ စာမျက်နှာ စဖွင့်ချင်းမှာတင် Live API ကို တန်းခေါ်ခိုင်းခြင်း
+document.addEventListener("DOMContentLoaded", () => {
+  fetchLiveProjects();
+});
+
+// ==========================================================================
+// ၆။ COMMUNITY PAGE အတွက် - ဘယ်/ညာ မြှားခလုတ်များ အလုပ်လုပ်စေမည့်စနစ် (Slider Logic)
+// ==========================================================================
+
+// Next Button (ညာဘက်မြှားခလုတ်)
+if (next && track) {
+  // 💡 Home Page မှာ Error မတက်အောင် ခလုတ်အမှန်တကယ် ရှိမှပဲ အလုပ်လုပ်ခိုင်းခြင်း
+  next.addEventListener("click", () => {
+    track.scrollBy({ left: 200, behavior: "smooth" });
+  });
+}
+
+// Prev Button (ဘယ်ဘက်မြှားခလုတ်)
+if (prev && track) {
+  // 💡 ခလုတ်အမှန်တကယ် ရှိမှပဲ အလုပ်လုပ်ခိုင်းခြင်း
+  prev.addEventListener("click", () => {
+    track.scrollBy({ left: -200, behavior: "smooth" });
+  });
+}

@@ -127,7 +127,7 @@
                   <a class="nav-link" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link " href="/Learning/index.html">Learning</a>
+                  <a class="nav-link" href="/Learning/index.html">Learning</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active" href="#">Community</a>
@@ -224,9 +224,12 @@
                         </p>
                         <button
                           class="btn hero-btn fw-bold text-white shadow-sm"
-                          style="background-color: var(--green); border-radius: 8px"
+                          style="
+                            background-color: var(--green);
+                            border-radius: 8px;
+                          "
                         >
-                          Shop Now
+                          Explore Now
                         </button>
                       </div>
                     </div>
@@ -257,9 +260,12 @@
                         </p>
                         <button
                           class="btn hero-btn fw-bold text-white shadow-sm p-2"
-                          style="background-color: var(--green); border-radius: 8px"
+                          style="
+                            background-color: var(--green);
+                            border-radius: 8px;
+                          "
                         >
-                          Shop Now
+                          Explore Now
                         </button>
                       </div>
                     </div>
@@ -270,6 +276,130 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- categoreies nav -->
+    <div class="container my-5">
+      <div class="mb-4">
+        <div class="d-flex align-items-center position-relative">
+          <button
+            class="btn btn-light border rounded-circle p-0 d-none d-md-flex align-items-center justify-content-center"
+            id="prevBtn"
+            style="width: 38px; height: 38px; z-index: 10"
+          >
+            <i class="bi bi-arrow-left"></i>
+          </button>
+
+          <!-- nav tabs -->
+          <div
+            class="d-flex flex-nowrap overflow-x-auto py-5 text-center"
+            id="navTrack"
+            style="
+              gap: 2.0rem;
+              scrollbar-width: none;
+              scroll-behavior: smooth;
+              width: 100%;
+            "
+          >
+            <a
+              onclick="filterCategory('all', this)"
+              class="nav-link category-link px-2 pb-2 active-category"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-grid-fill"></i></div>
+              <small>All categories</small>
+            </a>
+
+            <a
+              onclick="filterCategory('arduino', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-cpu"></i></div>
+              <small>Arduino Projects</small>
+            </a>
+
+            <a
+              onclick="filterCategory('esp32-sensors', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-diagram-3-fill"></i></div>
+              <small>ESP32 with Sensors</small>
+            </a>
+
+            <a
+              onclick="filterCategory('esp32-webserver', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-globe"></i></div>
+              <small>ESP32 Web Server</small>
+            </a>
+
+            <a
+              onclick="filterCategory('esp8266', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-wifi"></i></div>
+              <small>ESP8266 IoT</small>
+            </a>
+
+            <a
+              onclick="filterCategory('raspberry-pi', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-hdd-network"></i></div>
+              <small>Raspberry Pi & AI</small>
+            </a>
+
+            <a
+              onclick="filterCategory('power-solar', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1">
+                <i class="bi bi-lightning-charge-fill"></i>
+              </div>
+              <small>Power & Solar</small>
+            </a>
+
+            <a
+              onclick="filterCategory('automation', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1">
+                <i class="bi bi-gear-wide-connected"></i>
+              </div>
+              <small>Automation</small>
+            </a>
+
+            <a
+              onclick="filterCategory('robotics', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-robot"></i></div>
+              <small>Robotics</small>
+            </a>
+
+            <a
+              onclick="filterCategory('audio-sound', this)"
+              class="nav-link category-link px-2 pb-2"
+            >
+              <div class="fs-4 mb-1"><i class="bi bi-volume-up-fill"></i></div>
+              <small>Audio & Sound</small>
+            </a>
+          </div>
+
+          <button
+            class="btn btn-light border rounded-circle p-0 d-none d-md-flex align-items-center justify-content-center"
+            id="nextBtn"
+            style="width: 38px; height: 38px; z-index: 10"
+          >
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+        id="projectContainer"
+      ></div>
     </div>
 
     <!--Footer Section -->
@@ -345,7 +475,7 @@
     ></script>
     <!-- Your JS -->
     <script src="/js/app.js"></script>
-    <script src="/js/data.js"></script>
+    <!-- <script src="/js/data.js"></script> -->
 
     <!-- Minimal navbar scroll enhancement -->
     <script>

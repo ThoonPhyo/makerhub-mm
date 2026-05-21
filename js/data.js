@@ -1273,6 +1273,144 @@ const raspberryJourneyData= [
   },
 ];
 
+// projects card data
+const myProjects = [
+  {
+    id: 1,
+    title: "AUTO WATER MOTOR CONTROL V-2",
+    category: "automation",
+    image: "../assets/images/arduinopj.jpeg",
+    description: "Automated water pump controller featuring dual modes, low-voltage protection, and tank level indicators.",
+    userAvatar: "https://randomuser.me/api/portraits/men/1.jpg",
+    userName: "Anthon Nexa",
+    likes: 45,
+    comments: 3
+  },
+  {
+    id: 2,
+    title: "ESP32 DHT22 Temperature Logger",
+    category: "esp32-sensors",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500",
+    description: "Reads ambient data from DHT22 temperature & humidity sensor and logs it to a local dynamic display screen.",
+    userAvatar: "https://randomuser.me/api/portraits/women/2.jpg",
+    userName: "Sophia Lee",
+    likes: 25,
+    comments: 7
+  },
+  {
+    id: 3,
+    title: "ESP32 Local Web Server Dashboard",
+    category: "esp32-webserver",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500",
+    description: "Hosting a standalone HTML/CSS web server directly on ESP32 to monitor real-time sensor parameters over Wi-Fi.",
+    userAvatar: "https://randomuser.me/api/portraits/men/3.jpg",
+    userName: "Alex Zavala",
+    likes: 68,
+    comments: 14
+  },
+  {
+    id: 4,
+    title: "DIY Off-Grid Solar Monitor",
+    category: "power-solar",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=500",
+    description: "Track solar panel wattage, battery state of charge (SoC), and inverter efficiency via INA219 sensors.",
+    userAvatar: "https://randomuser.me/api/portraits/men/4.jpg",
+    userName: "Zayar Linn",
+    likes: 56,
+    comments: 11
+  },
+  // ➕ အသစ်ထပ်တိုး (Category: esp8266)
+  {
+    id: 5,
+    title: "NodeMCU ESP8266 Blynk Smart Home",
+    category: "esp8266",
+    image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=500",
+    description: "Connecting ESP8266 NodeMCU with Blynk IoT legacy cloud platform to control 4-channel relays anywhere.",
+    userAvatar: "https://randomuser.me/api/portraits/men/12.jpg",
+    userName: "Min Thu",
+    likes: 38,
+    comments: 5
+  },
+  // ➕ အသစ်ထပ်တိုး (Category: raspberry-pi)
+  {
+    id: 6,
+    title: "Raspberry Pi 4 Object Detection AI",
+    category: "raspberry-pi",
+    image: "https://images.unsplash.com/photo-1543269664-76bc3997d9ea?w=500",
+    description: "Deploying a lightweight TensorFlow Lite AI model on Raspberry Pi 4 with a Pi Camera for live object recognition.",
+    userAvatar: "https://randomuser.me/api/portraits/women/11.jpg",
+    userName: "Su Myat",
+    likes: 72,
+    comments: 19
+  },
+  {
+    id: 7,
+    title: "Arduino Basic Smart Plant Waterer",
+    category: "arduino",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500",
+    description: "A beginner-friendly automatic plant watering system using an Arduino UNO, soil moisture sensor, and 5V relay module.",
+    userAvatar: "https://randomuser.me/api/portraits/women/4.jpg",
+    userName: "Emma Watson",
+    likes: 19,
+    comments: 2
+  },
+  {
+    id: 8,
+    title: "ESP32 Multi-Channel NPK Sensor Station",
+    category: "esp32-sensors",
+    image: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=500",
+    description: "Interfacing RS485 Modbus NPK soil sensors with ESP32 to monitor soil nitrogen, phosphorus, and potassium levels.",
+    userAvatar: "https://randomuser.me/api/portraits/men/6.jpg",
+    userName: "Kyaw Zin",
+    likes: 34,
+    comments: 4
+  },
+  {
+    id: 9,
+    title: "ESP32 Wi-Fi Relay Web Controller",
+    category: "esp32-webserver",
+    image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500",
+    description: "Control home appliances remotely by hosting an asynchronous web server on ESP32 with toggle switch buttons.",
+    userAvatar: "https://randomuser.me/api/portraits/men/7.jpg",
+    userName: "Thaw Zin",
+    likes: 52,
+    comments: 9
+  },
+  {
+    id: 10,
+    title: "Arduino Obstacle Avoiding Rover",
+    category: "robotics",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500",
+    description: "An autonomous rover built with Arduino Nano, L298N driver, and an ultrasonic distance sensor tracking route.",
+    userAvatar: "https://randomuser.me/api/portraits/women/8.jpg",
+    userName: "Hnin Nu",
+    likes: 41,
+    comments: 5
+  },
+  {
+    id: 11,
+    title: "Smart AC Load Energy Meter",
+    category: "power-solar",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500",
+    description: "Measure AC current, voltage, active power, and total energy consumption using the PZEM-004T module.",
+    userAvatar: "https://randomuser.me/api/portraits/men/9.jpg",
+    userName: "Min Khant",
+    likes: 23,
+    comments: 1
+  },
+  {
+    id: 12,
+    title: "Bluetooth Audio Amplifier Box",
+    category: "audio-sound",
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500",
+    description: "Custom 2.1 channel speaker box featuring a TPA3116D2 amplifier chip and dynamic VU meter lights.",
+    userAvatar: "https://randomuser.me/api/portraits/men/10.jpg",
+    userName: "Hein Htet",
+    likes: 14,
+    comments: 0
+  }
+];
+
 // 🎯 လက်ရှိဝင်ရောက်နေသော Track အလိုက် Local Storage Key ကို အလိုအလျောက် ခွဲခြားပေးမည့် Helper
 function getStorageKey() {
   const path = window.location.pathname.toLowerCase();
