@@ -384,6 +384,7 @@ const homeProjectContainer = document.getElementById("homeProjectContainer"); //
 // ၂။ COMMUNITY PAGE အတွက် - ကတ်ပြားအားလုံး ဆွဲတင်ပြသမည့် စက်ရုံ (Render Function)
 // ==========================================================================
 function displayProjects(projectsList) {
+  if (loadingIndicator) loadingIndicator.classList.add("d-none");
   if (!projectContainer) return; // ဒီနေရာမရှိရင် (ဥပမာ Home Page ဆိုရင်) အောက်ကကုဒ်တွေကို ဆက်မလုပ်ဘဲ ရပ်မယ်
   projectContainer.innerHTML = "";
 
@@ -426,6 +427,7 @@ function displayProjects(projectsList) {
 // ၃။ HOME PAGE အတွက် - နောက်ဆုံးပေါ် ကတ် ၃ ခုတည်းသာ ပြသမည့် စက်ရုံ
 // ==========================================================================
 function displayHomeProjects(projectsList) {
+  if (loadingIndicator) loadingIndicator.classList.add("d-none");
   if (!homeProjectContainer) return;
   homeProjectContainer.innerHTML = "";
 

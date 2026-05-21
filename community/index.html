@@ -242,7 +242,43 @@
           <div class="carousel-item" data-bs-interval="3000">
             <div class="card border-0">
               <img
-                src="/assets/images/Project.hub-Hero-Banner.jpg"
+                src="/assets/images/esp32-s31-banner.png"
+                class="card-img rounded-3 hero-img-narrow"
+                alt="..."
+              />
+
+              <div class="card-img-overlay d-flex align-items-center">
+                <div class="container px-md-5">
+                  <div class="row">
+                    <div class="col-12 col-md-8 col-lg-6 text-white">
+                      <div class="card-body p-2 p-md-3">
+                        <h2 class="hero-title fw-bold mb-2 mb-md-3">
+                          Arduino VENTUNO Q
+                        </h2>
+                        <p class="lead mb-3 mb-md-4 d-none d-sm-block">
+                          Where AI takes action.
+                        </p>
+                        <button
+                          class="btn hero-btn fw-bold text-white shadow-sm p-2"
+                          style="
+                            background-color: var(--green);
+                            border-radius: 8px;
+                          "
+                        >
+                          Explore Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" data-bs-interval="3000">
+            <div class="card border-0">
+              <img
+                src="/assets/images/hero_img.png"
                 class="card-img rounded-3 hero-img-narrow"
                 alt="..."
               />
@@ -399,10 +435,21 @@
 
     <!-- project cards container -->
     <div class="container mb-5">
+      
+      <!-- Loading ပြသရန် နေရာ -->
+      <div id="loadingIndicator" class="text-center py-5">
+        <div class="spinner-border" role="status" style="color: var(--green)">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2" style="color: var(--text-muted)">
+          Loading project details...
+        </p>
+      </div>
+
       <div
         class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
         id="projectContainer"
-      >Loading project details...</div>
+      ></div>
     </div>
 
     <!--Footer Section -->
