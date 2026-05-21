@@ -3,31 +3,529 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Details - MakerHub</title>
+    <title>Project Details - MakerHub MM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-  </head>
-  <body class="bg-light">
-    <div class="container py-5">
-      <a href="index.html" class="btn btn-outline-secondary mb-4"
-        >← Back to Home</a
-      >
 
-      <div id="detailContainer" class="row justify-content-center">
-        <div class="col-md-8 text-center py-5">
-          <div class="spinner-border text-primary" role="status"></div>
-          <p class="mt-2">Loading project details...</p>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/community.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <!-- ── NAVBAR ───────────────────────────────────────── -->
+    <header class="header-nav" id="headerSection">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid px-0">
+            <!-- Brand -->
+            <a
+              class="navbar-brand d-flex align-items-center gap-2"
+              href="/index.html"
+            >
+              <i class="bi bi-cpu text-neon-green fs-5"></i>
+              <span class="brand-text"
+                >Maker<span class="text-neon-green">Hub</span> MM</span
+              >
+            </a>
+
+            <!-- Mobile Toggler -->
+            <button
+              class="navbar-toggler custom-toggler border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navContent"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+              <!-- Mobile top strip: profile + search + theme -->
+              <div
+                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-2 pb-3"
+                style="border-bottom: 1px solid rgba(240, 246, 252, 0.06)"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <div class="dropdown">
+                    <div
+                      class="profile-wrapper"
+                      data-bs-toggle="dropdown"
+                      style="cursor: pointer"
+                    >
+                      <img
+                        src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                        class="rounded-circle"
+                        width="34"
+                        height="34"
+                      />
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-person me-2"></i>Profile</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-gear me-2"></i>Settings</a
+                        >
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a class="dropdown-item text-danger" href="#"
+                          ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="nav-search-container" style="width: 130px">
+                    <i class="bi bi-search search-icon-left"></i>
+                    <input
+                      type="text"
+                      class="nav-search-input"
+                      placeholder="Search"
+                    />
+                  </div>
+                </div>
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+              </div>
+
+              <!-- Nav Links -->
+              <ul
+                class="navbar-nav mx-auto nav-links-custom my-2 my-lg-0 w-100 justify-content-lg-center"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Learning/index.html">Learning</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Marketplace</a>
+                </li>
+              </ul>
+
+              <!-- Desktop right controls -->
+              <div class="d-none d-lg-flex align-items-center gap-3">
+                <div class="nav-search-container">
+                  <i class="bi bi-search search-icon-left"></i>
+                  <input
+                    type="search"
+                    class="nav-search-input"
+                    placeholder="Search"
+                  />
+                </div>
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+                <div class="dropdown">
+                  <div
+                    class="profile-wrapper"
+                    data-bs-toggle="dropdown"
+                    style="cursor: pointer"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                      class="rounded-circle"
+                      width="34"
+                      height="34"
+                    />
+                  </div>
+                  <ul
+                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end mt-2"
+                  >
+                    <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-person me-2"></i>Profile</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-gear me-2"></i>Settings</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="#"
+                        ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- project post container -->
+    <section class="container py-5" id="projectPostSection">
+      <!-- Back Button: CSS Variables သုံးပြီး Theme နှစ်ခုလုံးနဲ့ ကိုက်အောင် ပြင်ထားပါတယ် -->
+      <div class="row justify-content-between align-items-center mb-4">
+        <div class="col-auto mb-2 mb-md-0">
+          <a
+            href="index.html"
+            class="btn back-btn mb-0"
+            style="
+              color: var(--text);
+              border-color: var(--border);
+              background-color: var(--surface);
+            "
+          >
+            <i class="bi bi-arrow-left me-2"></i>Back to Community
+          </a>
+        </div>
+
+        <div class="col-auto">
+          <a
+            id="btnCreatePost"
+            href="create-post.html"
+            class="btn btn-create-post d-none mb-0 me-3"
+          >
+            <i class="bi bi-plus-circle me-2"></i>Create Post
+          </a>
         </div>
       </div>
-    </div>
 
+      <!-- Loading ပြသရန် နေရာ -->
+      <div id="loadingIndicator" class="text-center py-5">
+        <div class="spinner-border" role="status" style="color: var(--green)">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2" style="color: var(--text-muted)">
+          Loading project details...
+        </p>
+      </div>
+
+      <!-- Project Content -->
+      <div id="projectContent" class="row g-4 d-none">
+        <div class="col-lg-8">
+          <!-- Title: မူရင်း White/Dark custom variable ကို သုံးထားပါတယ် -->
+          <h1
+            id="pjTitle"
+            class="fw-bold mb-3"
+            style="color: var(--c-text-title)"
+          >
+            Loading Title...
+          </h1>
+
+          <!-- Creator Info & Avatar -->
+          <div
+            class="d-flex align-items-center justify-content-between mb-4 p-3 rounded"
+            style="
+              background-color: var(--bg-elevated);
+              border: 1px solid var(--border-muted);
+            "
+          >
+            <div class="d-flex align-items-center">
+              <img
+                id="pjAvatar"
+                src="https://via.placeholder.com/40"
+                class="rounded-circle me-3"
+                width="40"
+                height="40"
+                alt="Avatar"
+                style="border: 2px solid var(--green)"
+              />
+              <div>
+                <h6
+                  id="pjAuthor"
+                  class="mb-0 fw-bold"
+                  style="color: var(--text)"
+                >
+                  Loading Author...
+                </h6>
+                <small
+                  id="pjCategory"
+                  class="text-uppercase small fw-bold"
+                  style="color: var(--text-subtle); letter-spacing: 0.5px"
+                  >Category</small
+                >
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+              <button
+                id="btnLike"
+                class="btn d-flex align-items-center px-3 py-1.5 rounded-pill"
+                style="
+                  background-color: var(--green-dim);
+                  color: var(--green);
+                  border: 1px solid var(--border-accent);
+                  transition: all 0.2s var(--ease);
+                "
+              >
+                <i id="likeIcon" class="bi bi-heart me-2"></i>
+                <strong id="pjLikes">0</strong>
+              </button>
+
+              <span
+                class="btn d-flex align-items-center px-3 py-1.5 rounded-pill"
+                style="
+                  background-color: var(--purple-dim);
+                  color: var(--purple);
+                  border: 1px solid rgba(139, 92, 246, 0.25);
+                "
+              >
+                <i class="bi bi-chat-text-fill me-2"></i>
+                <strong id="pjComments">0</strong>
+              </span>
+            </div>
+          </div>
+
+          <img
+            id="pjImage"
+            src="https://via.placeholder.com/800x400"
+            class="img-fluid mb-4"
+            alt="Project"
+            style="
+              border: 1px solid var(--card-border);
+              box-shadow: var(--shadow);
+            "
+          />
+
+          <!-- Description Card -->
+          <div
+            class="card custom-card p-4 mb-4"
+            style="
+              background-color: var(--c-card-bg);
+              border: 1px solid var(--c-card-border);
+              box-shadow: var(--shadow-sm);
+            "
+          >
+            <h3 style="color: var(--c-text-title)">
+              <i class="bi bi-file-text me-2" style="color: var(--clr-blue)"></i
+              >Project Description
+            </h3>
+            <div
+              id="pjDescription"
+              style="color: var(--text-muted); line-height: 1.7"
+            >
+              Loading description...
+            </div>
+          </div>
+
+          <!-- Wiring Notes Card -->
+          <div
+            class="card custom-card p-4 mb-4"
+            style="
+              background-color: var(--c-card-bg);
+              border: 1px solid var(--c-card-border);
+              box-shadow: var(--shadow-sm);
+            "
+          >
+            <h3 style="color: var(--c-text-title)">
+              <i
+                class="bi bi-diagram-3 me-2"
+                style="color: var(--clr-orange)"
+              ></i
+              >Wiring Notes
+            </h3>
+            <ul
+              id="pjWiring"
+              class="list-unstyled mb-0"
+              style="color: var(--text-muted)"
+            >
+              Loading wiring...
+            </ul>
+          </div>
+
+          <!-- Source Code Card -->
+          <div
+            class="card custom-card p-4"
+            style="
+              background-color: var(--c-card-bg);
+              border: 1px solid var(--c-card-border);
+              box-shadow: var(--shadow-sm);
+            "
+          >
+            <h3 style="color: var(--c-text-title)">
+              <i
+                class="bi bi-code-slash me-2"
+                style="color: var(--clr-orange)"
+              ></i
+              >Source Code
+            </h3>
+            <pre
+              class="code-block"
+              style="
+                background-color: #050708;
+                border: 1px solid var(--border-muted);
+              "
+            ><code id="pjCode" style="color: #e2e8f0;">Loading code...</code></pre>
+          </div>
+        </div>
+
+        <!-- Sidebar (Components) -->
+        <div class="col-lg-4">
+          <div
+            class="card custom-card p-4 sticky-top"
+            style="top: 90px; z-index: 1010; background-color: var(--c-card-bg)"
+          >
+            <h4>
+              <i class="bi bi-tools me-2" style="color: var(--clr-purple)"></i
+              >Components
+            </h4>
+
+            <h6
+              class="mt-3 text-uppercase small fw-bold"
+              style="color: var(--text-subtle); letter-spacing: 0.5px"
+            >
+              Electronics
+            </h6>
+            <ul
+              id="pjElectronics"
+              class="list-unstyled"
+              style="color: var(--text)"
+            ></ul>
+
+            <h6
+              class="mt-4 text-uppercase small fw-bold"
+              style="color: var(--text-subtle); letter-spacing: 0.5px"
+            >
+              Hardware
+            </h6>
+            <ul
+              id="pjHardware"
+              class="list-unstyled"
+              style="color: var(--text)"
+            ></ul>
+
+            <h6
+              class="mt-4 text-uppercase small fw-bold"
+              style="color: var(--text-subtle); letter-spacing: 0.5px"
+            >
+              Software
+            </h6>
+            <ul
+              id="pjSoftware"
+              class="list-unstyled"
+              style="color: var(--text)"
+            ></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Footer Section -->
+    <footer class="footer-section pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-5">
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-brand mb-3">
+              <i class="fa-solid fa-microchip me-2 text-green"></i>MakerHub MM
+            </div>
+            <p class="small" style="color: var(--text-muted)">
+              Empowering Myanmar makers, students, and innovators through IoT
+              education and community.
+            </p>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Platform</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Arduino</a></li>
+              <li><a href="#">ESP32</a></li>
+              <li><a href="#">Raspberry Pi</a></li>
+              <li><a href="#">All Tutorials</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Community</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Discussions</a></li>
+              <li><a href="#">Project Showcase</a></li>
+              <li><a href="#">Events</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Marketplace</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">All Products</a></li>
+              <li><a href="#">Sensors</a></li>
+              <li><a href="#">Motors</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 col-6 text-lg-end">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-muted" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+        >
+          <div class="social-links d-flex gap-3">
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+          </div>
+          <p class="m-0 text-muted small text-center">
+            Made with <i class="fa-solid fa-heart text-danger"></i> in Myanmar
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lottie -->
+    <script
+      src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
+      type="module"
+    ></script>
+
+    <!-- Minimal navbar scroll enhancement -->
+    <script>
+      const header = document.getElementById("headerSection");
+      window.addEventListener(
+        "scroll",
+        () => {
+          header.classList.toggle("scrolled", window.scrollY > 20);
+        },
+        { passive: true },
+      );
+    </script>
+
+    <!-- Script file path ကို သင့်ဆီကအတိုင်း ပြန်ချိန်ပေးထားပါတယ် -->
     <script src="/js/detail.js"></script>
+    <script src="/js/data.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>

@@ -34,24 +34,34 @@
   }
 }
 
-
 /* carousel nav bar */
 /* Categories Nav Slider Layout */
 /* ==========================================================================
    CATEGORIES SLIDER NAV BAR (Org Root Colors Only)
    ========================================================================== */
 
-/* ၁။ ဘယ်/ညာ ရွှေ့သည့် မြှားခလုတ်များ ဒီဇိုင်း */
-#prevBtn, #nextBtn {
-  background-color: var(--bg-elevated);      /* ကြွတက်နေသော နောက်ခံအရောင် */
-  border: 1px solid var(--c-card-border);    /* Card Border အတိုင်း သုံးမယ် */
-  color: var(--text);                        /* ပုံမှန် စာသားအရောင် */
+/* carouselNavBar */
+.carouselNavBar {
+  background-color: var(
+    --bg-elevated
+  ) !important; /* Nav Bar အတွက် ကြွတက်နေသော နောက်ခံအရောင် */
+  /* border-bottom: 1px solid var(--c-card-border) !important; Nav Bar အောက်ခြေကို Card Border အတိုင်း သုံးမယ် */
+  /* border-top: 1px solid var(--c-card-border) !important; */
+}
+
+/* ၁။ ဘယ်/ညာ ရွေ့သည့် မြှားခလုတ်များ ဒើဇីណេ */
+#prevBtn,
+#nextBtn {
+  background-color: var(--bg-elevated); /* ကြွတက်နေသော နောက်ခံအရောင် */
+  border: 1px solid var(--c-card-border); /* Card Border အတိုင်း သုံးမယ် */
+  color: var(--text); /* ပုံမှန် စာသားအရောင် */
   transition: all 0.2s var(--ease);
 }
 
-#prevBtn:hover, #nextBtn:hover {
-  background-color: var(--bg-surface);       /* Hover လုပ်ရင် အရောင်ပြောင်းမယ် */
-  color: var(--text-accent);                 /* Org ရဲ့ ထင်ရှားစေမည့် အရောင်ပြောင်းမယ် */
+#prevBtn:hover,
+#nextBtn:hover {
+  background-color: var(--bg-surface); /* Hover လုပ်ရင် အရောင်ပြောင်းမယ် */
+  color: var(--text-accent); /* Org ရဲ့ ထင်ရှားစေမည့် အရောင်ပြောင်းမယ် */
   border-color: var(--border-accent);
 }
 
@@ -59,25 +69,27 @@
 .category-link {
   min-width: 110px;
   text-decoration: none;
-  color: var(--text-muted) !important;       /* ပုံမှန်အချိန်မှာ စာသားကို မှိန်ထားမယ် */
+  color: var(
+    --text-muted
+  ) !important; /* ပုံမှန်အချိန်မှာ စာသားကို မှိန်ထားမယ် */
   transition: all 0.25s var(--ease);
   cursor: pointer;
-  border-bottom: 3px solid transparent;      /* အောက်ခြေလိုင်းကို ကြိုတင်နေရာချထားခြင်း */
+  border-bottom: 3px solid transparent; /* အောက်ခြေလိုင်းကို ကြိုတင်နေရာချထားခြင်း */
 }
 
 /* Category Link ထဲက Icon များ */
 .category-link i {
-  color: var(--text-subtle);                 /* Icon ကိုလည်း ခပ်မှိန်မှိန်ပဲ ပြထားမယ် */
+  color: var(--text-subtle); /* Icon ကိုလည်း ခပ်မှိန်မှိန်ပဲ ပြထားမယ် */
   transition: color 0.25s var(--ease);
 }
 
 /* ၃။ Mouse တင်လိုက်သည့် အခြေအနေ (Hover Effect) */
 .category-link:hover {
-  color: var(--green) !important;             /* Hover လုပ်ရင် စာသား ပိုလင်းလာမယ် */
+  color: var(--green) !important; /* Hover လုပ်ရင် စာသား ပိုလင်းလာမယ် */
 }
 
 .category-link:hover i {
-  color: var(--text-accent);                 /* Hover လုပ်ရင် Icon က Org Color တန်းပြောင်းမယ် */
+  color: var(--text-accent); /* Hover လုပ်ရင် Icon က Org Color တန်းပြောင်းမယ် */
 }
 
 /* ==========================================================================
@@ -85,18 +97,24 @@
    ========================================================================== */
 /* အစ်ကို နှိပ်လိုက်တဲ့ Category ကို လိုင်းအပြာ/လိုင်းတောက်တောက်လေး ပေါ်စေဖို့ပါ */
 .category-link.active-category {
-  color: var(--green) !important;             /* စာသား အတောက်ဆုံး ဖြစ်သွားမယ် */
-  font-weight: 700 !important;               /* စာသား ပိုကြီး/တောက်သွားမယ် */
-  border-bottom-color: var(--green) !important; /* အောက်ခြေလိုင်းကို Org Color တားမယ် */
+  color: var(--green) !important; /* စာသား အတောက်ဆုံး ဖြစ်သွားမယ် */
+  font-weight: 700 !important; /* စာသား ပိုကြီး/တောက်သွားမယ် */
+  border-bottom-color: var(
+    --green
+  ) !important; /* အောက်ခြေလိုင်းကို Org Color တားမယ် */
 }
 
 .category-link.active-category i {
-  color: var(--green) !important;    /* Active ဖြစ်နေတဲ့ Icon ကို Org Color ပြောင်းမယ် */
+  color: var(
+    --green
+  ) !important; /* Active ဖြစ်နေတဲ့ Icon ကို Org Color ပြောင်းမယ် */
 }
 
 /* Showcase Card Custom Hover Effects */
 .showcase-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .showcase-card:hover {
@@ -104,12 +122,10 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
-
 /* ==========================================================================
    MOBILE RESPONSIVE: Screen 768px ထက် သေးသွားလျှင် Nav Bar ကို ကျစ်လစ်စေခြင်း
    ========================================================================== */
 @media (max-width: 767.98px) {
-  
   /* ၁။ Category တစ်ခုချင်းစီရဲ့ Gap (ကြားအကွာအဝေး) ကို ကျဉ်းပစ်မယ် */
   #navTrack {
     gap: 1.9rem !important; /* နဂို 1.5rem ကနေ 0.8rem ကို လျှော့ချတာပါ */
@@ -119,7 +135,7 @@
 
   /* ၂။ Category Link တစ်ခုချင်းစီရဲ့ Box အရွယ်အစားကို လျှော့ချခြင်း */
   .category-link {
-    min-width: 85px !important;  /* နဂို 110px ကနေ 85px ကို လျှော့ပြီး နေရာချွေတာမယ် */
+    min-width: 85px !important; /* နဂို 110px ကနေ 85px ကို လျှော့ပြီး နေရာချွေတာမယ် */
     padding-left: 4px !important;
     padding-right: 4px !important;
     padding-bottom: 6px !important;
@@ -136,14 +152,296 @@
   .category-link small {
     font-size: 0.72rem !important; /* စာလုံးကို 11px ဝန်းကျင်အထိ သေးပစ်မယ် */
     display: block;
-    white-space: nowrap;           /* စာလုံးတွေ အောက်လိုင်း ဆင်းမသွားအောင် တားဆီးမယ် */
+    white-space: nowrap; /* စာလုံးတွေ အောက်လိုင်း ဆင်းမသွားအောင် တားဆီးမယ် */
   }
 
   /* ၅။ ဘယ်/ညာ ရွှေ့တဲ့ မြှားခလုတ်လေးတွေကိုပါ ဖုန်း screen နဲ့ ကိုက်အောင် သေးပစ်မယ် */
+}
 
+/* ==========================================
+   Project Post Custom Styles
+   ========================================== */
+
+#projectPostSection {
+  color: var(--text);
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+/* Back Button Styling & Hover Effect */
+.back-btn {
+  transition: all 0.2s var(--ease);
+}
+.back-btn:hover {
+  background-color: var(--bg-subtle) !important;
+  color: var(--green) !important;
+  border-color: var(--green) !important;
+}
+
+/* Create Post Button Custom Styling */
+.btn-create-post {
+  background-color: var(--green) !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius); /* 12px */
+  padding: 8px 16px;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s var(--ease);
+}
+
+.btn-create-post:hover {
+  background-color: transparent !important;
+  color: var(--green) !important;
+  border-color: var(--green) !important;
+  box-shadow: var(--shadow-green);
+}
+
+#pjImage {
+  border-radius: var(--radius-lg); /* 16px */
+  width: 100%;
+  height: auto; /* 👈 အမြင့်ကို auto ပြောင်းလိုက်ရင် ပုံမပြဲတော့ဘဲ တစ်ပုံလုံး အကုန်မြင်ရပါမယ် */
+  /* max-height: 550px; 👈 ပုံကြီးလွန်းရင် ကတ်ကြီး အရမ်းရှည်မထွက်သွားအောင် အမြင့်ဆုံး limit တစ်ခုပဲ ထိန်းထားပါမယ် */
+  object-fit: contain; /* 👈 ပုံကို အတင်းဖြတ်မချဘဲ သေတ္တာထဲ အံကိုက် ဝင်ဆံ့စေပါတယ် */
+  background-color: var(--bg-dark); /* 👈 ကွက်လပ်ဖြစ်သွားတဲ့ ဘေးဘက်တွေကို ပရိုဆန်ဆန် နောက်ခံအမှောင် ခံပေးထားပါတယ် */
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+}
+/* Card များကို Theme အလိုက် အရောင်ပြောင်းလဲနိုင်အောင် ပြင်ဆင်ခြင်း */
+.custom-card {
+  border-radius: var(
+    --radius-lg
+  ); /* 16px မသုံးဘဲ အစ်ကို့ variable ပြန်သုံးထားပါတယ် */
+  background-color: var(--c-card-bg) !important;
+  border: 1px solid var(--c-card-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+/* Code Block ကို Card ထက် ပိုနက်တဲ့ နောက်ခံအရောင် သတ်မှတ်ခြင်း */
+/* Code Block Wrapper */
+.code-block {
+  /* Theme နှစ်ခုလုံးမှာ မပြောင်းလဲဘဲ VS Code ဆန်ဆန် အမြဲတမ်း ပရိုကျကျ မှောင်နေစေရန် */
+  background-color: #1e1e1e !important; 
+  padding: 20px;
+  border-radius: var(--radius); /* 12px */
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  overflow-x: auto;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 15px;
+}
+
+/* Code စာသားများအတွက် သီးသန့် Style */
+#pjCode {
+  /* စာသားအရောင်ကို အဖြူ/မီးခိုးလင်းရောင် ပုံသေထားလိုက်လို့ Light Mode ရော Dark Mode မှာပါ အမြဲတမ်း စာဖတ်ရတာ တောက်ပပြတ်သားနေပါမယ် */
+  color: #d4d4d4 !important; 
+  font-size: 0.95rem;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  display: block;
+}
+
+/* Arduino style syntax comment စာသားလေးတွေပါ လှနေစေရန် (Optional) */
+#pjCode span.comment {
+  color: #6a9955;
+}
+
+/* JavaScript Dynamic List Items (<li>) Styles */
+#pjElectronics li,
+#pjHardware li,
+#pjSoftware li {
+  color: var(--text-muted) !important;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.3s var(--ease);
+}
+
+/* List Items တွေကို Hover လုပ်ရင် စာသားလေး လင်းလာစေရန် */
+#pjElectronics li:hover,
+#pjHardware li:hover,
+#pjSoftware li:hover {
+  color: var(--text) !important;
+}
+
+/* Icons များကို အစ်ကို့ရဲ့ Brand Accent Colors တွေနဲ့ ချိတ်ပေးထားပါတယ် */
+#pjElectronics li i {
+  color: var(--clr-purple) !important;
+  margin-right: 10px;
+}
+#pjHardware li i {
+  color: var(--clr-rpi) !important;
+  margin-right: 10px;
+}
+#pjSoftware li i {
+  color: var(--clr-arduino) !important;
+  margin-right: 10px;
+}
+
+/* Project Main Image Responsive Design */
+.img-fluid {
+  border-radius: var(--radius-lg); /* 16px */
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+/* Mobile Screen Layout အတွက် အမြင့်ကို Auto ပြန်ညှိပေးခြင်း (ပုံမပြဲစေရန်) */
+@media (max-width: 768px) {
+  .img-fluid {
+    height: 250px;
+  }
 }
 
 
 
+/* ==========================================
+   Create Post Page Custom Styles
+   ========================================== */
 
+/* Layout & Entry Animation */
+#createPostPage {
+  max-width: 800px;
+  animation: formFadeIn 0.4s var(--ease);
+}
 
+/* Form Elements base design (Inputs, Select, Textareas) */
+.form-control, 
+.form-select {
+  background-color: var(--surface) !important; /* Base component UI surface */
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: var(--radius); /* 12px */
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+
+/* Textarea သီးသန့် line-height နှင့် layout ညှိခြင်း */
+textarea.form-control {
+  line-height: 1.6;
+  resize: vertical; /* အကျယ်ပျက်မသွားစေရန် အပေါ်အောက်ပဲ ဆွဲချဲ့ခွင့်ပြုမည် */
+}
+
+/* Source Code ရိုက်မယ့် ကွက်လပ်အတွက် Font ပုံစံသတ်မှတ်ခြင်း */
+#sourceCode {
+  font-family: 'Fira Code', Consolas, Monaco, monospace !important;
+  font-size: 0.9rem;
+  background-color: var(--bg-dark) !important; /* Code ရိုက်ရတာ မျက်စိသက်သာအောင် ပိုမှောင်သော အရောင်သုံးခြင်း */
+}
+
+/* Placeholder စာသားများ၏ အရောင်ကို ပျော့ပျောင်းစေရန် */
+.form-control::placeholder {
+  color: var(--text-subtle) !important;
+  opacity: 0.5;
+}
+
+/* Input Focus Glow Effect (အစ်ကို့ရဲ့ Premium Brand Green Glow ထွက်လာပါမည်) */
+.form-control:focus, 
+.form-select:focus {
+  background-color: var(--surface) !important;
+  border-color: var(--green) !important;
+  box-shadow: var(--shadow-green) !important; /* Custom green glow shadow */
+  outline: none;
+}
+
+/* Select element ရဲ့ option စာသားများ အရောင်မှန်စေရန် (Bug Fix) */
+.form-select option {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+/* Form Labels & Small helper text design */
+.form-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Cancel Back Button Hover Style */
+.back-btn {
+  transition: all 0.2s var(--ease) !important;
+}
+
+.back-btn:hover {
+  background-color: var(--bg-subtle) !important;
+  color: var(--green) !important;
+  border-color: var(--green) !important;
+}
+
+/* Publish Submit Button Design */
+.btn-create-post {
+  background-color: var(--green) !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s var(--ease);
+}
+
+.btn-create-post:hover {
+  background-color: transparent !important;
+  color: var(--green) !important;
+  border-color: var(--green) !important;
+  box-shadow: var(--shadow-green);
+  transform: translateY(-1px);
+}
+
+.btn-create-post:active {
+  transform: translateY(1px);
+}
+
+/* API သို့ လှမ်းပို့နေစဉ် Button loading state ခံထားချိန် style */
+.btn-create-post:disabled {
+  background-color: var(--bg-subtle) !important;
+  border-color: var(--border-muted) !important;
+  color: var(--text-subtle) !important;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom Card Integration Fix */
+.custom-card {
+  border-radius: var(--radius-lg) !important; /* 16px */
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+/* Page Dynamic Entry Animation */
+@keyframes formFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Screen Layout Optimization */
+@media (max-width: 768px) {
+  .card.custom-card {
+    padding: 20px !important; /* မိုဘိုင်းပေါ်တွင် card padding ကို လျှော့ချပြီး နေရာချွေတာမည် */
+  }
+  .container {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
