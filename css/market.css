@@ -68,7 +68,9 @@
 
 /* 💚 Premium Glowing "Sell an Item" Button Style */
 .btn-sell-custom {
-  background-color: #22c55e !important; /* var(--clr-orange/--clr-orange နေရာတွင် Direct Pure Green အစားထိုး */
+  background-color: var(
+    --neon-green
+  ) !important; /* var(--clr-orange/--clr-orange နေရာတွင် Direct Pure Green အစားထိုး */
   color: #000000 !important; /* စာသားကို Dark Background ပေါ်တွင် ပြတ်ပြတ်ထင်ထင်ပြောင်းရန် */
   border-radius: 10px !important;
   border: 1px solid transparent;
@@ -582,4 +584,60 @@
 .light-theme .classic-btn {
   background: rgba(0, 0, 0, 0.02) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+@media (max-width: 767.98px) {
+  /* မိုဘိုင်းတွင် ပုံကြီး ကားယားကြီးမဖြစ်အောင် အချိုးကျညှိခြင်း */
+  #marketGrid .classic-market-card .card-img-wrapper {
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  /* မိုဘိုင်းတွင် Card Padding ကို ချုံ့ခြင်း */
+  #marketGrid .classic-market-card .p-3 {
+    padding: 0.65rem !important;
+  }
+
+  /* စာလုံးအရွယ်အစားများနှင့် Margin များကို ကျစ်လစ်စေခြင်း */
+  #marketGrid .classic-market-card .classic-category {
+    font-size: 0.65rem !important;
+  }
+
+  #marketGrid .classic-market-card .classic-title {
+    font-size: 0.9rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-price {
+    font-size: 1rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-desc {
+    font-size: 0.75rem !important;
+    height: 2.2rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-seller-box {
+    padding-top: 4px !important;
+    margin-bottom: 8px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-avatar {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-seller-name {
+    font-size: 0.75rem !important;
+    max-width: 80px !important;
+  }
+
+  /* ခလုတ်များ Padding လျှော့ချခြင်း */
+  #marketGrid .classic-market-card .btn {
+    padding: 5px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+  }
 }

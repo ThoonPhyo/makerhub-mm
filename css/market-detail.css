@@ -70,8 +70,9 @@
 
 .btn-custom-outline:hover {
   background-color: var(--bg-elevated);
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  color: var(--neon-green, #22c55e) !important;
+
 }
 
 .brand-text-market {

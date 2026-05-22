@@ -22,7 +22,6 @@
   --nav-bg: #0c1117;
   --fea-icon-bg: #161b22;
 
-
   /* Borders */
   --border: rgba(240, 246, 252, 0.1);
   --broder2: rgba(0, 208, 132, 0.12);
@@ -1293,7 +1292,7 @@ body {
   padding: 5px;
   width: 100%;
   height: 100%; /* Aspect ratio ထိန်းရန် */
-  
+
   /* if want trasperant */
   background-color: transparent; /* Hides background */
   /* background: var(--c-card-bg); */
@@ -1381,143 +1380,6 @@ body {
   color: var(--green);
 }
 
-/* Card Container */
-.market-card {
-  background: var(--c-card-bg);
-  border: 1px solid var(--c-card-border);
-  border-radius: var(--radius-lg);
-  transition: all 0.3s var(--ease);
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.market-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  /* transform: translateY(-8px); */
-  background: var(--bg-elevated);
-}
-
-/* Product Image Box (The White Square) */
-.market-img-box {
-  background: var(--card-bg); /* Image ထဲကအတိုင်း Pure White */
-  margin: 15px; /* Card border နဲ့ image box ကြား spacing */
-  border-radius: var(--radius); /* အထဲက box ကို rounded လုပ်ရန် */
-  aspect-ratio: 1 / 1; /* အမြဲတမ်း စတုရန်းပုံစံ ဖြစ်နေစေရန် */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle definition */
-}
-
-.market-img-box img {
-  max-width: 95%;
-  max-height: 95%;
-  object-fit: contain; /* Hardware ပုံတွေ မပြတ်သွားစေရန် */
-  transition: transform 0.4s var(--ease);
-}
-
-.market-card:hover .market-img-box img {
-  transform: scale(1.1); /* Hover လုပ်ရင် ပုံလေး zoom ဖြစ်မယ် */
-}
-
-/* Product Information */
-.product-info-wrapper {
-  padding: 0 15px 15px 15px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.product-name {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.product-price {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-bottom: 15px;
-}
-
-/* Buy Now Button */
-.btn-buy {
-  background: var(--green);
-  color: #ffffff;
-  border: none;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  font-weight: 700;
-  font-size: 0.9rem;
-  width: 100%;
-  margin-top: auto; /* အမြဲတမ်း အောက်ဆုံးမှာ ကပ်နေစေရန် */
-  transition: all 0.2s var(--ease);
-}
-
-.btn-buy:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-
-/* Card size ကို သေးအောင် ထိန်းချုပ်ခြင်း */
-.compact-card {
-  width: 100%;
-  max-width: 280px; /* Card ရဲ့ width ကို သေးသေးလေးပဲ ကန့်သတ်ထားတာပါ */
-  margin: 0 auto;
-}
-
-/* Mobile သီးသန့် screen size အတွက် */
-@media (max-width: 576px) {
-  .compact-card {
-    max-width: 240px; /* ဖုန်းမှာ ပိုသေးစေချင်ရင် 240px အထိ လျှော့နိုင်ပါတယ် */
-  }
-
-  .market-img-box {
-    margin: 10px;
-    padding: 12px;
-  }
-
-  .product-name {
-    font-size: 0.9rem;
-  }
-
-  .product-price {
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-  }
-
-  .btn-buy {
-    padding: 8px;
-    font-size: 0.85rem;
-  }
-}
-
-/* Desktop (lg) မှာ ပြန်ကျယ်သွားအောင် override လုပ်ခြင်း */
-@media (min-width: 992px) {
-  .compact-card {
-    max-width: 100%; /* Desktop မှာတော့ grid အတိုင်း width အပြည့်ယူမယ် */
-  }
-}
-
-/* Responsive Grid Fix (Optional - but recommended for Bootstrap) */
-@media (max-width: 576px) {
-  .market-img-box {
-    margin: 10px;
-    padding: 15px;
-  }
-  .product-name {
-    font-size: 0.9rem;
-  }
-}
 
 /* ============================================================
    Newsletter SECTION
@@ -1759,5 +1621,67 @@ dotlottie-wc {
   }
   .j-title {
     font-size: 1.6rem;
+  }
+}
+
+
+/* ==========================================================================
+   📱 MOBILE ONLY OVERRIDES (Desktop Style ကို လုံးဝမထိခိုက်စေဘဲ ဖုန်းအတွက်ပဲ ပြင်ဆင်ချက်)
+   ========================================================================== */
+@media (max-width: 767.98px) {
+  
+  /* ၁။ မိုဘိုင်းမှာ ပုံကြီး ကားယားကြီးမဖြစ်အောင် ၁၈၀px အသေကနေ အချိုးကျ ပြောင်းလဲခြင်း */
+  .classic-market-card .card-img-wrapper {
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  /* ၂။ မိုဘိုင်းမှာ ပတ်ပတ်လည် Space (Padding) တွေကို တစ်ဝက်နီးပါး ချုံ့ပစ်ခြင်း */
+  .classic-market-card .p-3 {
+    padding: 0.65rem !important;
+  }
+
+  /* ၃။ စာလုံးအရွယ်အစားနှင့် အောက်ခြေ Margin များကို မိုဘိုင်းအတွက် ကျစ်လစ်စေခြင်း */
+  .classic-market-card .classic-category {
+    font-size: 0.65rem !important;
+  }
+
+  .classic-market-card .classic-title {
+    font-size: 0.9rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  .classic-market-card .classic-price {
+    font-size: 1rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  .classic-market-card .classic-desc {
+    font-size: 0.75rem !important;
+    height: 2.2rem !important; /* စာတိုရှည် ညီညာစေရန် */
+    margin-bottom: 6px !important;
+  }
+
+  /* ၄။ Seller Profile အောက်ခြေ Space လျှော့ခြင်း */
+  .classic-market-card .classic-seller-box {
+    padding-top: 4px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .classic-market-card .classic-avatar {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .classic-market-card .classic-seller-name {
+    font-size: 0.75rem !important;
+    max-width: 80px !important;
+  }
+
+  /* ၅။ ခလုတ်များကို မိုဘိုင်းနှင့် အချိုးကျအောင် Padding လျှော့ချခြင်း */
+  .classic-market-card .classic-btn {
+    padding: 5px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
   }
 }

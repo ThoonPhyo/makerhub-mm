@@ -431,7 +431,9 @@ function displayHomeProjects(projectsList) {
   if (!homeProjectContainer) return;
   homeProjectContainer.innerHTML = "";
 
-  const latestThree = projectsList.slice(0, 3);
+  // const = projectsList.slice(0, 3);
+  // 💡 နောက်ဆုံးပေါ်ကတ်တွေကို ရှာဖွေဖို့ အရင် reverse() ပြီးမှ slice() လုပ်မယ်
+  const latestThree  = [...projectsList].reverse().slice(0, 3);
 
   latestThree.forEach((project) => {
     homeProjectContainer.innerHTML += `
@@ -471,14 +473,16 @@ function displayHomeMarketPlace(projectsList) {
   // Container ပုံးကို HTML ထဲက ID အသစ်အတိုင်း လှမ်းဖတ်မယ်
   const homeMarketPlaceContainer = document.getElementById("homeMarketGrid");
   const loadingIndicator = document.getElementById("marketLoading"); // ရှိရင် သုံးဖို့ပါ
+  const homeMarketLoading = document.getElementById("homeMarketLoading"); // ဒီ ID ကို HTML မှာ သတ်မှတ်ထားရမယ်
 
   if (loadingIndicator) loadingIndicator.classList.add("d-none");
+  if (homeMarketLoading) homeMarketLoading.classList.add("d-none"); // ဒီ ID ကို HTML မှာ သတ်မှတ်ထားရမယ်
   if (!homeMarketPlaceContainer) return;
 
   homeMarketPlaceContainer.innerHTML = "";
 
-  // 💡 ကတ် အရေအတွက် (၃) ခုကနေ (၄) ခုပြောင်းဖို့ slice(0, 4) လုပ်လိုက်ပါတယ်
-  const latestFour = projectsList.slice(0, 4);
+  // 💡get latest items to show in homepage so make it reverse
+  const latestFour = [...projectsList].reverse().slice(0, 4);
 
   latestFour.forEach((item) => {
     // Wishlist အခြေအနေကို စစ်ဆေးပြီး အစ်ကိုသုံးချင်တဲ့ text-success (အစိမ်းရောင်) သတ်မှတ်မယ်
@@ -555,7 +559,7 @@ function displayHomeMarketPlace(projectsList) {
             </div>
 
             <div class="d-flex gap-2">
-              <a href="market-detail/index.html?id=${item.id}" class="btn flex-grow-1 text-nowrap rounded-2 classic-btn" style="background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); color: var(--text, #c9d1d9);">
+              <a href="/marketplace/market-detail/index.html?id=${item.id}" class="btn flex-grow-1 text-nowrap rounded-2 classic-btn" style="background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); color: var(--text, #c9d1d9);">
                 <i class="bi bi-telephone me-1"></i> View
               </a>
               <button class="btn rounded-2 classic-btn" id="saveBtn-${item.id}" onclick="toggleWishlist('${item.id}')" style="background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); color: var(--text, #c9d1d9);">

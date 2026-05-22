@@ -843,8 +843,21 @@
           ></a>
         </div>
 
+        <!-- loading indicator -->
+        <div id="homeMarketLoading" class="text-center py-5">
+          <div class="spinner-border" role="status" style="color: var(--green)">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2" style="color: var(--text-muted)">
+            Loading marketplace items...
+          </p>
+        </div>
+
+
+        <!-- align-items-stretch is used to make all cards in a row have the same height -->
         <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+          class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 align-items-stretch" 
+          
           id="homeMarketGrid"
         ></div>
       </div>
@@ -951,6 +964,7 @@
     ></script>
     <!-- Your JS -->
     <script src="/js/app.js"></script>
+    <script src="/js/market.js"></script>
     <script src="/js/data.js"></script>
 
     <!-- Minimal navbar scroll enhancement -->

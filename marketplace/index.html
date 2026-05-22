@@ -241,54 +241,69 @@
     </div>
 
     <!-- categories nav -->
-    <div class="container px-3 mt-4 mb-3">
-      <div
-        class="d-flex gap-2 overflow-auto category-nav pb-2"
-        id="categoryNav"
-      >
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn cat-btn-active"
-          onclick="filterItems('All', this)"
-        >
-          <i class="bi bi-grid-fill me-1"></i> All
-        </button>
+    <nav
+      class="py-2 sticky-top"
+      style="
+        background-color: var(--bg-elevated, #161b22);
+        border-bottom: 1px solid var(--border, #30363d);
+        top: 67px;
+        z-index: 1010;
+      "
+    >
+      <div class="container">
+        <div class="d-flex gap-2 overflow-auto category-nav" id="categoryNav">
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn cat-btn-active"
+            onclick="filterItems('All', this)"
+          >
+            <i class="bi bi-grid-fill me-1"></i> All
+          </button>
 
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
-          onclick="filterItems('Microcontroller', this)"
-        >
-          <i class="bi bi-cpu me-1"></i> Microcontrollers
-        </button>
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Microcontroller', this)"
+          >
+            <i class="bi bi-cpu me-1"></i> Microcontrollers
+          </button>
 
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
-          onclick="filterItems('Sensor', this)"
-        >
-          <i class="bi bi-broadcast-pin me-1"></i> Sensors
-        </button>
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Sensor', this)"
+          >
+            <i class="bi bi-broadcast-pin me-1"></i> Sensors
+          </button>
 
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
-          onclick="filterItems('Motor', this)"
-        >
-          <i class="bi bi-gear-fill me-1"></i> Motors & Servos
-        </button>
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Motor', this)"
+          >
+            <i class="bi bi-gear-fill me-1"></i> Motors & Servos
+          </button>
 
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
-          onclick="filterItems('Display', this)"
-        >
-          <i class="bi bi-tv me-1"></i> Displays
-        </button>
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Display', this)"
+          >
+            <i class="bi bi-tv me-1"></i> Displays
+          </button>
 
-        <button
-          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
-          onclick="filterItems('Saved Items', this)"
-        >
-          <i class="bi bi-bookmark me-1"></i> Saved Items
-        </button>
+          <!-- <option value="Components">Components / Others</option> -->
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Components', this)"
+          >
+            <i class="bi bi-motherboard"></i> Components & Others
+          </button>
+
+          <button
+            class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+            onclick="filterItems('Saved Items', this)"
+          >
+            <i class="bi bi-bookmark me-1"></i> Saved Items
+          </button>
+        </div>
       </div>
-    </div>
+    </nav>
 
     <!-- show item cards -->
     <main class="container px-3 py-5">
@@ -299,7 +314,10 @@
         </p>
       </div>
 
-      <div id="marketGrid" class="row g-4 d-none"></div>
+      <div
+        id="marketGrid"
+        class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-md-3 align-items-stretch d-none"
+      ></div>
     </main>
 
     <!--Footer Section -->

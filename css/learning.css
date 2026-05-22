@@ -4,11 +4,12 @@
 
 .breadcrumb-section {
   background-color: var(--bg-subtle);
+  border-bottom: 1px solid var(--border, #30363d);
   padding: 7px 0;
   position: sticky;
   top: 67px;
   z-index: 1010;
-  border-bottom: 1px solid var(--border-muted);
+  /* border-bottom: 1px solid var(--border-muted); */
 }
 
 .breadcrumb {

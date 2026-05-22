@@ -72,8 +72,8 @@ function renderCards(items) {
     const finalAvatar = isDummy ? `https://ui-avatars.com/api/?name=${finalSeller}&background=random&color=fff` : item.sellerAvatar;
 
     const cardHtml = `
-      <div class="col-12 col-sm-6 col-lg-4 col-xl-3" id="market-item-${item.id}">
-        <div class="classic-market-card h-100 d-flex flex-column shadow-sm border rounded-3">
+      <div class="col d-flex justify-content-center" id="market-item-${item.id}">
+        <div class="classic-market-card h-100 d-flex flex-column shadow-sm border rounded-3 w-100">
           
           <div class="card-img-wrapper position-relative" style="height: 180px; background: #0d1117; overflow: hidden;">
             <img src="${finalImage}" alt="${finalName}" class="w-100 h-100 object-fit-cover"
@@ -194,6 +194,11 @@ async function toggleWishlist(itemId) {
       bookmarkIcon.classList.remove("bi-bookmark-fill", "text-success");
       bookmarkIcon.classList.add("bi-bookmark");
       alert("🤍 Removed from your Watchlist!");
+
+      const activeCatBtn = document.querySelector(".cat-btn-active");
+      if (activeCatBtn && activeCatBtn.textContent.includes("Saved Items")) {
+        filterItems('Saved Items', activeCatBtn); // Filter ကို နောက်တစ်ခေါက် ချက်ချင်း ပြန်မောင်းခိုင်းတာပါ
+      }
     }
 
   } catch (err) {

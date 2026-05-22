@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/market-detail.css" />
     <link rel="stylesheet" href="/css/style.css" />
   </head>
-  <body class="dark-theme">
+  <body>
     <!-- Header -->
     <header class="header-nav" id="headerSection">
       <div class="container">
@@ -172,20 +172,44 @@
     </header>
 
     <!-- Navigation -->
-    <nav class="navbar premium-nav py-3">
-      <div
-        class="container px-3 d-flex justify-content-between align-items-center"
-      >
-        <a
-          href="/marketplace/index.html"
-          class="btn btn-sm btn-custom-outline d-flex align-items-center"
-        >
-          <i class="bi bi-arrow-left me-2"></i> Back to Market
-        </a>
+    <div
+      class="py-2 mb-4 shadow-sm sticky-top"
+      style="
+        background-color: var(--bg-elevated, #161b22);
+        border-bottom: 1px solid var(--border, #30363d);
+        top: 67px; /* 💡 မူရင်း Main Nav ရဲ့ အမြင့်အတိုင်း ပေးရပါမယ် (ဥပမာ- 56px သို့မဟုတ် 60px) */
+        z-index: 1010; /* Bootstrap ရဲ့ Navbar အောက်တင် ကပ်နေစေဖို့ပါ */
+      "
+    >
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-2">
+            <a
+              href="../index.html"
+              class="btn btn-sm p-0 text-decoration-none"
+              style="color: var(--text)"
+            >
+              <i class="bi bi-arrow-left me-1"></i> Marketplace
+            </a>
+            <span style="color: var(--c-border)">/</span>
+            <span
+              class="small text-truncate"
+              style="color: var(--text-muted, #8b949e); max-width: 200px"
+            >
+              Item Detail
+            </span>
+          </div>
 
-       
+          <span
+            class="small text-nowrap"
+            id="detailNavCategory"
+            style="color: var(--text-muted, #8b949e)"
+          >
+            <i class="bi bi-tag me-1"></i> Loading...
+          </span>
+        </div>
       </div>
-    </nav>
+    </div>
 
     <!-- Main Content -->
     <main class="container px-3 py-5">
@@ -277,8 +301,11 @@
                   target="_blank"
                   class="btn btn-sm w-100 mt-2 py-2 btn-custom-outline d-flex align-items-center justify-content-center gap-2"
                 >
-                 <i class="bi bi-box-arrow-right text-primary"></i>Go to Social
-                  Profile
+                  <i
+                    class="bi bi-box-arrow-right"
+                    style="color: var(--green)"
+                  ></i
+                  >Go to Social Profile
                 </a>
               </div>
             </div>
@@ -308,7 +335,6 @@
         </div>
       </div>
     </main>
-
 
     <!-- Footer -->
     <footer class="footer-section pt-5 pb-3">

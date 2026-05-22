@@ -130,10 +130,14 @@
                   <a class="nav-link" href="/Learning/index.html">Learning</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href="/community/index.html">Community</a>
+                  <a class="nav-link active" href="/community/index.html"
+                    >Community</a
+                  >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/marketplace/index.html">Marketplace</a>
+                  <a class="nav-link" href="/marketplace/index.html"
+                    >Marketplace</a
+                  >
                 </li>
               </ul>
 
@@ -315,7 +319,13 @@
     </div>
 
     <!-- categoreies nav -->
-    <div class="carouselNavBar my-4">
+    <div
+      class="carouselNavBar my-4 sticky-top"
+      style="
+        top: 67px; /* 💡 မူရင်း Main Nav ရဲ့ အမြင့်အတိုင်း ပေးရပါမယ် (ဥပမာ- 56px သို့မဟုတ် 60px) */
+        z-index: 1010; /* Bootstrap ရဲ့ Navbar အောက်တင် ကပ်နေစေဖို့ပါ */
+      "
+    >
       <div class="container">
         <div class="d-flex align-items-center position-relative">
           <button
@@ -435,7 +445,6 @@
 
     <!-- project cards container -->
     <div class="container mb-5">
-      
       <!-- Loading ပြသရန် နေရာ -->
       <div id="loadingIndicator" class="text-center py-5">
         <div class="spinner-border" role="status" style="color: var(--green)">

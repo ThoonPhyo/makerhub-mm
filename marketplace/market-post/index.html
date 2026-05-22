@@ -221,10 +221,12 @@
 
     <!-- SECOND NAVBAR -->
     <div
-      class="py-2 mb-4 shadow-sm"
+      class="py-2 mb-4 shadow-sm sticky-top"
       style="
         background-color: var(--bg-elevated, #161b22);
         border-bottom: 1px solid var(--border, #30363d);
+        top: 67px; /* 💡 မူရင်း Main Nav ရဲ့ အမြင့်အတိုင်း ပေးရပါမယ် (ဥပမာ- 56px သို့မဟုတ် 60px) */
+        z-index: 1010; /* Bootstrap ရဲ့ Navbar အောက်တင် ကပ်နေစေဖို့ပါ */
       "
     >
       <div class="container">
@@ -234,7 +236,7 @@
             class="btn btn-sm text-decoration-none"
             style="color: var(--text)"
           >
-            <i class="bi bi-arrow-left me-2"></i>Back to Market
+            <i class="bi bi-arrow-left me-2"></i>Back to Marketplace
           </a>
           <span class="small" style="color: var(--text-muted, #8b949e)"
             ><i class="bi bi-shop me-2"></i>Seller Dashboard</span
