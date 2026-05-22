@@ -463,6 +463,113 @@ function displayHomeProjects(projectsList) {
     `;
   });
 }
+
+// ==========================================================================
+// HOME PAGE အတွက် - နောက်ဆုံးပေါ် ကတ် ၄ ခု တင်ဆက်ပြသမည့် စနစ်
+// ==========================================================================
+function displayHomeMarketPlace(projectsList) {
+  // Container ပုံးကို HTML ထဲက ID အသစ်အတိုင်း လှမ်းဖတ်မယ်
+  const homeMarketPlaceContainer = document.getElementById("homeMarketGrid");
+  const loadingIndicator = document.getElementById("marketLoading"); // ရှိရင် သုံးဖို့ပါ
+
+  if (loadingIndicator) loadingIndicator.classList.add("d-none");
+  if (!homeMarketPlaceContainer) return;
+
+  homeMarketPlaceContainer.innerHTML = "";
+
+  // 💡 ကတ် အရေအတွက် (၃) ခုကနေ (၄) ခုပြောင်းဖို့ slice(0, 4) လုပ်လိုက်ပါတယ်
+  const latestFour = projectsList.slice(0, 4);
+
+  latestFour.forEach((item) => {
+    // Wishlist အခြေအနေကို စစ်ဆေးပြီး အစ်ကိုသုံးချင်တဲ့ text-success (အစိမ်းရောင်) သတ်မှတ်မယ်
+    const isSaved = item.wishlist === true;
+    const iconClass = isSaved ? "bi-bookmark-fill text-success" : "bi-bookmark";
+
+    // 💡 API ဒေတာက "itemName 1" ဖြစ်နေရင် ဒေတာအစစ်လို လှပအောင် ပြောင်းလဲပေးမယ့် Logic
+    const isDummy = item.itemName && item.itemName.includes("itemName");
+
+    const finalImage =
+      item.image && item.image.includes("http")
+        ? item.image
+        : `https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500&q=80&sig=${item.id}`;
+
+    const finalName = isDummy ? `Maker Component v${item.id}` : item.itemName;
+    const finalPrice = isDummy
+      ? `${(item.id * 15000).toLocaleString()} MMK`
+      : item.price;
+    const finalCondition = isDummy
+      ? item.id % 2 === 0
+        ? "New"
+        : "Used"
+      : item.condition;
+
+    let finalCategory = "";
+    if (isDummy) {
+      const remainder = (Number(item.id) || 0) % 4;
+      if (remainder === 0) finalCategory = "Microcontrollers";
+      else if (remainder === 1) finalCategory = "Sensors";
+      else if (remainder === 2) finalCategory = "Motors";
+      else finalCategory = "Displays";
+    } else {
+      finalCategory = item.category || "Others";
+    }
+
+    const finalDesc = isDummy
+      ? "Premium grade electronic hardware component for DIY engineering projects."
+      : item.description;
+    const finalSeller = isDummy ? `Developer ${item.id}` : item.sellerName;
+    const finalAvatar = isDummy
+      ? `https://ui-avatars.com/api/?name=${finalSeller}&background=random&color=fff`
+      : item.sellerAvatar;
+
+    // HTML Insert လုပ်ခြင်း
+    homeMarketPlaceContainer.innerHTML += `
+      <div class="col d-flex justify-content-center" id="market-item-${item.id}">
+        <div class="classic-market-card h-100 d-flex flex-column shadow-sm border rounded-3 w-100">
+          
+          <div class="card-img-wrapper position-relative" style="height: 180px; background: #0d1117; overflow: hidden;">
+            <img src="${finalImage}" alt="${finalName}" class="w-100 h-100 object-fit-cover"
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500';">
+            <span class="condition-badge position-absolute top-0 end-0 m-2 badge bg-dark border">${finalCondition}</span>
+          </div>
+
+          <div class="p-3 d-flex flex-column flex-grow-1" style="background: var(--surface, #11161d);">
+            
+            <span class="classic-category" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
+              <i class="bi bi-tag-fill me-1"></i> ${finalCategory}
+            </span>
+
+            <h6 class="card-title text-truncate mb-1 fw-bold classic-title" title="${finalName}" style="color: var(--text, #fff); margin-top: 4px;">
+              ${finalName}
+            </h6>
+            
+            <div class="price-tag mb-2 classic-price" style="color: var(--neon-green, #22c55e); font-weight: bold; font-size: 1.1rem;">${finalPrice}</div>
+            
+            <p class="text-muted small mb-3 text-truncate-2 classic-desc" style="font-size: 0.8rem; height: 2.4rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+              ${finalDesc}
+            </p>
+
+            <div class="seller-info d-flex align-items-center gap-2 mb-3 pt-2 classic-seller-box" style="border-top: 1px solid rgba(240,246,252,0.06); margin-top: auto;">
+              <img src="${finalAvatar}" class="rounded-circle classic-avatar" style="width:24px; height:24px;" alt="Seller">
+              <span class="small text-truncate classic-seller-name" style="color: var(--text-muted); max-width: 120px; font-size: 0.8rem;">${finalSeller}</span>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a href="market-detail/index.html?id=${item.id}" class="btn flex-grow-1 text-nowrap rounded-2 classic-btn" style="background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); color: var(--text, #c9d1d9);">
+                <i class="bi bi-telephone me-1"></i> View
+              </a>
+              <button class="btn rounded-2 classic-btn" id="saveBtn-${item.id}" onclick="toggleWishlist('${item.id}')" style="background: var(--bg-elevated, #161b22); border: 1px solid var(--border, #30363d); color: var(--text, #c9d1d9);">
+                <i class="bi ${iconClass}" id="bookmarkIcon-${item.id}"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
 // ==========================================================================
 // ၄။ COMMUNITY PAGE အတွက် - Category ဇကာတင် စစ်ထုတ်ခြင်း (Safe Filtering Logic)
 // ==========================================================================
@@ -494,30 +601,40 @@ function filterCategory(categoryName, element) {
 // ==========================================================================
 // ၅။ စာမျက်နှာနှစ်ခုလုံး စဖွင့်ချင်းမှာ အလိုအလျောက် စစ်ဆေးပြီး ပတ်ပေးမည့်စနစ်
 // ==========================================================================
-// ၁။ API ကနေလာမည့် ဒေတာများကို သိမ်းဆည်းရန် Array အလွတ်
+// ၁။ API ကနေလာမည့် ဒေတာများကို သိမ်းဆည်းရန် Array အလွတ်များ
 let myProjects = [];
+let myMarketItems = []; // 💡 Marketplace အတွက် Array အသစ်
 
 // 🌐 Cloud API ဆီကနေ Live ဒေတာ လှမ်းဆွဲမည့် စက်ရုံ (Async/Await Fetch)
 async function fetchLiveProjects() {
   try {
-    // 🔗 အစ်ကို့ရဲ့ MockAPI လင့်ခ်အစစ်ကို တိုက်ရိုက် တပ်ဆင်ပေးထားပါတယ်
-    const apiUrl =
+    const apiProjectsUrl =
       "https://6a0e53941736097c3609b735.mockapi.io/api/v1/projects";
+    const apiMarketUrl =
+      "https://6a0e53941736097c3609b735.mockapi.io/api/v1/marketplace"; // 💡 Market API လမ်းကြောင်း
 
-    // အင်တာနက်ပေါ်က API ဆီကို လှမ်းခေါ်ခြင်း
-    const response = await fetch(apiUrl);
+    // 🔗 API နှစ်ခုစလုံးကနေ ဒေတာကို တစ်ပြိုင်နက် လှမ်းဆွဲမယ် (ပိုမြန်ဆန်စေပါတယ်)
+    const [resProjects, resMarket] = await Promise.all([
+      fetch(apiProjectsUrl),
+      fetch(apiMarketUrl),
+    ]);
 
-    // API က ပေးလိုက်တဲ့ JSON ဒေတာကို JavaScript Array ပုံစံ ပြောင်းလဲခြင်း
-    myProjects = await response.json();
+    // JSON ပြောင်းလဲခြင်း
+    myProjects = await resProjects.json();
+    myMarketItems = await resMarket.json();
 
-    // 💡 ဒေတာထဲမှာ id အမှန်တကယ် ပါမပါ Browser Console (F12) တွင် ကြည့်ရန် လိုင်းတိုးခြင်း
-    console.log("MockAPI မှ ကျလာသော ဒေတာပုံစံ -", myProjects);
+    console.log("Projects ဒေတာ -", myProjects);
+    console.log("Marketplace ဒေတာ -", myMarketItems);
 
-    // ဒေတာတွေ အောင်မြင်စွာ ရောက်ရှိလာပြီဆိုမှ မူလ Render စက်ရုံများကို လှမ်းခေါ်ခြင်း
+    // 🚀 ဒေတာအသီးသီးကို သက်ဆိုင်ရာ စက်ရုံတွေဆီ မှန်ကန်စွာ ပို့ဆောင်ပေးခြင်း
     displayProjects(myProjects); // Community Page အတွက်
     displayHomeProjects(myProjects); // Home Page အတွက်
+
+    // 💡 ကွက်တိအမှန်ကန်ဆုံး ဖြစ်သွားအောင် myMarketItems ကို ထည့်ပေးလိုက်ပါတယ်
+    displayHomeMarketPlace(myMarketItems);
   } catch (error) {
     console.error("Live API မှ ဒေတာဆွဲရာတွင် အမှားအယွင်းရှိနေပါသည် -", error);
+    const projectContainer = document.getElementById("projectGrid"); // အစ်ကို့ container id အတိုင်းပါ
     if (projectContainer) {
       projectContainer.innerHTML = `
         <div class="col-12 text-center text-danger py-5">
@@ -527,7 +644,6 @@ async function fetchLiveProjects() {
     }
   }
 }
-
 // ၃။ စာမျက်နှာ စဖွင့်ချင်းမှာတင် Live API ကို တန်းခေါ်ခိုင်းခြင်း
 document.addEventListener("DOMContentLoaded", () => {
   fetchLiveProjects();

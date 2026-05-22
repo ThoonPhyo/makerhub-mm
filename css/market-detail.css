@@ -1,0 +1,115 @@
+/* =========================================
+   Market Detail Page - Custom Styles
+   ========================================= */
+
+/* Premium Detail Card */
+.detail-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Carousel Section */
+.carousel-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.light-theme .carousel-container {
+  background-color: #f1f5f9;
+}
+
+.detail-img {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  padding: 15px;
+}
+
+/* Glassmorphism Carousel Buttons */
+.carousel-control-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(22, 27, 34, 0.7) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 15px;
+  opacity: 0.8;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.light-theme .carousel-control-btn {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.light-theme .carousel-control-btn .carousel-control-prev-icon,
+.light-theme .carousel-control-btn .carousel-control-next-icon {
+  filter: invert(1);
+}
+
+.carousel-control-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* Typography & Utility Classes (Replacing Inline Styles) */
+.btn-custom-outline {
+  color: var(--text);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  transition: all 0.3s ease;
+}
+
+.btn-custom-outline:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.brand-text-market {
+  color: var(--text);
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+}
+
+.detail-item-name {
+  letter-spacing: -0.5px;
+}
+
+.price-large {
+  color: var(--accent);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.detail-item-desc {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.seller-avatar-img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+.contact-box {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+
+.contact-phone-text {
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}

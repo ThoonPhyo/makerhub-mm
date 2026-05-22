@@ -22,6 +22,7 @@
   --nav-bg: #0c1117;
   --fea-icon-bg: #161b22;
 
+
   /* Borders */
   --border: rgba(240, 246, 252, 0.1);
   --broder2: rgba(0, 208, 132, 0.12);
@@ -29,6 +30,7 @@
   --border-accent: rgba(34, 197, 94, 0.25);
 
   /* Accent */
+  --neon-green: #22c55e;
   --green: #0d9488;
   --green-dim: rgba(34, 197, 94, 0.15);
   --green-glow: rgba(34, 197, 94, 0.25);

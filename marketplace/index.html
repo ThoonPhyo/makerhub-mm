@@ -244,42 +244,48 @@
     <div class="container px-3 mt-4 mb-3">
       <div
         class="d-flex gap-2 overflow-auto category-nav pb-2"
-        style="scrollbar-width: none"
         id="categoryNav"
       >
         <button
           class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn cat-btn-active"
           onclick="filterItems('All', this)"
         >
-          <i class="bi bi-grid-fill me-2"></i>All
+          <i class="bi bi-grid-fill me-1"></i> All
         </button>
+
         <button
-          class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-nowrap cat-btn"
-          style="color: var(--text)"
+          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
           onclick="filterItems('Microcontroller', this)"
         >
-          Microcontrollers
+          <i class="bi bi-cpu me-1"></i> Microcontrollers
         </button>
+
         <button
-          class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-nowrap cat-btn"
-          style="color: var(--text)"
+          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
           onclick="filterItems('Sensor', this)"
         >
-          Sensors
+          <i class="bi bi-broadcast-pin me-1"></i> Sensors
         </button>
+
         <button
-          class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-nowrap cat-btn"
-          style="color: var(--text)"
+          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
           onclick="filterItems('Motor', this)"
         >
-          Motors & Servos
+          <i class="bi bi-gear-fill me-1"></i> Motors & Servos
         </button>
+
         <button
-          class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-nowrap cat-btn"
-          style="color: var(--text)"
+          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
           onclick="filterItems('Display', this)"
         >
-          Displays
+          <i class="bi bi-tv me-1"></i> Displays
+        </button>
+
+        <button
+          class="btn btn-sm px-3 rounded-pill text-nowrap cat-btn"
+          onclick="filterItems('Saved Items', this)"
+        >
+          <i class="bi bi-bookmark me-1"></i> Saved Items
         </button>
       </div>
     </div>

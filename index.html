@@ -27,6 +27,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/market.css" />
   </head>
 
   <body>
@@ -36,7 +37,10 @@
         <nav class="navbar navbar-expand-lg">
           <div class="container-fluid px-0">
             <!-- Brand -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <a
+              class="navbar-brand d-flex align-items-center gap-2"
+              href="index.html"
+            >
               <i class="bi bi-cpu text-neon-green fs-5"></i>
               <span class="brand-text"
                 >Maker<span class="text-neon-green">Hub</span> MM</span
@@ -115,7 +119,7 @@
                 class="navbar-nav mx-auto nav-links-custom my-2 my-lg-0 w-100 justify-content-lg-center"
               >
                 <li class="nav-item">
-                  <a class="nav-link active" href="#">Home</a>
+                  <a class="nav-link active" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/Learning/index.html">Learning</a>
@@ -124,7 +128,9 @@
                   <a class="nav-link" href="/community/index.html">Community</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Marketplace</a>
+                  <a class="nav-link" href="/marketplace/index.html"
+                    >Marketplace</a
+                  >
                 </li>
               </ul>
 
@@ -832,66 +838,15 @@
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="section-title m-0">Marketplace Preview</h2>
-          <a href="#" class="view-all-link"
+          <a href="/marketplace/index.html" class="view-all-link"
             >View Marketplace <i class="fa-solid fa-arrow-right"></i
           ></a>
         </div>
+
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
-        >
-          <!-- Product Card 1 -->
-          <div class="col d-flex justify-content-center">
-            <div class="market-card compact-card">
-              <div class="market-img-box">
-                <img src="/assets/images/p1.jpg" alt="Arduino UNO" />
-              </div>
-              <div class="product-info-wrapper">
-                <h6 class="product-name">Arduino UNO R3</h6>
-                <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy">Buy Now</button>
-              </div>
-            </div>
-          </div>
-          <!-- Product Card 2 -->
-          <div class="col d-flex justify-content-center">
-            <div class="market-card compact-card">
-              <div class="market-img-box">
-                <img src="/assets/images/p2.jpg" alt="Arduino UNO" />
-              </div>
-              <div class="product-info-wrapper">
-                <h6 class="product-name">Arduino UNO R3</h6>
-                <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy">Buy Now</button>
-              </div>
-            </div>
-          </div>
-          <!-- Product Card 3 -->
-          <div class="col d-flex justify-content-center">
-            <div class="market-card compact-card">
-              <div class="market-img-box">
-                <img src="/assets/images/p3.jpg" alt="Arduino UNO" />
-              </div>
-              <div class="product-info-wrapper">
-                <h6 class="product-name">Arduino UNO R3</h6>
-                <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy">Buy Now</button>
-              </div>
-            </div>
-          </div>
-          <!-- Product Card 4 -->
-          <div class="col d-flex justify-content-center">
-            <div class="market-card compact-card">
-              <div class="market-img-box">
-                <img src="/assets/images/p4.jpg" alt="Arduino UNO" />
-              </div>
-              <div class="product-info-wrapper">
-                <h6 class="product-name">Arduino UNO R3</h6>
-                <p class="product-price">45,000 MMK</p>
-                <button class="btn-buy">Buy Now</button>
-              </div>
-            </div>
-          </div>
-        </div>
+          id="homeMarketGrid"
+        ></div>
       </div>
     </section>
 
