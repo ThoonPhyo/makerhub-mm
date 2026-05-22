@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details - Maker Marketplace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-elevated: #161b22;
+      --surface: #21262d;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #22c55e;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .detail-card {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .detail-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      background-color: #1f242c;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-box {
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .price-large {
+      color: #eab308;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="py-3 mb-4" style="background-color: var(--bg-elevated) !important; border-bottom: 1px solid var(--border);">
+    <div class="container px-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-auto">
+          <a href="../index.html" class="btn btn-sm" style="color: var(--text); border: 1px solid var(--border); background-color: var(--surface);">
+            <i class="bi bi-arrow-left me-2"></i>Back to Market
+          </a>
+        </div>
+        <div class="col-auto">
+          <span class="text-muted small">Product Specifications</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container px-3 pb-5">
+    <div id="detailLoading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status"></div>
+      <p class="text-muted mt-2">Fetching item details...</p>
+    </div>
+
+    <div id="detailContainer" class="row g-4 d-none">
+      <div class="col-12 col-lg-7">
+        <div class="detail-card">
+          <img id="itemImage" src="" class="detail-img" alt="Item Image">
+          <div class="p-4">
+            <span id="itemCondition" class="badge bg-secondary mb-2"></span>
+            <h3 id="itemName" class="fw-bold mb-2"></h3>
+            <div id="itemPrice" class="price-large mb-3"></div>
+            <p id="itemDesc" style="white-space: pre-wrap;" class="text-secondary"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-5">
+        <div class="detail-card p-4">
+          
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <img id="sellerAvatar" src="" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover; border: 1px solid var(--border);">
+            <div>
+              <div class="text-muted small">Uploaded By</div>
+              <h5 id="sellerName" class="mb-0 fw-bold"></h5>
+            </div>
+          </div>
+
+          <h6 class="fw-bold mb-3"><i class="bi bi-person-vcard me-2 text-success"></i>Contact Seller</h6>
+          <div class="contact-box p-3 mb-4">
+            <div class="mb-3">
+              <div class="text-muted small">Phone Call</div>
+              <a id="contactPhone" href="" class="fw-bold text-success text-decoration-none" style="font-size: 1.2rem;"></a>
+            </div>
+            <div>
+              <div class="text-muted small">Social Media</div>
+              <a id="contactSocial" href="" target="_blank" class="btn btn-sm btn-outline-light w-100 mt-1">
+                <i class="bi bi-facebook me-2"></i>Go to Social Profile
+              </a>
+            </div>
+          </div>
+
+          <div id="authorActions" class="d-none">
+            <hr style="border-color: var(--border);" class="my-4">
+            <h6 class="text-warning mb-3"><i class="bi bi-gear-fill me-2"></i>Manage Your Post</h6>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-warning flex-grow-1" onclick="editItem()">
+                <i class="bi bi-pencil-square me-2"></i>Edit Price/Info
+              </button>
+              <button id="btnDelete" class="btn btn-danger" onclick="deleteItem()">
+                <i class="bi bi-trash3"></i> Delete
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/market-detail.js"></script>
+</body>
+</html>

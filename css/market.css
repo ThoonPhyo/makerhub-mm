@@ -1,0 +1,297 @@
+/* ==========================================================================
+   🚀 MAKERHUB MM - MARKETPLACE HERO SECTION (PERFECT INTEGRATION)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ၁။ Core Hero Layout & Background (Default Dark Mode)
+   -------------------------------------------------------------------------- */
+.market-hero {
+  /* မူရင်း Main Page အတိုင်း Deep Dark Cyber Background */
+  background-color: #06090a !important;
+  min-height: 290px; /* အစ်ကိုလိုချင်တဲ့ အမြင့် ကွက်တိ */
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.04) !important;
+  transition:
+    background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 🕸️ Tech Grid Lines Pattern (Dark Mode) */
+.market-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 40px 40px; /* စနစ်ကျသော Grid ကွက် စိပ်စိပ်လေးများ */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 🔮 Premium Ambient Radial Glows (ဘယ်ဘက်စိမ်းပြာ၊ ညာဘက်ခရမ်းရောင် Ambient အလင်း) */
+.market-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 15% 30%,
+      rgba(34, 197, 94, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      rgba(139, 92, 246, 0.06) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content wrapper ကို Glow ရဲ့ အပေါ်စီးမှာ ရှိနေစေရန် z-index ထိန်းခြင်း */
+.market-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   ၂။ Typography & UI Elements (Text & Custom Button)
+   -------------------------------------------------------------------------- */
+/* "Maker Hardware" စာလုံးကို Neon Glow အလင်းသက်ရောက်မှုပေးခြင်း */
+.text-neon-glow {
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.35);
+}
+
+/* 💚 Premium Glowing "Sell an Item" Button Style */
+.btn-sell-custom {
+  background-color: #22c55e !important; /* var(--clr-orange/--clr-orange နေရာတွင် Direct Pure Green အစားထိုး */
+  color: #000000 !important; /* စာသားကို Dark Background ပေါ်တွင် ပြတ်ပြတ်ထင်ထင်ပြောင်းရန် */
+  border-radius: 10px !important;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25) !important;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-sell-custom:hover {
+  transform: translateY(-3px);
+  background-color: #16a34a !important; /* Hover ဝင်လျှင် အရောင်အနည်းငယ်ရင့်သွားမည် */
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.45) !important;
+  color: #000000 !important;
+}
+
+/* --------------------------------------------------------------------------
+   ၃။ Right Side Floating Cards System (Layout & Image Fix)
+   -------------------------------------------------------------------------- */
+.market-card {
+  background: #11161d !important; /* Card Base Background (Elevated Dark) */
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ကတ်အတွင်းရှိ Component ပုံများ ကျိုးပျက်/ကျုံ့မသွားစေရန် Fix ခြင်း */
+.market-img-wrapper {
+  background: #0d1117 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.market-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ပုံရိပ်များ ပုံစံမပျက်ဘဲ စနစ်တကျ ဗဟိုကျနေစေရန် */
+  padding: 8px;
+}
+
+/* Dark Mode တွင် စာသားများ မှေးမှိန်မသွားဘဲ ထင်ရှားနေစေရန် အသေထိန်းခြင်း */
+.market-card h6,
+.market-card .fw-bold {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* ကတ်ထဲက ဈေးနှုန်းအရောင်များကို ထင်ရှားသော စိမ်းရောင်ပြောင်းခြင်း */
+.market-card [style*="color: var(--neon-green)"],
+.market-card .text-success {
+  color: #22c55e !important;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+}
+
+/* Floating Card ရဲ့ Condition Badge (Used / 99% New) */
+.condition-badge {
+  position: absolute;
+  background: rgba(22, 27, 34, 0.8) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* 🛸 Micro Staggered & Scaled Animations (For 290px Height Viewport) */
+
+/* ─── CARD 1 (Base Size: 0.8) ─── */
+.hero-card-1 {
+  transform: scale(0.8) translateY(0); /* နေရာအလယ်၊ မူလထက် ၂၀% သေးထားမယ် */
+  animation: heroMicroFloatOne 5s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes heroMicroFloatOne {
+  0%, 100% { transform: scale(0.8) translateY(0) rotate(-1deg); }
+  50% { transform: scale(0.8) translateY(-6px) rotate(-1.5deg); }
+}
+
+/* ─── CARD 2 (Bigger than Card 1, Higher Position) ─── */
+.hero-card-2 {
+  transform: scale(1.1) translateY(-62px); /* ကတ် ၁ ထက် မြင့်မယ်၊ ပိုကြီးမယ် */
+  animation: heroMicroFloatTwo 6s ease-in-out infinite;
+  z-index: 3;
+}
+@keyframes heroMicroFloatTwo {
+  0%, 100% { transform: scale(1.1) translateY(-52px) rotate(1.5deg); }
+  50% { transform: scale(1.1) translateY(-62px) rotate(1deg); }
+}
+
+/* ─── CARD 3 (Biggest Size, Lower Position) ─── */
+.hero-card-3 {
+  transform: scale(1.5) translateY(12px); /* အကြီးဆုံးအရွယ်အစား၊ ဒါပေမဲ့ အောက်ဘက်နိမ့်နိမ့်မှာနေမယ် */
+  animation: heroMicroFloatThree 5.5s ease-in-out infinite;
+  z-index: 4;
+}
+@keyframes heroMicroFloatThree {
+  0%, 100% { transform: scale(1.5) translateY(12px) rotate(1deg); }
+  50% { transform: scale(1.5) translateY(22px) rotate(-4.5deg); }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   ၄။ Light Theme Switch Tuning (အစ်ကို့ မူရင်း Light Mode အတိုင်း)
+   -------------------------------------------------------------------------- */
+/* Light Mode တွင် နောက်ခံကို မီးခိုးရောင်ဖျော့ ပြောင်းလဲခြင်း */
+.light-theme .market-hero {
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  background-image: none !important;
+}
+
+/* Light Mode တွက် အမည်းနုရောင် စိပ်စိပ် Grid လိုင်းလေးများ */
+.light-theme .market-hero::before {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.018) 1px, transparent 1px) !important;
+}
+
+/* Light Mode တွင် မလိုအပ်သော Glow အလင်းများကို ပိတ်ခြင်း */
+.light-theme .market-hero::after {
+  background: none !important;
+}
+
+/* Light Mode တွင် Floating Cards များကို သန့်ရှင်းသော White Design ပြောင်းလဲခြင်း */
+.light-theme .market-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03) !important;
+}
+
+.light-theme .market-card h6 {
+  color: #0f172a !important; /* ခေါင်းစဉ်ကို စာဖတ်ရသက်သာသော Dark Slate Blue ပြောင်းသည် */
+}
+
+.light-theme .market-img-wrapper {
+  background: #ffffff !important;
+}
+
+.light-theme .condition-badge {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Market Card Base Styles */
+.market-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border-color: var(
+    --neon-green
+  ); /* Hover လုပ်ရင် အစိမ်းရောင်ဘောင်လေးလင်းလာမယ် */
+}
+
+.card-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background-color: var(--bg);
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.condition-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(4px);
+}
+
+/* Category Button Active State */
+.cat-btn-active {
+  background-color: var(--neon-green) !important;
+  color: #000 !important;
+  font-weight: bold;
+  border: none !important;
+}
+
+
+/* show market cards */
+@media (max-width: 576px) {
+  /* ဖုန်းမှာ ကတ်တွေကြားက ခြားနားချက်ကို နည်းနည်းလေး လျှော့ပေးမယ် */
+  .market-grid .row {
+    margin-left: -5px !important;
+    margin-right: -5px !important;
+  }
+  
+  .market-grid [class*="col-"] {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* ကတ်ကို ပုံစံမပျက်ဘဲ နည်းနည်းလေး သေးသွားအောင် Scale လုပ်ပေးမယ် */
+  .market-card {
+    transform: scale(0.95); /* ၅% လောက်ပဲ သေးသွားမယ်၊ Layout မပျက်ပါဘူး */
+    transform-origin: top center;
+  }
+}

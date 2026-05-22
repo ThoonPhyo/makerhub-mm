@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Item - MakerHub MM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/learning.css" />
+
+    <style>
+      /* Form အတွက် သီးသန့် CSS အနည်းငယ် (Root Variables များကို လှမ်းသုံးထားပါသည်) */
+      .form-card {
+        background-color: var(--bg-elevated, #161b22);
+        border: 1px solid var(--border, #30363d);
+        border-radius: 12px;
+      }
+      .form-control,
+      .form-select {
+        background-color: var(--bg, #0d1117);
+        border: 1px solid var(--border, #30363d);
+        color: var(--text, #c9d1d9);
+      }
+      .form-control:focus,
+      .form-select:focus {
+        background-color: var(--bg, #0d1117);
+        border-color: var(--neon-green, #22c55e);
+        color: var(--text, #c9d1d9);
+        box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+      }
+      /* စာသားကန့်သတ်ချက် ကျော်သွားရင် ပြမယ့် Error အရောင် */
+      .is-invalid {
+        border-color: #ef4444 !important;
+      }
+    </style>
+  </head>
+
+  <body
+    style="background-color: var(--bg, #0d1117); color: var(--text, #c9d1d9)"
+  >
+    <!-- ── NAVBAR ───────────────────────────────────────── -->
+    <header class="header-nav" id="headerSection">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid px-0">
+            <!-- Brand -->
+            <a
+              class="navbar-brand d-flex align-items-center gap-2"
+              href="/index.html"
+            >
+              <i class="bi bi-cpu text-neon-green fs-5"></i>
+              <span class="brand-text"
+                >Maker<span class="text-neon-green">Hub</span> MM</span
+              >
+            </a>
+
+            <!-- Mobile Toggler -->
+            <button
+              class="navbar-toggler custom-toggler border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navContent"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+              <!-- Mobile top strip: profile + search + theme -->
+              <div
+                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-2 pb-3"
+                style="border-bottom: 1px solid rgba(240, 246, 252, 0.06)"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <div class="dropdown">
+                    <div
+                      class="profile-wrapper"
+                      data-bs-toggle="dropdown"
+                      style="cursor: pointer"
+                    >
+                      <img
+                        src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                        class="rounded-circle"
+                        width="34"
+                        height="34"
+                      />
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-person me-2"></i>Profile</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-gear me-2"></i>Settings</a
+                        >
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a class="dropdown-item text-danger" href="#"
+                          ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="nav-search-container" style="width: 130px">
+                    <i class="bi bi-search search-icon-left"></i>
+                    <input
+                      type="text"
+                      class="nav-search-input"
+                      placeholder="Search"
+                    />
+                  </div>
+                </div>
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+              </div>
+
+              <!-- Nav Links -->
+              <ul
+                class="navbar-nav mx-auto nav-links-custom my-2 my-lg-0 w-100 justify-content-lg-center"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Learning/index.html">Learning</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/community/index.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="/marketplace/index.html"
+                    >Marketplace</a
+                  >
+                </li>
+              </ul>
+
+              <!-- Desktop right controls -->
+              <div class="d-none d-lg-flex align-items-center gap-3">
+                <div class="nav-search-container">
+                  <i class="bi bi-search search-icon-left"></i>
+                  <input
+                    type="search"
+                    class="nav-search-input"
+                    placeholder="Search"
+                  />
+                </div>
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+                <div class="dropdown">
+                  <div
+                    class="profile-wrapper"
+                    data-bs-toggle="dropdown"
+                    style="cursor: pointer"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                      class="rounded-circle"
+                      width="34"
+                      height="34"
+                    />
+                  </div>
+                  <ul
+                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end mt-2"
+                  >
+                    <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-person me-2"></i>Profile</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-gear me-2"></i>Settings</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="#"
+                        ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- SECOND NAVBAR -->
+    <div
+      class="py-2 mb-4 shadow-sm"
+      style="
+        background-color: var(--bg-elevated, #161b22);
+        border-bottom: 1px solid var(--border, #30363d);
+      "
+    >
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <a
+            href="../index.html"
+            class="btn btn-sm text-decoration-none"
+            style="color: var(--text)"
+          >
+            <i class="bi bi-arrow-left me-2"></i>Back to Market
+          </a>
+          <span class="small" style="color: var(--text-muted, #8b949e)"
+            ><i class="bi bi-shop me-2"></i>Seller Dashboard</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT FORM SECTION -->
+    <main class="container px-3 pb-5 mt-4">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="form-card p-4 shadow-sm">
+            <h4 class="mb-4 text-center">
+              <i class="bi bi-tag me-2 text-success"></i>Create Marketplace Post
+            </h4>
+
+            <form id="marketPostForm">
+              <div class="mb-3">
+                <label class="form-label">Item Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="itemName"
+                  placeholder="e.g., Arduino Uno R3"
+                  required
+                />
+              </div>
+
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label">Price (MMK)</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="itemPrice"
+                    placeholder="e.g., 12,000"
+                    required
+                  />
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label">Condition</label>
+                  <select class="form-select" id="itemCondition" required>
+                    <option value="" selected disabled>Select...</option>
+                    <option value="99% New">99% New</option>
+                    <option value="Good Condition">Good Condition</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label
+                  for="itemCategory"
+                  class="form-label"
+                  style="color: var(--text)"
+                  >Category (အမျိုးအစား)</label
+                >
+                <select
+                  class="form-select"
+                  id="itemCategory"
+                  required
+                  style="
+                    background-color: var(--bg);
+                    border: 1px solid var(--border);
+                    color: var(--text);
+                  "
+                >
+                  <option value="Microcontroller">Microcontrollers</option>
+                  <option value="Sensor">Sensors</option>
+                  <option value="Motor">Motors & Servos</option>
+                  <option value="Display">Displays</option>
+                  <option value="Components">Components / Others</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Item Images (Up to 3)</label>
+                <input
+                  type="url"
+                  class="form-control mb-2"
+                  id="itemImage1"
+                  placeholder="Image URL 1 (Required)"
+                  required
+                />
+                <input
+                  type="url"
+                  class="form-control mb-2"
+                  id="itemImage2"
+                  placeholder="Image URL 2 (Optional)"
+                />
+                <input
+                  type="url"
+                  class="form-control"
+                  id="itemImage3"
+                  placeholder="Image URL 3 (Optional)"
+                />
+              </div>
+
+              <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                  <label class="form-label">Description</label>
+                  <small id="wordCountDisplay" style="color: var(--text-muted)"
+                    >0/50 words</small
+                  >
+                </div>
+                <textarea
+                  class="form-control"
+                  id="itemDesc"
+                  rows="4"
+                  placeholder="Item details..."
+                  required
+                ></textarea>
+                <div id="descWarning" class="text-danger mt-1 small d-none">
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i> You have
+                  exceeded the 50 words limit! Please shorten your text.
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="contactPhone"
+                    placeholder="09xxxxxxxxx"
+                    required
+                  />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                  <label class="form-label">Social Media Link</label>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="contactSocial"
+                    placeholder="Facebook Profile or Page URL"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn w-100 py-2 fw-bold"
+                id="btnSubmitItem"
+                style="
+                  background-color: var(--neon-green, #22c55e);
+                  color: #000;
+                "
+              >
+                <i class="bi bi-cloud-arrow-up me-2"></i>Publish Item
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!--Footer Section -->
+    <footer class="footer-section pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-5">
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-brand mb-3">
+              <i class="fa-solid fa-microchip me-2 text-green"></i>MakerHub MM
+            </div>
+            <p class="small" style="color: var(--text-muted)">
+              Empowering Myanmar makers, students, and innovators through IoT
+              education and community.
+            </p>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Platform</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Arduino</a></li>
+              <li><a href="#">ESP32</a></li>
+              <li><a href="#">Raspberry Pi</a></li>
+              <li><a href="#">All Tutorials</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Community</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Discussions</a></li>
+              <li><a href="#">Project Showcase</a></li>
+              <li><a href="#">Events</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Marketplace</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">All Products</a></li>
+              <li><a href="#">Sensors</a></li>
+              <li><a href="#">Motors</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 col-6 text-lg-end">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-muted" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+        >
+          <div class="social-links d-flex gap-3">
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+          </div>
+          <p class="m-0 text-muted small text-center">
+            Made with <i class="fa-solid fa-heart text-danger"></i> in Myanmar
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/market-post.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
