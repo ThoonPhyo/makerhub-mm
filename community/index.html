@@ -202,39 +202,68 @@
     <!-- hero section -->
     <div class="container my-4">
       <div
-        id="carouselExampleAutoplaying"
-        class="carousel slide"
+        id="heroCarousel"
+        class="carousel slide carousel-fade shadow-sm rounded-4 overflow-hidden"
         data-bs-ride="carousel"
       >
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
+        </div>
+
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="3000">
-            <div class="card border-0">
+          <div class="carousel-item active" data-bs-interval="4000">
+            <div class="card border-0 bg-transparent">
               <img
                 src="/assets/images/Project.hub-Hero-Banner.jpg"
-                class="card-img rounded-3 hero-img-narrow"
-                alt="..."
+                class="card-img rounded-4 hero-img-narrow"
+                style="object-fit: cover; min-height: 350px"
+                alt="Arduino Ventuno"
               />
-
               <div class="card-img-overlay d-flex align-items-center">
-                <div class="container px-md-5">
+                <div class="container px-md-4">
                   <div class="row">
-                    <div class="col-12 col-md-8 col-lg-6 text-white">
+                    <div class="col-12 col-md-7 col-lg-6 text-dark">
                       <div class="card-body p-2 p-md-3">
-                        <h2 class="hero-title fw-bold mb-2 mb-md-3">
-                          Arduino VENTUNO Q
-                        </h2>
-                        <p class="lead mb-3 mb-md-4 d-none d-sm-block">
-                          Where AI takes action.
-                        </p>
-                        <button
-                          class="btn hero-btn fw-bold text-white shadow-sm"
-                          style="
-                            background-color: var(--green);
-                            border-radius: 8px;
-                          "
+                        <span
+                          class="badge bg-dark text-white mb-2 px-3 py-2 rounded-pill shadow-sm"
+                          ><i class="bi bi-cpu-fill text-warning me-1"></i>
+                          Featured Hardware</span
                         >
-                          Explore Now
-                        </button>
+                        <h1 class="hero-title fw-bolder mb-2 mb-md-3 display-6">
+                          Arduino VENTUNO Q
+                        </h1>
+                        <p
+                          class="lead mb-3 mb-md-4 d-none d-sm-block text-secondary fw-medium"
+                        >
+                          Where AI takes action. Explore cutting-edge DIY
+                          projects powered by edge computing.
+                        </p>
+                        <a
+                          href="#projectsSection"
+                          class="btn hero-btn premium-btn fw-bold text-white shadow"
+                        >
+                          Explore Projects
+                          <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -243,34 +272,38 @@
             </div>
           </div>
 
-          <div class="carousel-item" data-bs-interval="3000">
-            <div class="card border-0">
+          <div class="carousel-item" data-bs-interval="4000">
+            <div class="card border-0 bg-transparent">
               <img
                 src="/assets/images/esp32-s31-banner.png"
-                class="card-img rounded-3 hero-img-narrow"
-                alt="..."
+                class="card-img rounded-4 hero-img-narrow"
+                style="object-fit: cover; min-height: 350px"
+                alt="ESP32 S31"
               />
-
               <div class="card-img-overlay d-flex align-items-center">
-                <div class="container px-md-5">
+                <div class="container px-md-4">
                   <div class="row">
-                    <div class="col-12 col-md-8 col-lg-6 text-white">
+                    <div class="col-12 col-md-7 col-lg-6 text-dark">
                       <div class="card-body p-2 p-md-3">
-                        <h2 class="hero-title fw-bold mb-2 mb-md-3">
-                          Arduino VENTUNO Q
-                        </h2>
-                        <p class="lead mb-3 mb-md-4 d-none d-sm-block">
-                          Where AI takes action.
-                        </p>
-                        <button
-                          class="btn hero-btn fw-bold text-white shadow-sm p-2"
-                          style="
-                            background-color: var(--green);
-                            border-radius: 8px;
-                          "
+                        <span
+                          class="badge bg-primary text-white mb-2 px-3 py-2 rounded-pill shadow-sm"
+                          >Community Showcase</span
                         >
-                          Explore Now
-                        </button>
+                        <h1 class="hero-title fw-bolder mb-2 mb-md-3 display-6">
+                          ESP32-S31 Series
+                        </h1>
+                        <p
+                          class="lead mb-3 mb-md-4 d-none d-sm-block text-secondary fw-medium"
+                        >
+                          See what fellow makers are building with next-gen
+                          Wi-Fi & AI capabilities.
+                        </p>
+                        <a
+                            href="#carouselNavBar"
+                          class="btn hero-btn premium-btn fw-bold text-white shadow"
+                        >
+                          View Maker Projects <i class="bi bi-images ms-1"></i>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -279,34 +312,40 @@
             </div>
           </div>
 
-          <div class="carousel-item" data-bs-interval="3000">
-            <div class="card border-0">
+          <div class="carousel-item" data-bs-interval="4000">
+            <div class="card border-0 bg-transparent">
               <img
                 src="/assets/images/hero_img.png"
-                class="card-img rounded-3 hero-img-narrow"
-                alt="..."
+                class="card-img rounded-4 hero-img-narrow"
+                style="object-fit: cover; min-height: 350px"
+                alt="IoT Ecosystem"
               />
-
               <div class="card-img-overlay d-flex align-items-center">
-                <div class="container px-md-5">
+                <div class="container px-md-4">
                   <div class="row">
-                    <div class="col-12 col-md-8 col-lg-6 text-white">
+                    <div class="col-12 col-md-7 col-lg-6 text-dark">
                       <div class="card-body p-2 p-md-3">
-                        <h2 class="hero-title fw-bold mb-2 mb-md-3">
-                          Arduino VENTUNO Q
-                        </h2>
-                        <p class="lead mb-3 mb-md-4 d-none d-sm-block">
-                          Where AI takes action.
-                        </p>
-                        <button
-                          class="btn hero-btn fw-bold text-white shadow-sm p-2"
-                          style="
-                            background-color: var(--green);
-                            border-radius: 8px;
-                          "
+                        <span
+                          class="badge mb-2 px-3 py-2 rounded-pill shadow-sm"
+                          style="background: var(--green); color: white"
+                          >Arduino Learning Hub</span
                         >
-                          Explore Now
-                        </button>
+                        <h1 class="hero-title fw-bolder mb-2 mb-md-3 display-6">
+                          Build, Learn, Share
+                        </h1>
+                        <p
+                          class="lead mb-3 mb-md-4 d-none d-sm-block text-secondary fw-medium"
+                        >
+                          Join fellow developers in mastering embedded systems.
+                          Showcase your electronics and code.
+                        </p>
+                        <a
+                          href="/community/create-post.html"
+                          class="btn hero-btn premium-btn fw-bold text-white shadow"
+                        >
+                          Share Your Project
+                          <i class="bi bi-plus-circle ms-1"></i>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -320,6 +359,7 @@
 
     <!-- categoreies nav -->
     <div
+      id="carouselNavBar"
       class="carouselNavBar my-4 sticky-top"
       style="
         top: 67px; /* 💡 မူရင်း Main Nav ရဲ့ အမြင့်အတိုင်း ပေးရပါမယ် (ဥပမာ- 56px သို့မဟုတ် 60px) */
@@ -444,7 +484,7 @@
     </div>
 
     <!-- project cards container -->
-    <div class="container mb-5">
+    <div class="container mb-5" id="projectsSection">
       <!-- Loading ပြသရန် နေရာ -->
       <div id="loadingIndicator" class="text-center py-5">
         <div class="spinner-border" role="status" style="color: var(--green)">

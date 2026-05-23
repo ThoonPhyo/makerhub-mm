@@ -412,7 +412,7 @@ function displayProjects(projectsList) {
               </div>
               <div class="stats-group d-flex gap-3">
                 <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
-                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments}</span>
+                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments || 0}</span>
               </div>
             </div>
           </div>
@@ -454,7 +454,7 @@ function displayHomeProjects(projectsList) {
               </div>
               <div class="stats-group d-flex gap-3">
                 <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
-                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments}</span>
+                <span class="stats-icons"><i class="fa-regular fa-comment me-1"></i> ${project.comments || 0}</span>
               </div>
             </div>
           </div>

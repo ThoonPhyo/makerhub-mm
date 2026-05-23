@@ -247,7 +247,7 @@ async function loadHeroCards() {
               <h6 class="card-title text-truncate mb-1 fw-bold" style="color: var(--text); font-size: 0.75rem; margin-bottom: 2px;" title="${finalName}">
                 ${finalName}
               </h6>
-              <div class="price-tag mb-1" style="color: #22c55e; font-size: 0.8rem; font-weight: bold; margin-bottom: 4px;">
+              <div class="price-tag mb-1" style="color: var(--green); font-size: 0.8rem; font-weight: bold; margin-bottom: 4px;">
                 ${finalPrice}
               </div>
             </div>

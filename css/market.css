@@ -83,8 +83,8 @@
 
 .btn-sell-custom:hover {
   transform: translateY(-3px);
-  background-color: #16a34a !important; /* Hover ဝင်လျှင် အရောင်အနည်းငယ်ရင့်သွားမည် */
-  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.45) !important;
+  background-color: var(--green) !important; /* Hover ဝင်လျှင် အရောင်အနည်းငယ်ရင့်သွားမည် */
+  box-shadow: 0 8px 25px rgba(13, 148, 136, 0.45) !important;
   color: #000000 !important;
 }
 
@@ -127,8 +127,8 @@
 /* ကတ်ထဲက ဈေးနှုန်းအရောင်များကို ထင်ရှားသော စိမ်းရောင်ပြောင်းခြင်း */
 .market-card [style*="color: var(--neon-green)"],
 .market-card .text-success {
-  color: #22c55e !important;
-  text-shadow: 0 0 10px rgba(34, 197, 94, 0.15);
+  color: var(--green) !important;
+  text-shadow: 0 0 10px rgba(13, 148, 136, 0.15);
 }
 
 /* Floating Card ရဲ့ Condition Badge (Used / 99% New) */
@@ -249,8 +249,8 @@
 
 /* ၄။ "Maker Hardware" Neon စာလုံးအရောင်ကို Light Mode တွင် ထင်ရှားအောင် ညှိခြင်း */
 .light-theme .text-neon-glow {
-  color: #16a34a !important;
-  text-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+  color: var(--green) !important;
+  text-shadow: 0 0 15px rgba(13, 148, 136, 0.25);
 }
 
 /* ၅။ Light Mode တွင် Floating Cards များကို သန့်ရှင်းသော White Design ပြောင်းလဲခြင်း */
@@ -307,7 +307,7 @@
 .cat-btn:hover {
   background: rgba(34, 197, 94, 0.06) !important;
   border-color: rgba(34, 197, 94, 0.3) !important;
-  color: var(--neon-green, #22c55e) !important;
+  color: var(--neon-green) !important;
   transform: scale(1.01);
 }
 
@@ -318,14 +318,14 @@
   color: #000000 !important; /* စာသားကို အမည်းရောင်ပြတ်ပြတ်ထင်ထင်ပြောင်းသည် */
   font-weight: 600 !important;
   /* Premium Active Shadow Glow Effect */
-  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35) !important;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.015) !important;
 }
 
 .cat-btn-active:hover {
-  background: #16a34a !important; /* Active ဖြစ်နေချိန် Hover လုပ်ရင် အရောင်နည်းနည်းရင့်သွားမည် */
-  border-color: #16a34a !important;
+  background: rgba(13, 148, 136, 0.1) !important; /* Active ဖြစ်နေချိန် Hover လုပ်ရင် အရောင်နည်းနည်းရင့်သွားမည် */
+  border-color: var(--green) !important;
   color: #000000 !important;
-  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45) !important;
+  /* box-shadow: 0 6px 20px rgba(13, 148, 136, 0.45) !important; */
 }
 
 /* ─── ၄။ Light Theme Tuning (Light Mode Overrides) ─── */
@@ -339,19 +339,19 @@
 .light-theme .cat-btn:hover {
   background: rgba(22, 163, 74, 0.05) !important; /* Light Mode စိမ်းဖျော့ */
   border-color: rgba(22, 163, 74, 0.3) !important;
-  color: #16a34a !important;
+  color: var(--green) !important;
 }
 
 .light-theme .cat-btn-active {
-  background: #16a34a !important; /* Light Mode မှာ စိမ်းရင့်လေး သုံးသည် */
-  border-color: #16a34a !important;
+  background: var(--green) !important; /* Light Mode မှာ စိမ်းရင့်လေး သုံးသည် */
+  border-color: var(--green) !important;
   color: #ffffff !important; /* စာသားကို အဖြူရောင်ပြောင်းသည် */
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25) !important;
+  /* box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25) !important; */
 }
 
 .light-theme .cat-btn-active:hover {
-  background: #15803d !important;
-  border-color: #15803d !important;
+  background: var(--green-dim) !important;
+  border-color: var(--green-dim) !important;
   color: #ffffff !important;
 }
 
@@ -562,8 +562,8 @@
 }
 
 .classic-btn:hover {
-  background: rgba(34, 197, 94, 0.1) !important;
-  border-color: rgba(34, 197, 94, 0.4) !important;
+  background: rgba(13, 148, 136, 0.1) !important;
+  border-color: rgba(13, 148, 136, 0.4) !important;
   color: var(--neon-green) !important;
   transform: translateY(-2px);
 }
@@ -584,6 +584,11 @@
 .light-theme .classic-btn {
   background: rgba(0, 0, 0, 0.02) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
+}
+.light-theme .classic-btn:hover {
+  background: rgba(13, 148, 136, 0.05) !important;
+  border-color: rgba(13, 148, 136, 0.3) !important;
+  color: #0d9488 !important;
 }
 
 @media (max-width: 767.98px) {

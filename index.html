@@ -434,35 +434,45 @@
     </section>
 
     <!-- ── features ─────────────────────────────── -->
-    <section class="stats-ribbon">
+    <section class="stats-ribbon py-2 mb-5">
       <div class="container">
-        <div class="stats-container">
-          <div class="stat-item">
-            <span class="stat-value">2,400+</span>
-            <span class="stat-label">Active Learners</span>
+        <div
+          class="stats-container d-flex flex-nowrap overflow-x-auto align-items-center w-100"
+          style="
+            gap: 2rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+            overscroll-behavior-x: contain;
+            justify-content: flex-start; /* 💡 ဘယ်ဘက်အစွန်ကနေ သေချာစအောင် ထိန်းပေးမယ့်ကောင်ပါ */
+          "
+        >
+          <div class="stat-item flex-shrink-0 text-nowrap">
+            <span class="stat-value fw-bold fs-5 d-block">2,400+</span>
+            <span class="stat-label text-muted small">Active Learners</span>
           </div>
 
-          <div class="stat-divider">•</div>
+          <div class="stat-divider text-muted flex-shrink-0">•</div>
 
-          <div class="stat-item">
-            <span class="stat-value">180+</span>
-            <span class="stat-label">Projects Built</span>
+          <div class="stat-item flex-shrink-0 text-nowrap">
+            <span class="stat-value fw-bold fs-5 d-block">180+</span>
+            <span class="stat-label text-muted small">Projects Built</span>
           </div>
 
-          <div class="stat-divider">•</div>
+          <div class="stat-divider text-muted flex-shrink-0">•</div>
 
-          <div class="stat-item">
-            <span class="stat-value">4</span>
-            <span class="stat-label">Boards Covered</span>
+          <div class="stat-item flex-shrink-0 text-nowrap">
+            <span class="stat-value fw-bold fs-5 d-block">4</span>
+            <span class="stat-label text-muted small">Boards Covered</span>
           </div>
 
-          <div class="stat-divider">•</div>
+          <div class="stat-divider text-muted flex-shrink-0">•</div>
 
-          <div class="stat-item">
-            <span class="stat-value">
-              4.9 <i class="fa-solid fa-star"></i>
+          <div class="stat-item flex-shrink-0 text-nowrap pe-4">
+            <span class="stat-value fw-bold fs-5 d-block">
+              4.9 <i class="bi bi-star-fill text-warning"></i>
             </span>
-            <span class="stat-label">Community Rating</span>
+            <span class="stat-label text-muted small">Community Rating</span>
           </div>
         </div>
       </div>
@@ -809,10 +819,23 @@
     <!-- ── Community Showcase ─────────────────────────────── -->
     <section class="showcase-section py-5 px-2 px-md-0">
       <div class="container p-3 p-md-4 rounded-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="section-title m-0">Community Showcase</h2>
-          <a href="community/index.html" class="view-all-link">
-            View Community <i class="fa-solid fa-arrow-right"></i>
+        <div
+          class="section-header d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom"
+        >
+          <h2 class="section-title m-0 fw-bold fs-4 text-dark">
+            Community Showcase
+          </h2>
+          <a
+            href="community/index.html"
+            class="view-all-link d-flex align-items-center gap-2 text-decoration-none fw-semibold"
+          >
+            <span class="d-none d-sm-inline">View Community</span>
+            <span class="d-inline d-sm-none text-muted">View All</span>
+            <span
+              class="arrow-icon-wrapper d-flex align-items-center justify-content-center rounded-circle"
+            >
+              <i class="fa-solid fa-arrow-right fs-6"></i>
+            </span>
           </a>
         </div>
 
@@ -836,11 +859,24 @@
     <!--Marketplace Preview Section -->
     <section class="py-5 rounded-0">
       <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="section-title m-0">Marketplace Preview</h2>
-          <a href="/marketplace/index.html" class="view-all-link"
-            >View Marketplace <i class="fa-solid fa-arrow-right"></i
-          ></a>
+        <div
+          class="section-header d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom"
+        >
+          <h2 class="section-title m-0 fw-bold fs-4 text-dark">
+            Marketplace Preview
+          </h2>
+          <a
+            href="/marketplace/index.html"
+            class="view-all-link d-flex align-items-center gap-2 text-decoration-none fw-semibold"
+          >
+            <span class="d-none d-sm-inline">View Marketplace</span>
+            <span class="d-inline d-sm-none text-muted">View All</span>
+            <span
+              class="arrow-icon-wrapper d-flex align-items-center justify-content-center rounded-circle"
+            >
+              <i class="fa-solid fa-arrow-right fs-6"></i>
+            </span>
+          </a>
         </div>
 
         <!-- loading indicator -->
@@ -853,11 +889,9 @@
           </p>
         </div>
 
-
         <!-- align-items-stretch is used to make all cards in a row have the same height -->
         <div
-          class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 align-items-stretch" 
-          
+          class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 align-items-stretch"
           id="homeMarketGrid"
         ></div>
       </div>

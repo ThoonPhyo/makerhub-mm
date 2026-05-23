@@ -29,8 +29,8 @@
   --border-accent: rgba(34, 197, 94, 0.25);
 
   /* Accent */
-  --neon-green: #22c55e;
-  --green: #0d9488;
+  --neon-green: rgb(13, 148, 136);
+  --green: rgb(13, 148, 136);
   --green-dim: rgba(34, 197, 94, 0.15);
   --green-glow: rgba(34, 197, 94, 0.25);
   --purple: #8b5cf6;
@@ -239,6 +239,7 @@ body {
   margin-right: 28px;
   border-bottom: 1.5px solid transparent !important;
   transition:
+    transform 0.2s var(--ease),
     color 0.2s,
     border-color 0.2s;
   letter-spacing: 0.01em;
@@ -246,12 +247,14 @@ body {
 }
 
 .nav-links-custom .nav-link:hover {
-  color: var(--text) !important;
-  border-bottom: 1.5px solid var(--surface-2) !important;
+  color: var(--green) !important;
+  border-bottom: 1.5px solid var(--neon-green) !important;
+  transform: scale(1.05);
 }
 
 .nav-links-custom .nav-link.active {
-  color: var(--text) !important;
+  color: var(--green) !important;
+  font-weight: bold !important;
   border-bottom: 1.5px solid var(--green) !important;
 }
 
@@ -1166,16 +1169,16 @@ body {
 .step-icon-wrapper {
   width: 60px;
   height: 60px;
-  background: var(--fea-icon-bg);
-  color: var(--fea-icon-text) !important;
-  border: var(--broder2);
+  background: rgba(13, 148, 136, 0.15);
+  color: rgb(13, 148, 136);
+  box-shadow: rgba(13, 148, 136, 0.3) 0px 0px 15px inset;
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 25px;
   font-size: 1.5rem;
-  color: var(--text-subtle);
+  /* color: var(--text-subtle); */
   position: relative;
   z-index: 2;
 }
@@ -1214,8 +1217,6 @@ body {
 
 /* Hover Effect */
 .step-col:hover .step-icon-wrapper {
-  border-color: var(--green) !important;
-  color: var(--green);
   transform: translateY(-5px);
   transition: all 0.3s ease;
 }
@@ -1223,6 +1224,48 @@ body {
 /* ============================================================
    SHOWCASE SECTION
    ========================================== */
+/* Section Header Styling */
+.section-header {
+  border-color: #e5e7eb !important; /* ခဲရောင်ဖျော့ဖျော့ မျဉ်းလေး */
+}
+
+.section-header .section-title {
+  letter-spacing: -0.5px; /* ခေတ်ဆန်တဲ့ font style ဖြစ်အောင် စာလုံးကို နည်းနည်း ပူးထားပါတယ် */
+}
+
+/* View All Link Styling */
+.view-all-link {
+  color: var(--text, #374151);
+  transition: all 0.3s ease;
+}
+
+.view-all-link:hover {
+  color: var(
+    --green,
+    #10b981
+  ); /* Theme color အစိမ်းရောင်လေး ပြောင်းသွားပါမယ် */
+}
+
+/* Arrow Icon Background & Animation */
+.arrow-icon-wrapper {
+  background-color: #f3f4f6;
+  width: 32px;
+  height: 32px;
+  transition: all 0.3s ease;
+}
+
+.view-all-link:hover .arrow-icon-wrapper {
+  background-color: var(--green, #10b981);
+  color: #ffffff;
+  transform: translateX(
+    4px
+  ); /* Hover လုပ်ရင် မြှားလေး ညာဘက်ကို ရွေ့သွားမယ့် Effect */
+}
+
+.view-all-link i {
+  transition: color 0.3s ease;
+}
+
 /* --- Community Showcase Section --- */
 .showcase-section {
   /* background-color: var(--section-bg); */
@@ -1303,7 +1346,7 @@ body {
 .showcase-img {
   padding: 5px;
   width: 100%;
-  height: 100%;
+  height: 200px; /* Aspect ratio ထိန်းရန် */
   border-radius: var(--radius-lg);
   object-fit: cover; /* ပုံကို ဗဟိုချက်ကနေ အံဝင်ခွင်ကျဖြစ်စေရန် */
   transition: transform 0.5s var(--ease);
@@ -1379,7 +1422,6 @@ body {
   opacity: 0.8;
   color: var(--green);
 }
-
 
 /* ============================================================
    Newsletter SECTION
@@ -1624,12 +1666,10 @@ dotlottie-wc {
   }
 }
 
-
 /* ==========================================================================
    📱 MOBILE ONLY OVERRIDES (Desktop Style ကို လုံးဝမထိခိုက်စေဘဲ ဖုန်းအတွက်ပဲ ပြင်ဆင်ချက်)
    ========================================================================== */
 @media (max-width: 767.98px) {
-  
   /* ၁။ မိုဘိုင်းမှာ ပုံကြီး ကားယားကြီးမဖြစ်အောင် ၁၈၀px အသေကနေ အချိုးကျ ပြောင်းလဲခြင်း */
   .classic-market-card .card-img-wrapper {
     height: auto !important;
