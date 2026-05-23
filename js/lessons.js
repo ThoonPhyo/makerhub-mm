@@ -209,7 +209,7 @@ function renderLessonContent(lessonIdx) {
 }
 
 /**
- * ၆။ Next, Previous နှင့် Mark as Complete ခလုတ်များ၏ အလုပ်လုပ်ပုံစနစ်
+ * ၆။ Next, Previous နှင့် Mark as Complete ခလုတ်များ၏ အလုပ်လုပ်ပုံစနစ် (API Updated)
  */
 function setupNavigationEvents(isFinalLesson) {
   const contentBtn = document.getElementById("content-btn");
@@ -220,41 +220,95 @@ function setupNavigationEvents(isFinalLesson) {
   const newContentBtn = contentBtn.cloneNode(true);
   contentBtn.parentNode.replaceChild(newContentBtn, contentBtn);
 
-  newContentBtn.addEventListener("click", () => {
-    const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
-    const currentLesson = card ? card.lessons[currentLessonId - 1] : null;
-    const earnedXP = currentLesson ? currentLesson.xp : 0;
-
-    const isTopicCompleted = getCardStatus(currentCardId);
-    let earnedXPMsg = "";
-
-    if (!isTopicCompleted) {
-      let totalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
-      totalXP += earnedXP;
-      localStorage.setItem("student_total_xp", totalXP);
-
-      earnedXPMsg = `\n🎉 You got : ${earnedXP} XP`;
-    } else {
-      earnedXPMsg = `\nℹ️ (ဤသင်ခန်းစာအုပ်စုအား လေ့လာပြီးဖြစ်၍ XP ထပ်မံမတိုးတော့ပါ)`;
+  // 💡 Changed to an ASYNC function to talk to MockAPI
+  newContentBtn.addEventListener("click", async () => {
+    
+    // 1. Get user session to know WHO is saving progress
+    const sessionData = localStorage.getItem("userSession");
+    if (!sessionData) {
+      alert("Please login first to save your progress!");
+      window.location.href = "login.html";
+      return;
     }
+    
+    const userSession = JSON.parse(sessionData);
+    const API_URL = "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
 
-    if (!isFinalLesson) {
-      alert(`✨ သင်ခန်းစာ ပြီးမြောက်သွားပါပြီ။${earnedXPMsg}`);
-      renderLessonContent(currentLessonId + 1);
-    } else {
-      saveCardComplete(currentCardId);
+    // Show loading state to prevent double clicks
+    newContentBtn.innerHTML = "Saving... <span class='spinner-border spinner-border-sm' style='width: 1rem; height: 1rem;'></span>";
+    newContentBtn.disabled = true;
 
-      const finalTotalXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
-      const formattedTotalXP = (finalTotalXP / 1000).toString().replace(".", ",");
+    try {
+      // 2. Fetch the absolute latest data from MockAPI
+      const res = await fetch(`${API_URL}/${userSession.id}`);
+      const latestUserData = await res.json();
 
-      alert(
-        `🎉 ဂုဏ်ယူပါတယ်ဗျာ! သင်ခန်းစာအားလုံးကို လေ့လာပြီးမြောက်သွားပါပြီ။${earnedXPMsg} \n Current Total XP: ${formattedTotalXP}`,
-      );
+      const card = currentTrackData.find((c) => String(c.id) === String(currentCardId));
+      const currentLesson = card ? card.lessons[currentLessonId - 1] : null;
+      const earnedXP = currentLesson ? currentLesson.xp : 0;
 
-      window.location.href = "index.html";
+      // 3. Get the correct track key (e.g., "arduino_progress")
+      const trackKey = getStorageKey();
+
+      // 4. Safely parse their current progress from the API
+      let currentProgress = latestUserData[trackKey];
+      if (typeof currentProgress === "string") {
+        try { currentProgress = JSON.parse(currentProgress); } catch(e) { currentProgress = {}; }
+      } else {
+        currentProgress = currentProgress || {};
+      }
+
+      // 5. Check if they already completed this whole Topic/Card
+      const isTopicCompleted = currentProgress[currentCardId] === true;
+      let earnedXPMsg = "";
+      let newTotalXp = parseInt(latestUserData.student_total_xp || 0);
+
+      // Add XP only if they haven't completed this topic before
+      if (!isTopicCompleted) {
+        newTotalXp += earnedXP;
+        earnedXPMsg = `\n🎉 You got : ${earnedXP} XP`;
+      } else {
+        earnedXPMsg = `\nℹ️ (ဤသင်ခန်းစာအုပ်စုအား လေ့လာပြီးဖြစ်၍ XP ထပ်မံမတိုးတော့ပါ)`;
+      }
+
+      // 6. Prepare the data to send back to the API
+      let updatedData = { ...latestUserData, student_total_xp: newTotalXp };
+
+      // If it is the LAST lesson, mark the whole Card as true
+      if (isFinalLesson) {
+        currentProgress[currentCardId] = true;
+        updatedData[trackKey] = JSON.stringify(currentProgress); 
+      }
+
+      // 7. PUT the updated progress back to MockAPI
+      const updateRes = await fetch(`${API_URL}/${userSession.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData)
+      });
+
+      if (!updateRes.ok) throw new Error("API Save Failed");
+
+      // 8. Handle UI Navigation after successful save
+      if (!isFinalLesson) {
+        alert(`✨ သင်ခန်းစာ ပြီးမြောက်သွားပါပြီ။${earnedXPMsg}`);
+        renderLessonContent(currentLessonId + 1);
+      } else {
+        const formattedTotalXP = (newTotalXp / 1000).toString().replace(".", ",");
+        alert(`🎉 ဂုဏ်ယူပါတယ်ဗျာ! သင်ခန်းစာအားလုံးကို လေ့လာပြီးမြောက်သွားပါပြီ။${earnedXPMsg} \n Current Total XP: ${formattedTotalXP}`);
+        window.location.href = "index.html";
+      }
+
+    } catch (error) {
+      console.error("Error saving progress:", error);
+      alert("Connection error! Progress could not be saved to the server.");
+      // Reset button if it failed
+      newContentBtn.innerHTML = isFinalLesson ? "Mark as Complete" : "Next";
+      newContentBtn.disabled = false;
     }
   });
 
+  // Previous Button Logic (Remains unchanged)
   if (prevBtn) {
     const newPrevBtn = prevBtn.cloneNode(true);
     prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);

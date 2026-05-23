@@ -1,6 +1,57 @@
 /* =====================================================================
-   🎯 LocalStorage Key များကို Track အလိုက် သီးသန့်ခွဲထုတ်ပေးမည့် Helpers
-   (ဒါတွေက data.js ထဲက အဟောင်းတွေကို အစားထိုး အလုပ်လုပ်ပေးသွားပါမည်)
+   API Configuration & State Management
+===================================================================== */
+const ACCOUNTS_API_URL =
+  "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
+let currentUserData = null; // Store fetched DB data globally for UI rendering
+
+// Retrieve Session
+function getCurrentUser() {
+  const sessionData = localStorage.getItem("userSession");
+  return sessionData ? JSON.parse(sessionData) : null;
+}
+
+// Fetch user data from the API
+async function initUserData() {
+  const session = getCurrentUser();
+  if (!session) return false;
+
+  try {
+    const res = await fetch(`${ACCOUNTS_API_URL}/${session.id}`);
+    if (res.ok) {
+      currentUserData = await res.json();
+      return true;
+    }
+  } catch (error) {
+    console.error("Failed to fetch user data:", error);
+  }
+  return false;
+}
+
+// 💡 Helper to save newly earned XP, progress, or daily streak back to API
+async function saveProgressToAPI(updatedFields) {
+  const session = getCurrentUser();
+  if (!session || !currentUserData) return;
+
+  try {
+    const res = await fetch(`${ACCOUNTS_API_URL}/${session.id}`, {
+      method: "PUT", // Use PUT or PATCH based on your API settings
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...currentUserData, ...updatedFields }),
+    });
+
+    if (res.ok) {
+      currentUserData = await res.json(); // Sync local state
+      updateMainHubProgress();
+      updateXpProgress();
+    }
+  } catch (error) {
+    console.error("Failed to save progress to server:", error);
+  }
+}
+
+/* =====================================================================
+   Track Helpers (Now using API data instead of LocalStorage)
 ===================================================================== */
 function getStorageKey() {
   const path = window.location.pathname.toLowerCase();
@@ -11,21 +62,46 @@ function getStorageKey() {
 }
 
 function getCardStatus(cardId) {
+  if (!currentUserData) return false;
   const key = getStorageKey();
-  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  let progress = currentUserData[key];
+
+  // 💡 Safe parsing: If MockAPI returns a stringified JSON, parse it back to an object
+  if (typeof progress === "string") {
+    try {
+      progress = JSON.parse(progress);
+    } catch (e) {
+      progress = {};
+    }
+  } else {
+    progress = progress || {};
+  }
+
   return progress[cardId] || false;
 }
 
-// 💡 အဓိက ပြင်ဆင်ချက် - Dashboard တွင် Track ၄ ခုလုံးကို သီးသန့်စီ မှန်ကန်စွာဖတ်ရန်
 function getTrackCardStatus(trackName, cardId) {
-  const key = trackName + "_progress"; // ဥပမာ- "esp32_progress"
-  const progress = JSON.parse(localStorage.getItem(key)) || {};
+  if (!currentUserData) return false;
+  const key = trackName + "_progress";
+  let progress = currentUserData[key];
+
+  // 💡 Safe parsing for Main Hub tracking
+  if (typeof progress === "string") {
+    try {
+      progress = JSON.parse(progress);
+    } catch (e) {
+      progress = {};
+    }
+  } else {
+    progress = progress || {};
+  }
+
   return progress[cardId] || false;
 }
 
 /* ===================================================================== */
 
-// 💡 URL လမ်းကြောင်းကိုကြည့်ပြီး ဘယ် Track ဒေတာကို သုံးမလဲဆိုတာ Dynamic ဆုံးဖြတ်ခြင်း
+// Dynamic track data selection
 let currentTrackData = [];
 const currentPath = window.location.pathname;
 
@@ -43,41 +119,19 @@ if (currentPath.includes("/esp32/")) {
     typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [];
 }
 
-// Example function to fetch dynamic data for the cards later
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("MakerHub MM Initialized!");
-
-  // show current xp points
-  const savedXP = parseInt(localStorage.getItem("student_total_xp") ?? "0");
-  const xpPointsEl = document.getElementById("xpPoints");
-
-  if (xpPointsEl) {
-    xpPointsEl.textContent = savedXP.toString().replace(".", ",");
-  }
-});
-
-// Search icon ကို နှိပ်ရင် အလုပ်လုပ်ဖို့ simple logic
-document.addEventListener("DOMContentLoaded", () => {
-  const searchBtn = document.querySelector(".search-link");
-
-  if (searchBtn) {
-    searchBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const searchQuery = prompt("ဘာကို ရှာဖွေချင်ပါသလဲ?");
-      if (searchQuery) {
-        console.log("Searching for:", searchQuery);
-      }
-    });
-  }
-});
-
-/* ════════════════════════════
-   THEME
-════════════════════════════ */
-document.addEventListener("DOMContentLoaded", () => {
+// =====================================================================
+// Theme Toggle
+function initThemeLogic() {
   const themeBtns = document.querySelectorAll(".btn-theme-toggle");
   const savedTheme = localStorage.getItem("theme");
+
+  function updateIcons(isLight) {
+    document.querySelectorAll(".theme-icon").forEach((icon) => {
+      icon.classList.remove("bi-moon-stars-fill", "bi-sun-fill");
+      if (isLight) icon.classList.add("bi-sun-fill");
+      else icon.classList.add("bi-moon-stars-fill");
+    });
+  }
 
   if (savedTheme === "light") {
     document.body.classList.add("light-theme");
@@ -93,22 +147,121 @@ document.addEventListener("DOMContentLoaded", () => {
       updateIcons(isLight);
     });
   });
+}
+// Initialize theme logic immediately so that icons are correct on page load
+initThemeLogic();
 
-  function updateIcons(isLight) {
-    document.querySelectorAll(".theme-icon").forEach((icon) => {
-      icon.classList.remove("bi-moon-stars-fill", "bi-sun-fill");
-      if (isLight) {
-        icon.classList.add("bi-sun-fill");
-      } else {
-        icon.classList.add("bi-moon-stars-fill");
-      }
-    });
-  }
+/* =====================================================================
+   Initialization (Replaces all scattered DOMContentLoaded events)
+===================================================================== */
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("MakerHub MM Initialized!");
+
+  // 🚀 ကနဦးလုပ်ဆောင်ချက် - Search Logic ကို Event Listener ချိတ်ထားမယ်
+  initSearchLogic();
+
+  // 1. Fetch public items (Community & Market) ကို အရင်ဆုံး 'await' သုံးပြီး စောင့်ယူမယ်
+  // ဒါမှ ဒေတာတွေ Array ထဲ အရင်ရောက်ပြီး Search က ကောက်စစ်လို့ရမှာပါ
+  await fetchLiveProjects();
+
+  // 2. Fetch user state SECOND to populate progress and XP accurately
+  await initUserData();
+
+  // 3. Render UI components based on the fetched data
+  if (typeof renderLessons === "function") renderLessons();
+  if (typeof updateMainHubProgress === "function") updateMainHubProgress();
+  if (typeof updateHeroProgress === "function") updateHeroProgress();
+  updateXpProgress();
 });
 
-/**
- * Main Hub ပေါ်ရှိ ပင်မကတ်ကြီး (၄) ခု၏ Progress များကို Dynamic တွက်ချက်ပြသပေးမည့် လုပ်ဆောင်ချက်
- */
+/* ════════════════════════════
+    Search Logic for Community & Marketplace
+════════════════════════════ */
+function initSearchLogic() {
+  // 🚀 ပိုမိုစိတ်ချရအောင် စာမျက်နှာတစ်ခုလုံး (document) ပေါ်မှာ ရိုက်သမျှ Input Event ကို ဖမ်းမယ်
+  document.addEventListener("input", (e) => {
+    // ရိုက်လိုက်တဲ့ကောင်က .nav-search-input class ဖြစ်ခဲ့ရင်
+    if (e.target && e.target.classList.contains("nav-search-input")) {
+      const query = e.target.value.trim().toLowerCase();
+      performLiveSearch(query);
+    }
+  });
+
+  // Enter ခေါက်တဲ့ Keypress Event ကိုလည်း တစ်ခါတည်း ဖမ်းမယ်
+  document.addEventListener("keypress", (e) => {
+    if (
+      e.key === "Enter" &&
+      e.target &&
+      e.target.classList.contains("nav-search-input")
+    ) {
+      e.preventDefault();
+      const query = e.target.value.trim().toLowerCase();
+      performLiveSearch(query);
+    }
+  });
+
+  console.log("Search system hooked via Document Listener!");
+}
+
+function performLiveSearch(query) {
+  console.log("Live Searching for:", query);
+  
+  // ── ၁။ ကွန်မြူနတီ (COMMUNITY) အတွက် ရှာဖွေခြင်း ────────────────
+  const pContainer = document.getElementById("projectContainer");
+  const hpContainer = document.getElementById("homeProjectContainer");
+
+  if (typeof myProjects !== "undefined" && myProjects.length > 0) {
+    const filteredProjects = myProjects.filter((project) => {
+      // 💡 MockAPI ထဲမှာ title ရော itemName ပါ ရှိနိုင်လို့ နှစ်ခုလုံးကို Safe ဖြစ်အောင် စစ်ပါတယ်
+      const title = project.title || project.itemName || "";
+      const desc = project.description || project.itemdescription || "";
+      const author = project.name || project.sellerName || "";
+
+      return (
+        title.toLowerCase().includes(query) ||
+        desc.toLowerCase().includes(query) ||
+        author.toLowerCase().includes(query)
+      );
+    });
+
+    console.log("Filtered Community Projects Count:", filteredProjects.length);
+
+    // လက်ရှိ ရောက်နေတဲ့ စာမျက်နှာအလိုက် Card တွေကို ပြန်ဆွဲခိုင်းမယ်
+    if (pContainer && typeof displayProjects === "function") {
+      displayProjects(filteredProjects);
+    }
+    if (hpContainer && typeof displayHomeProjects === "function") {
+      displayHomeProjects(filteredProjects);
+    }
+  }
+
+  // ── ၂။ မားကတ်ပလေ့စ် (MARKETPLACE) အတွက် ရှာဖွေခြင်း ──────────────
+  const hmGrid = document.getElementById("homeMarketGrid");
+  if (typeof myMarketItems !== "undefined" && myMarketItems.length > 0) {
+    const filteredMarket = myMarketItems.filter((item) => {
+      const name = item.itemName || "";
+      const desc = item.itemdescription || "";
+      const category = item.itemcategory || "";
+
+      return (
+        name.toLowerCase().includes(query) ||
+        desc.toLowerCase().includes(query) ||
+        category.toLowerCase().includes(query)
+      );
+    });
+
+    if (hmGrid && typeof displayHomeMarketPlace === "function") {
+      displayHomeMarketPlace(filteredMarket);
+    }
+    if (typeof renderCards === "function") {
+      renderCards(filteredMarket);
+    }
+  }
+}
+
+/* ════════════════════════════
+   Hub & Progress Logic
+════════════════════════════ */
 function updateMainHubProgress() {
   const tracks = {
     arduino:
@@ -145,7 +298,7 @@ function updateMainHubProgress() {
       }
     });
 
-    // 💡 အဓိက ပြင်ဆင်ချက် - Track အလိုက် သီးသန့် LocalStorage များကို ဖတ်စေခြင်း
+    // Fetches status safely using the API user data
     trackData.forEach((topic) => {
       if (getTrackCardStatus(trackName, topic.id)) {
         completedTopics++;
@@ -180,36 +333,30 @@ function updateMainHubProgress() {
       globalTotalTopics > 0
         ? Math.round((globalCompletedTopics / globalTotalTopics) * 100)
         : 0;
-    if (totalPercentEl) {
-      totalPercentEl.textContent = `${totalPercentage}%`;
-    }
-    if (totalFillEl) {
+    if (totalPercentEl) totalPercentEl.textContent = `${totalPercentage}%`;
+    if (totalFillEl)
       totalFillEl.style.setProperty(
         "width",
         `${totalPercentage}%`,
         "important",
       );
-    }
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (typeof renderLessons === "function") {
-    renderLessons();
-  }
-  updateMainHubProgress();
-});
-
-/* ════════════════════════════
-XP Progress Bar
-════════════════════════════ */
 function updateXpProgress() {
   const fillEl = document.getElementById("xpProgressBar");
-  if (!fillEl) return;
+  const xpPointsEl = document.getElementById("xpPoints");
 
-  const finalTotalXP = parseInt(
-    localStorage.getItem("student_total_xp") ?? "0",
-  );
+  // 💡 Ensure we parse the API XP as a Number, not a String
+  const finalTotalXP = currentUserData
+    ? parseInt(currentUserData.student_total_xp || 0)
+    : 0;
+
+  if (xpPointsEl) {
+    xpPointsEl.textContent = finalTotalXP.toLocaleString();
+  }
+
+  if (!fillEl) return;
   const targetXP = 10000;
   const percentage = Math.round((finalTotalXP / targetXP) * 100);
 
@@ -219,10 +366,6 @@ function updateXpProgress() {
     "important",
   );
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  updateXpProgress();
-});
 
 function updateHeroProgress() {
   const heroProgressBar = document.getElementById("hero-progress-bar");
@@ -247,13 +390,8 @@ function updateHeroProgress() {
   heroProgressLabel.textContent = `${completedCards} / ${totalCards} done`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderLessons();
-  updateHeroProgress();
-});
-
 /* ════════════════════════════
-   topic grid 
+   Topic Grid & Lessons
 ════════════════════════════ */
 const gridContainer = document.getElementById("learning-grid");
 
@@ -315,6 +453,15 @@ function renderLessons() {
 }
 
 function startLesson(id, unlocked) {
+  // Prevent unauthorized access
+  if (!getCurrentUser()) {
+    alert(
+      "သင်ခန်းစာများလေ့လာရန်နှင့် အမှတ်များစုဆောင်းရန် အကောင့်ဝင်ပေးပါ။ (Please log in to learn and track progress.)",
+    );
+    // window.location.href = "login.html"; // Optional redirection
+    return;
+  }
+
   if (!unlocked) {
     alert("အရင်သင်ခန်းစာကို အရင်ပြီးအောင် လုပ်ပေးပါ။");
     return;
@@ -322,70 +469,20 @@ function startLesson(id, unlocked) {
   window.location.href = `lessons.html?id=${id}`;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderLessons();
-});
-
-// reset all
-// 🔄 Reload လုပ်လျှင် Data "အားလုံးကို" အကုန်ရှင်းလင်းမည့် စနစ် (Clear All)
-document.addEventListener("DOMContentLoaded", () => {
-  const navigationEntries = performance.getEntriesByType("navigation");
-
-  if (navigationEntries.length > 0) {
-    const navigationType = navigationEntries[0].type;
-
-    if (navigationType === "reload") {
-      // ၁။ XP များကို အကုန်ရှင်းလင်းမည်
-      localStorage.removeItem("student_total_xp");
-
-      // 💡 ၂။ Track အားလုံး၏ Progress များကို တစ်ပြိုင်နက်တည်း အကုန်ရှင်းလင်းမည် (Clear All Data)
-      localStorage.removeItem("arduino_progress");
-      localStorage.removeItem("esp32_progress");
-      localStorage.removeItem("esp8266_progress");
-      localStorage.removeItem("raspberry_progress");
-
-      // ၃။ UI ပေါ်က XP တန်ဖိုးကို 0 ပြန်ထားမည်
-      const xpBadge = document.getElementById("xpPoints");
-      if (xpBadge) {
-        xpBadge.textContent = "0";
-      }
-
-      // ၄။ Card များကို Lock အနေအထားဖြင့် အသစ်ပြန်ဆောက်မည်
-      if (typeof renderLessons === "function") {
-        renderLessons();
-      }
-
-      // ၅။ Main Hub ၏ Progress ကိုလည်း ပြန်လည် Refresh လုပ်မည်
-      if (typeof updateMainHubProgress === "function") {
-        updateMainHubProgress();
-      }
-
-      console.log(
-        "🔄 Chrome Browser Reload ကြောင့် Track အားလုံးရှိ ဒေတာများကို ရှင်းလင်းပြီးပါပြီ (Clear All)။",
-      );
-    }
-  }
-});
-
-// --------- community page--------------
-
 // ==========================================================================
-// ၁။ HTML နေရာများကို လှမ်းဖမ်းခြင်း (DOM Selection)
+// Community & Marketplace Code (Retained your exact logic)
 // ==========================================================================
+
 const track = document.getElementById("navTrack");
 const prev = document.getElementById("prevBtn");
 const next = document.getElementById("nextBtn");
+const projectContainer = document.getElementById("projectContainer");
+const homeProjectContainer = document.getElementById("homeProjectContainer");
 
-// Page အလိုက် Container ၂ ခုလုံးကို လှမ်းဖမ်းထားမယ်
-const projectContainer = document.getElementById("projectContainer"); // Community Page အတွက်
-const homeProjectContainer = document.getElementById("homeProjectContainer"); // Home Page အတွက်
-
-// ==========================================================================
-// ၂။ COMMUNITY PAGE အတွက် - ကတ်ပြားအားလုံး ဆွဲတင်ပြသမည့် စက်ရုံ (Render Function)
-// ==========================================================================
 function displayProjects(projectsList) {
+  const loadingIndicator = document.getElementById("loadingIndicator");
   if (loadingIndicator) loadingIndicator.classList.add("d-none");
-  if (!projectContainer) return; // ဒီနေရာမရှိရင် (ဥပမာ Home Page ဆိုရင်) အောက်ကကုဒ်တွေကို ဆက်မလုပ်ဘဲ ရပ်မယ်
+  if (!projectContainer) return;
   projectContainer.innerHTML = "";
 
   if (projectsList.length === 0) {
@@ -407,8 +504,8 @@ function displayProjects(projectsList) {
             
             <div class="d-flex justify-content-between align-items-center mt-auto">
               <div class="d-flex align-items-center">
-                <img src="${project.userAvatar}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
-                <span class="user-name">${project.userName}</span>
+                <img src="${project.avatar || "https://via.placeholder.com/40"}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
+                <span class="user-name">${project.name}</span>
               </div>
               <div class="stats-group d-flex gap-3">
                 <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
@@ -423,17 +520,35 @@ function displayProjects(projectsList) {
   });
 }
 
-// ==========================================================================
-// ၃။ HOME PAGE အတွက် - နောက်ဆုံးပေါ် ကတ် ၃ ခုတည်းသာ ပြသမည့် စက်ရုံ
-// ==========================================================================
+function filterCategory(categoryName, element) {
+  const allLinks = document.querySelectorAll(".category-link");
+  allLinks.forEach((link) => {
+    link.classList.remove("active-category");
+  });
+
+  element.classList.add("active-category");
+  const selectedCategory = categoryName.toLowerCase().trim();
+
+  if (selectedCategory === "all") {
+    displayProjects(myProjects);
+  } else {
+    const filtered = myProjects.filter((project) => {
+      return (
+        project.category &&
+        project.category.toLowerCase().trim() === selectedCategory
+      );
+    });
+    displayProjects(filtered);
+  }
+}
+
 function displayHomeProjects(projectsList) {
+  const loadingIndicator = document.getElementById("loadingIndicator");
   if (loadingIndicator) loadingIndicator.classList.add("d-none");
   if (!homeProjectContainer) return;
   homeProjectContainer.innerHTML = "";
 
-  // const = projectsList.slice(0, 3);
-  // 💡 နောက်ဆုံးပေါ်ကတ်တွေကို ရှာဖွေဖို့ အရင် reverse() ပြီးမှ slice() လုပ်မယ်
-  const latestThree  = [...projectsList].reverse().slice(0, 3);
+  const latestThree = [...projectsList].reverse().slice(0, 3);
 
   latestThree.forEach((project) => {
     homeProjectContainer.innerHTML += `
@@ -449,8 +564,8 @@ function displayHomeProjects(projectsList) {
             
             <div class="d-flex justify-content-between align-items-center mt-auto">
               <div class="d-flex align-items-center">
-                <img src="${project.userAvatar}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
-                <span class="user-name">${project.userName}</span>
+                <img src="${project.avatar}" class="rounded-circle me-2 user-avatar" width="24" height="24" alt="Avatar" />
+                <span class="user-name">${project.name}</span>
               </div>
               <div class="stats-group d-flex gap-3">
                 <span class="stats-icons"><i class="fa-regular fa-heart me-1 text-danger"></i> ${project.likes}</span>
@@ -466,35 +581,35 @@ function displayHomeProjects(projectsList) {
   });
 }
 
-// ==========================================================================
-// HOME PAGE အတွက် - နောက်ဆုံးပေါ် ကတ် ၄ ခု တင်ဆက်ပြသမည့် စနစ်
-// ==========================================================================
 function displayHomeMarketPlace(projectsList) {
-  // Container ပုံးကို HTML ထဲက ID အသစ်အတိုင်း လှမ်းဖတ်မယ်
   const homeMarketPlaceContainer = document.getElementById("homeMarketGrid");
-  const loadingIndicator = document.getElementById("marketLoading"); // ရှိရင် သုံးဖို့ပါ
-  const homeMarketLoading = document.getElementById("homeMarketLoading"); // ဒီ ID ကို HTML မှာ သတ်မှတ်ထားရမယ်
+  const loadingIndicator = document.getElementById("marketLoading");
+  const homeMarketLoading = document.getElementById("homeMarketLoading");
 
   if (loadingIndicator) loadingIndicator.classList.add("d-none");
-  if (homeMarketLoading) homeMarketLoading.classList.add("d-none"); // ဒီ ID ကို HTML မှာ သတ်မှတ်ထားရမယ်
+  if (homeMarketLoading) homeMarketLoading.classList.add("d-none");
   if (!homeMarketPlaceContainer) return;
 
   homeMarketPlaceContainer.innerHTML = "";
-
-  // 💡get latest items to show in homepage so make it reverse
   const latestFour = [...projectsList].reverse().slice(0, 4);
 
   latestFour.forEach((item) => {
-    // Wishlist အခြေအနေကို စစ်ဆေးပြီး အစ်ကိုသုံးချင်တဲ့ text-success (အစိမ်းရောင်) သတ်မှတ်မယ်
-    const isSaved = item.wishlist === true;
+    const currentUser = getCurrentUser();
+    const currentUserId = currentUser?.id ? String(currentUser.id) : null;
+    const wishlistUsers = Array.isArray(item.wishlistUsers)
+      ? item.wishlistUsers
+      : [];
+
+    const isSaved = currentUserId
+      ? wishlistUsers.includes(currentUserId)
+      : false;
     const iconClass = isSaved ? "bi-bookmark-fill text-success" : "bi-bookmark";
 
-    // 💡 API ဒေတာက "itemName 1" ဖြစ်နေရင် ဒေတာအစစ်လို လှပအောင် ပြောင်းလဲပေးမယ့် Logic
     const isDummy = item.itemName && item.itemName.includes("itemName");
 
     const finalImage =
-      item.image && item.image.includes("http")
-        ? item.image
+      item.itemimage && item.itemimage.includes("http")
+        ? item.itemimage
         : `https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500&q=80&sig=${item.id}`;
 
     const finalName = isDummy ? `Maker Component v${item.id}` : item.itemName;
@@ -515,18 +630,17 @@ function displayHomeMarketPlace(projectsList) {
       else if (remainder === 2) finalCategory = "Motors";
       else finalCategory = "Displays";
     } else {
-      finalCategory = item.category || "Others";
+      finalCategory = item.itemcategory || "Others";
     }
 
     const finalDesc = isDummy
       ? "Premium grade electronic hardware component for DIY engineering projects."
-      : item.description;
+      : item.itemdescription;
     const finalSeller = isDummy ? `Developer ${item.id}` : item.sellerName;
     const finalAvatar = isDummy
       ? `https://ui-avatars.com/api/?name=${finalSeller}&background=random&color=fff`
       : item.sellerAvatar;
 
-    // HTML Insert လုပ်ခြင်း
     homeMarketPlaceContainer.innerHTML += `
       <div class="col d-flex justify-content-center" id="market-item-${item.id}">
         <div class="classic-market-card h-100 d-flex flex-column shadow-sm border rounded-3 w-100">
@@ -574,71 +688,36 @@ function displayHomeMarketPlace(projectsList) {
   });
 }
 
-// ==========================================================================
-// ၄။ COMMUNITY PAGE အတွက် - Category ဇကာတင် စစ်ထုတ်ခြင်း (Safe Filtering Logic)
-// ==========================================================================
-function filterCategory(categoryName, element) {
-  const allLinks = document.querySelectorAll(".category-link");
-  allLinks.forEach((link) => {
-    link.classList.remove("active-category");
-  });
-
-  element.classList.add("active-category");
-
-  // 💡 စာလုံးအကြီးအသေးကြောင့် အလုပ်မလုပ်ပဲဖြစ်ခြင်းကို ကာကွယ်ရန် toLowerCase() သုံးပြီး တိုက်စစ်ခြင်း
-  const selectedCategory = categoryName.toLowerCase().trim();
-
-  if (selectedCategory === "all") {
-    displayProjects(myProjects);
-  } else {
-    const filtered = myProjects.filter((project) => {
-      // project.category ရှိမရှိ အရင်စစ်ပြီးမှ စာလုံးအသေးပြောင်းပြီး တိုက်စစ်ပါမယ်
-      return (
-        project.category &&
-        project.category.toLowerCase().trim() === selectedCategory
-      );
-    });
-    displayProjects(filtered);
-  }
-}
-
-// ==========================================================================
-// ၅။ စာမျက်နှာနှစ်ခုလုံး စဖွင့်ချင်းမှာ အလိုအလျောက် စစ်ဆေးပြီး ပတ်ပေးမည့်စနစ်
-// ==========================================================================
-// ၁။ API ကနေလာမည့် ဒေတာများကို သိမ်းဆည်းရန် Array အလွတ်များ
 let myProjects = [];
-let myMarketItems = []; // 💡 Marketplace အတွက် Array အသစ်
+let myMarketItems = [];
 
-// 🌐 Cloud API ဆီကနေ Live ဒေတာ လှမ်းဆွဲမည့် စက်ရုံ (Async/Await Fetch)
 async function fetchLiveProjects() {
   try {
     const apiProjectsUrl =
-      "https://6a0e53941736097c3609b735.mockapi.io/api/v1/projects";
-    const apiMarketUrl =
-      "https://6a0e53941736097c3609b735.mockapi.io/api/v1/marketplace"; // 💡 Market API လမ်းကြောင်း
+      "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
 
-    // 🔗 API နှစ်ခုစလုံးကနေ ဒေတာကို တစ်ပြိုင်နက် လှမ်းဆွဲမယ် (ပိုမြန်ဆန်စေပါတယ်)
-    const [resProjects, resMarket] = await Promise.all([
-      fetch(apiProjectsUrl),
-      fetch(apiMarketUrl),
-    ]);
+    // 1. Fetch only once (since it's the same URL)
+    const res = await fetch(apiProjectsUrl);
+    const allData = await res.json();
 
-    // JSON ပြောင်းလဲခြင်း
-    myProjects = await resProjects.json();
-    myMarketItems = await resMarket.json();
+    // 2. 🛡️ FILTER: Extract ONLY the data that belongs to each section
+    // Use the 'type' field we added earlier
+    const filteredProjects = allData.filter(
+      (item) => item.type === "community",
+    );
+    const filteredMarket = allData.filter((item) => item.type === "market");
 
-    console.log("Projects ဒေတာ -", myProjects);
-    console.log("Marketplace ဒေတာ -", myMarketItems);
+    // 3. Update your variables with the CLEANED data
+    myProjects = filteredProjects;
+    myMarketItems = filteredMarket;
 
-    // 🚀 ဒေတာအသီးသီးကို သက်ဆိုင်ရာ စက်ရုံတွေဆီ မှန်ကန်စွာ ပို့ဆောင်ပေးခြင်း
-    displayProjects(myProjects); // Community Page အတွက်
-    displayHomeProjects(myProjects); // Home Page အတွက်
-
-    // 💡 ကွက်တိအမှန်ကန်ဆုံး ဖြစ်သွားအောင် myMarketItems ကို ထည့်ပေးလိုက်ပါတယ်
+    // 4. Pass the cleaned data to your display functions
+    displayProjects(myProjects);
+    displayHomeProjects(myProjects);
     displayHomeMarketPlace(myMarketItems);
   } catch (error) {
     console.error("Live API မှ ဒေတာဆွဲရာတွင် အမှားအယွင်းရှိနေပါသည် -", error);
-    const projectContainer = document.getElementById("projectGrid"); // အစ်ကို့ container id အတိုင်းပါ
+    const projectContainer = document.getElementById("projectGrid");
     if (projectContainer) {
       projectContainer.innerHTML = `
         <div class="col-12 text-center text-danger py-5">
@@ -648,26 +727,14 @@ async function fetchLiveProjects() {
     }
   }
 }
-// ၃။ စာမျက်နှာ စဖွင့်ချင်းမှာတင် Live API ကို တန်းခေါ်ခိုင်းခြင်း
-document.addEventListener("DOMContentLoaded", () => {
-  fetchLiveProjects();
-});
 
-// ==========================================================================
-// ၆။ COMMUNITY PAGE အတွက် - ဘယ်/ညာ မြှားခလုတ်များ အလုပ်လုပ်စေမည့်စနစ် (Slider Logic)
-// ==========================================================================
-
-// Next Button (ညာဘက်မြှားခလုတ်)
 if (next && track) {
-  // 💡 Home Page မှာ Error မတက်အောင် ခလုတ်အမှန်တကယ် ရှိမှပဲ အလုပ်လုပ်ခိုင်းခြင်း
   next.addEventListener("click", () => {
     track.scrollBy({ left: 200, behavior: "smooth" });
   });
 }
 
-// Prev Button (ဘယ်ဘက်မြှားခလုတ်)
 if (prev && track) {
-  // 💡 ခလုတ်အမှန်တကယ် ရှိမှပဲ အလုပ်လုပ်ခိုင်းခြင်း
   prev.addEventListener("click", () => {
     track.scrollBy({ left: -200, behavior: "smooth" });
   });

@@ -1,165 +1,597 @@
-const BASE_URL = "https://6a0e53941736097c3609b735.mockapi.io/api/v1";
-const apiMarketUrl = `${BASE_URL}/marketplace`;
+// ─────────────────────────────────────────────────────────
+// 🌐 API CONFIG
+// ─────────────────────────────────────────────────────────
 
-// လက်ရှိ App ရဲ့ Login ဖြစ်နေတဲ့ User Name
-const CURRENT_LOGGED_USER = "Thoon Phyo Aung";
+const API_BASE_URL =
+  "https://6a1144953e35d0f37ee31c1d.mockapi.io/api";
 
-// 🔍 URL ကနေ ?id=1 စတဲ့ Query Parameter ကို သေချာအောင် ဖမ်းထုတ်ခြင်း
-const urlParams = new URLSearchParams(window.location.search);
-const itemId = urlParams.get("id") ? urlParams.get("id").trim() : null;
+const MARKET_API_URL =
+  `${API_BASE_URL}/accounts/accounts`; // 💡 အစ်ကို့ MockAPI URL ထည့်ပါ
 
-// Console မွာ ID တကယ်မိမမိ ကြည့်ရန် (F12 နှိပ်ပြီး စစ်ဆေးနိုင်သည်)
-console.log("Found Item ID from URL:", itemId);
+
+// ─────────────────────────────────────────────────────────
+// 👤 CURRENT USER
+// ─────────────────────────────────────────────────────────
+
+function getCurrentUser() {
+
+  const sessionData =
+    localStorage.getItem("userSession");
+
+  return sessionData
+    ? JSON.parse(sessionData)
+    : null;
+}
+
+
+// ─────────────────────────────────────────────────────────
+// 🔍 GET ITEM ID FROM URL
+// ─────────────────────────────────────────────────────────
+
+const urlParams =
+  new URLSearchParams(window.location.search);
+
+const itemId =
+  urlParams.get("id")
+    ? urlParams.get("id").trim()
+    : null;
+
+console.log(
+  "Found Item ID:",
+  itemId
+);
+
+
+// ─────────────────────────────────────────────────────────
+// 📦 LOAD ITEM DETAIL
+// ─────────────────────────────────────────────────────────
 
 async function loadItemDetail() {
 
+  // invalid id
   if (!itemId) {
-    alert("❌ Error: Invalid Item ID (URL တွင် id ပါမလာပါ)");
-    window.location.href = "/marketplace/index.html"; // Folder နှစ်ဆင့်ကျော်ထွက်၍ Main index သို့သွားရန်
+
+    alert("❌ Invalid item ID.");
+
+    window.location.href =
+      "../index.html";
+
     return;
   }
 
   try {
-    const response = await fetch(`${apiMarketUrl}/${itemId}`);
 
-    // API က ဒေတာရှာမတွေ့ရင် 404 ဖမ်းဖို့
+    const response =
+      await fetch(
+        `${MARKET_API_URL}/${itemId}`
+      );
+
     if (!response.ok) {
+
       throw new Error(
-        `Item ID: ${itemId} ကို MockAPI တွင် ရှာမတွေ့ပါ။ (Status: ${response.status})`,
+        `Item not found.`
       );
     }
 
-    const item = await response.json();
+    const item =
+      await response.json();
 
-    // UI Elements ခေါ်ယူခြင်း
-    const carouselInner = document.getElementById("carouselInner");
-    const btnPrev = document.getElementById("carouselPrev");
-    const btnNext = document.getElementById("carouselNext");
+    // loading
+    const loadingEl =
+      document.getElementById(
+        "detailLoading"
+      );
 
-    // 💡 Multiple Images array မရှိလျှင် Single Image ဟောင်းကိုသုံးရန် အဆင့်ဆင့်စစ်ဆေးခြင်း
+    const detailContainer =
+      document.getElementById(
+        "detailContainer"
+      );
+
+    // carousel
+    const carouselInner =
+      document.getElementById(
+        "carouselInner"
+      );
+
+    const btnPrev =
+      document.getElementById(
+        "carouselPrev"
+      );
+
+    const btnNext =
+      document.getElementById(
+        "carouselNext"
+      );
+
+    // category navbar
+    const navCategoryEl =
+      document.getElementById(
+        "detailNavCategory"
+      );
+
+    // action buttons
+    const authorActions =
+      document.getElementById(
+        "authorActions"
+      );
+
+    // =====================================================
+    // IMAGES
+    // =====================================================
+
     let imagesToDisplay = [];
-    if (item.images && Array.isArray(item.images) && item.images.length > 0) {
-      imagesToDisplay = item.images;
-    } else if (item.image) {
-      imagesToDisplay = [item.image];
+
+    if (
+      item.itemimages &&
+      Array.isArray(item.itemimages) &&
+      item.itemimages.length > 0
+    ) {
+
+      imagesToDisplay =
+        item.itemimages;
+
+    } else if (item.itemimage) {
+
+      imagesToDisplay =
+        [item.itemimage];
+
     } else {
+
       imagesToDisplay = [
-        "https://via.placeholder.com/400x300?text=No+Image+Available",
+        "https://via.placeholder.com/600x400?text=No+Image"
       ];
     }
 
-    // အဟောင်းတွေ အရင်ရှင်းထုတ်ခြင်း
-    carouselInner.innerHTML = "";
-
-    // Category ကို Navbar မှာ ပြသရန် (ရှိလျှင်)
-    const navCategoryEl = document.getElementById("detailNavCategory");
-    if (navCategoryEl && item.category) {
-      navCategoryEl.innerHTML = `<i class="bi bi-tag-fill me-1 text-success"></i> ${item.category}`;
+    // clear old
+    if (carouselInner) {
+      carouselInner.innerHTML = "";
     }
 
-    // Carousel Items များကို Dynamic Render လုပ်ခြင်း
-    imagesToDisplay.forEach((imgUrl, index) => {
-      const isActive = index === 0 ? "active" : "";
-      const imgHtml = `
-        <div class="carousel-item ${isActive}" >
-          <img src="${imgUrl}" class="detail-img" alt="Item Image">
-        </div>
+    // render images
+    imagesToDisplay.forEach(
+      (imgUrl, index) => {
+
+        const activeClass =
+          index === 0
+            ? "active"
+            : "";
+
+        const imageHtml = `
+
+          <div class="carousel-item ${activeClass}">
+
+            <img
+              src="${imgUrl}"
+
+              class="detail-img"
+
+              alt="Item Image"
+
+              onerror="
+                this.onerror=null;
+                this.src='https://via.placeholder.com/600x400?text=Image+Error';
+              "
+            >
+
+          </div>
+        `;
+
+        carouselInner.insertAdjacentHTML(
+          "beforeend",
+          imageHtml
+        );
+      }
+    );
+
+    // show controls if multiple images
+    if (
+      imagesToDisplay.length > 1
+    ) {
+
+      btnPrev?.classList.remove(
+        "d-none"
+      );
+
+      btnNext?.classList.remove(
+        "d-none"
+      );
+
+    } else {
+
+      btnPrev?.classList.add(
+        "d-none"
+      );
+
+      btnNext?.classList.add(
+        "d-none"
+      );
+    }
+
+    // =====================================================
+    // CATEGORY
+    // =====================================================
+
+    if (
+      navCategoryEl &&
+      item.itemcategory
+    ) {
+
+      navCategoryEl.innerHTML = `
+        <i class="bi bi-tag-fill me-1 text-success"></i>
+        ${item.itemcategory}
       `;
-      carouselInner.insertAdjacentHTML("beforeend", imgHtml);
-    });
-
-    // ပုံတစ်ပုံထက် ပိုပါက Next/Prev မြှားများကို ဖော်ပြပေးမည်
-    if (imagesToDisplay.length > 1) {
-      btnPrev.classList.remove("d-none");
-      btnNext.classList.remove("d-none");
-
-      // // Bootstrap Carousel Auto-Cycle စတင်ခြင်း
-      // new bootstrap.Carousel(document.getElementById('itemImageCarousel'), {
-      //   interval: 3000, // ၃ စက္ကန့်လျှင် တစ်ပုံ အလိုအလျောက် ရွေ့မည်
-      //   ride: 'carousel'
-      // });
     }
 
-    // Product Details ဒေတာများ ဖြည့်သွင်းခြင်း
-    document.getElementById("itemName").innerText = item.itemName || "No Title";
-    document.getElementById("itemPrice").innerText = item.price || "0 MMK";
-    document.getElementById("itemCondition").innerText =
-      item.condition || "Used";
-    document.getElementById("itemDesc").innerText =
-      item.description || "No description provided.";
+    // =====================================================
+    // PRODUCT DETAILS
+    // =====================================================
 
-    document.getElementById("sellerName").innerText =
-      item.sellerName || "Anonymous";
-    document.getElementById("sellerAvatar").src =
-      item.sellerAvatar || "https://ui-avatars.com/api/?name=User";
+    document.getElementById(
+      "itemName"
+    ).innerText =
+      item.itemName ||
+      "Untitled Item";
 
-    document.getElementById("contactPhone").innerText =
-      item.contactPhone || "No Contact";
-    document.getElementById("contactPhone").href = `tel:${item.contactPhone}`;
-    document.getElementById("contactSocial").href = item.contactSocial || "#";
+    document.getElementById(
+      "itemPrice"
+    ).innerText =
+      item.price ||
+      "0 MMK";
 
-    // စစ်ဆေးချက် - ပိုင်ရှင်ဖြစ်ပါက Edit/Delete Dashboard ကို ဖွင့်ပေးရန်
-    if (item.sellerName === CURRENT_LOGGED_USER) {
-      document.getElementById("authorActions").classList.remove("d-none");
+    document.getElementById(
+      "itemCondition"
+    ).innerText =
+      item.condition ||
+      "Used";
+
+    document.getElementById(
+      "itemDesc"
+    ).innerText =
+      item.itemdescription ||
+      "No description provided.";
+
+    // =====================================================
+    // SELLER
+    // =====================================================
+
+    document.getElementById(
+      "sellerName"
+    ).innerText =
+      item.sellerName ||
+      "Anonymous";
+
+    document.getElementById(
+      "sellerAvatar"
+    ).src =
+      item.sellerAvatar ||
+      "https://ui-avatars.com/api/?name=User";
+
+    // =====================================================
+    // CONTACT
+    // =====================================================
+
+    const contactPhoneEl =
+      document.getElementById(
+        "contactPhone"
+      );
+
+    const contactSocialEl =
+      document.getElementById(
+        "contactSocial"
+      );
+
+    // phone
+    if (contactPhoneEl) {
+
+      contactPhoneEl.innerText =
+        item.contactPhone ||
+        "No Contact";
+
+      contactPhoneEl.href =
+        item.contactPhone
+          ? `tel:${item.contactPhone}`
+          : "#";
     }
 
-    // Loading Screen ပိတ်၍ Content ပြသခြင်း
-    document.getElementById("detailLoading").classList.add("d-none");
-    document.getElementById("detailContainer").classList.remove("d-none");
+    // social
+    if (contactSocialEl) {
+
+      contactSocialEl.href =
+        item.contactSocial || "#";
+    }
+
+    // =====================================================
+    // AUTHOR CHECK
+    // =====================================================
+
+    const currentUser =
+      getCurrentUser();
+
+    const isOwner =
+      currentUser &&
+      String(currentUser.id) ===
+      String(item.sellerId);
+
+    // only owner can edit/delete
+    if (
+      isOwner &&
+      authorActions
+    ) {
+
+      authorActions.classList.remove(
+        "d-none"
+      );
+    }
+
+    // =====================================================
+    // SHOW CONTENT
+    // =====================================================
+
+    loadingEl?.classList.add(
+      "d-none"
+    );
+
+    detailContainer?.classList.remove(
+      "d-none"
+    );
+
   } catch (error) {
-    console.error("Error loading detail:", error);
-    alert(`❌ Error: ${error.message}`);
-    window.location.href = "/marketplace/index.html"; // Error ဖြစ်ပါက Main သို့ ပြန်မောင်းထုတ်ခြင်း
+
+    console.error(
+      "Detail Loading Error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to load item details."
+    );
+
+    window.location.href =
+      "../index.html";
   }
 }
 
-// DELETE FUNCTION IMPLEMENTATION
+
+// ─────────────────────────────────────────────────────────
+// 🗑️ DELETE ITEM
+// ─────────────────────────────────────────────────────────
+
 async function deleteItem() {
-  const confirmDelete = confirm(
-    "⚠️ Are you sure you want to delete this item? This cannot be undone.",
-  );
-  if (!confirmDelete) return;
 
-  const btnDelete = document.getElementById("btnDelete");
-  btnDelete.disabled = true;
-  btnDelete.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+  const currentUser =
+    getCurrentUser();
+
+  // must login
+  if (!currentUser) {
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+  }
 
   try {
-    const response = await fetch(`${apiMarketUrl}/${itemId}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error("Delete failed");
 
-    alert("🗑️ Item deleted successfully!");
-    window.location.href = "/marketplace/index.html";
+    // get latest item data
+    const response =
+      await fetch(
+        `${MARKET_API_URL}/${itemId}`
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Item not found"
+      );
+    }
+
+    const item =
+      await response.json();
+
+    // owner check
+    const isOwner =
+      String(currentUser.id) ===
+      String(item.sellerId);
+
+    if (!isOwner) {
+
+      alert(
+        "❌ You can only delete your own item."
+      );
+
+      return;
+    }
+
+    // confirm
+    const confirmDelete =
+      confirm(
+        "⚠️ Are you sure you want to delete this item?"
+      );
+
+    if (!confirmDelete) return;
+
+    // button
+    const btnDelete =
+      document.getElementById(
+        "btnDelete"
+      );
+
+    if (btnDelete) {
+
+      btnDelete.disabled = true;
+
+      btnDelete.innerHTML = `
+        <span class="spinner-border spinner-border-sm"></span>
+      `;
+    }
+
+    // delete
+    const deleteResponse =
+      await fetch(
+        `${MARKET_API_URL}/${itemId}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+    if (!deleteResponse.ok) {
+
+      throw new Error(
+        "Delete failed"
+      );
+    }
+
+    alert(
+      "🗑️ Item deleted successfully!"
+    );
+
+    window.location.href =
+      "../index.html";
+
   } catch (error) {
-    console.error("Error deleting item:", error);
-    alert("❌ Failed to delete item.");
-    btnDelete.disabled = false;
-    btnDelete.innerHTML = `<i class="bi bi-trash3"></i>`;
+
+    console.error(
+      "Delete Error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to delete item."
+    );
+
+    const btnDelete =
+      document.getElementById(
+        "btnDelete"
+      );
+
+    if (btnDelete) {
+
+      btnDelete.disabled = false;
+
+      btnDelete.innerHTML = `
+        <i class="bi bi-trash3"></i>
+      `;
+    }
   }
 }
 
-// EDIT FUNCTION IMPLEMENTATION
+
+// ─────────────────────────────────────────────────────────
+// ✏️ EDIT ITEM
+// ─────────────────────────────────────────────────────────
+
 async function editItem() {
-  const newPriceInput = prompt("Enter new price (Numbers only, e.g., 10000):");
-  if (newPriceInput === null || newPriceInput.trim() === "") return;
+
+  const currentUser =
+    getCurrentUser();
+
+  // must login
+  if (!currentUser) {
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+  }
 
   try {
-    const response = await fetch(`${apiMarketUrl}/${itemId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ price: newPriceInput.trim() + " MMK" }),
-    });
 
-    if (!response.ok) throw new Error("Update failed");
+    // get latest item
+    const response =
+      await fetch(
+        `${MARKET_API_URL}/${itemId}`
+      );
 
-    alert("✏️ Price updated successfully!");
+    if (!response.ok) {
+
+      throw new Error(
+        "Item not found"
+      );
+    }
+
+    const item =
+      await response.json();
+
+    // owner check
+    const isOwner =
+      String(currentUser.id) ===
+      String(item.sellerId);
+
+    if (!isOwner) {
+
+      alert(
+        "❌ You can only edit your own item."
+      );
+
+      return;
+    }
+
+    // prompt
+    const newPriceInput =
+      prompt(
+        "Enter new price:",
+        item.price
+      );
+
+    if (
+      newPriceInput === null ||
+      newPriceInput.trim() === ""
+    ) {
+      return;
+    }
+
+    // update
+    const updateResponse =
+      await fetch(
+        `${MARKET_API_URL}/${itemId}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            price:
+              newPriceInput.trim()
+          })
+        }
+      );
+
+    if (!updateResponse.ok) {
+
+      throw new Error(
+        "Update failed"
+      );
+    }
+
+    alert(
+      "✏️ Item updated successfully!"
+    );
+
     location.reload();
+
   } catch (error) {
-    console.error("Error updating price:", error);
-    alert("❌ Failed to update price.");
+
+    console.error(
+      "Edit Error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to update item."
+    );
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadItemDetail);
+
+// ─────────────────────────────────────────────────────────
+// 🚀 INIT
+// ─────────────────────────────────────────────────────────
+
+document.addEventListener(
+  "DOMContentLoaded",
+  loadItemDetail
+);

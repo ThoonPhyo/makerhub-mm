@@ -1,0 +1,125 @@
+/* auth.css */
+
+/* တစ်ကိုယ်လုံး နောက်ခံအရောင်ကို Theme အလိုက် ပြောင်းစေခြင်း */
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg) !important;
+  color: var(--text);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+/* Auth Card စတိုင်လ် */
+.auth-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: var(--shadow) !important;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+/* ခေါင်းစဉ်နှင့် စာသားများ */
+.auth-title {
+  color: var(--c-text-title) !important;
+}
+.auth-subtitle {
+  color: var(--text-muted) !important;
+}
+
+/* Input Form Box များ စတိုင်လ် */
+.auth-input-group {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.auth-input-text {
+  background-color: var(--bg-elevated) !important;
+  color: var(--text-muted) !important;
+  border: none !important;
+}
+
+.auth-form-control {
+  background-color: var(--bg-elevated) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+/* Input ရိုက်ဖို့ ကလစ်နှိပ်လိုက်တဲ့အခါ (Focus ဖြစ်ချိန် Neon Border Glow တက်လာမယ့်ပုံစံ) */
+.auth-input-group:focus-within {
+  border-color: var(--green) !important;
+  box-shadow: var(--shadow-green) !important;
+}
+
+/* Text Input Focus ဝင်ရင် Placeholder တွေကို ပုံပျက်မသွားအောင် ထိန်းခြင်း */
+.auth-form-control:focus {
+  box-shadow: none !important;
+  background-color: var(--surface) !important;
+}
+
+.auth-form-control::placeholder {
+  color: var(--text-subtle) !important;
+}
+
+/* Premium Rounded Button */
+.auth-btn-submit {
+  background-color: var(--green) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--radius-xl) !important;
+  transition: opacity 0.2s var(--ease-out), transform 0.1s var(--ease-out);
+}
+
+.auth-btn-submit:hover {
+  opacity: 0.9;
+}
+
+.auth-btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* Link Tags (Sign up / Sign in ပြောင်းတဲ့လင့်ခ်) */
+.auth-link {
+  color: var(--green) !important;
+  transition: color 0.2s var(--ease);
+}
+.auth-link:hover {
+  color: var(--text) !important;
+  text-decoration: underline !important;
+}
+
+/* ── Navbar Specific Auth Buttons ── */
+
+/* Login Button (Ghost/Outline Style) */
+.nav-btn-login {
+  color: var(--text) !important;
+  background-color: var(--bg-elevated) !important;
+  border: 1px solid var(--border) !important; /* မူလက Border မမြင်ရပါ */
+  transition: all 0.3s var(--ease);
+}
+
+.nav-btn-login:hover {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-muted) !important;
+  color: var(--green) !important; /* Hover လုပ်ရင် Green လေးပြောင်းသွားမယ် */
+}
+
+/* Signup Button (Solid + Neon Glow Style) */
+.nav-btn-signup {
+  background-color: var(--green) !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 0 12px var(--green-glow) !important; /* အစိမ်းရောင် အလင်းဖျော့ဖျော့လေး */
+  transition: all 0.3s var(--ease);
+}
+
+.nav-btn-signup:hover {
+  background-color: var(--neon-green) !important;
+  box-shadow: 0 0 20px rgba(13, 148, 136, 0.4) !important; /* Hover လုပ်ရင် ပိုလင်းလာမယ် */
+  transform: translateY(-1px);
+}
+
+.nav-btn-signup:active {
+  transform: translateY(1px);
+}
+
+

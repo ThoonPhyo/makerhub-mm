@@ -28,6 +28,7 @@
     />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/learning.css" />
+    <link rel="stylesheet" href="/css/auth.css">
   </head>
 
   <body>
@@ -37,7 +38,10 @@
         <nav class="navbar navbar-expand-lg">
           <div class="container-fluid px-0">
             <!-- Brand -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="/index.html">
+            <a
+              class="navbar-brand d-flex align-items-center gap-2"
+              href="/index.html"
+            >
               <i class="bi bi-cpu text-neon-green fs-5"></i>
               <span class="brand-text"
                 >Maker<span class="text-neon-green">Hub</span> MM</span
@@ -61,21 +65,37 @@
                 style="border-bottom: 1px solid rgba(240, 246, 252, 0.06)"
               >
                 <div class="d-flex align-items-center gap-2">
-                  <div class="dropdown">
+                  <div
+                    class="d-flex align-items-center gap-2 d-none"
+                    id="mobile-nav-auth-buttons"
+                  >
+                    <a
+                      href="/login.html"
+                      class="btn nav-btn-login rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                      >Log in</a
+                    >
+                    <a
+                      href="/signup.html"
+                      class="btn nav-btn-signup rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                      >Sign up</a
+                    >
+                  </div>
+
+                  <div class="dropdown d-none" id="mobile-nav-profile-dropdown">
                     <div
                       class="profile-wrapper"
                       data-bs-toggle="dropdown"
                       style="cursor: pointer"
                     >
                       <img
-                        src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                        src="https://ui-avatars.com/api/?name=User&background=161b22&color=22c55e&bold=true"
                         class="rounded-circle"
                         width="34"
                         height="34"
                       />
                     </div>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                      <li><h6 class="dropdown-header">User Name</h6></li>
                       <li>
                         <a class="dropdown-item" href="#"
                           ><i class="bi bi-person me-2"></i>Profile</a
@@ -88,12 +108,15 @@
                       </li>
                       <li><hr class="dropdown-divider" /></li>
                       <li>
-                        <a class="dropdown-item text-danger" href="#"
+                        <a
+                          class="dropdown-item text-danger mobile-logout-btn"
+                          href="#"
                           ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
                         >
                       </li>
                     </ul>
                   </div>
+
                   <div class="nav-search-container" style="width: 130px">
                     <i class="bi bi-search search-icon-left"></i>
                     <input
@@ -119,13 +142,17 @@
                   <a class="nav-link" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link active" href="/Learning/index.html">Learning</a>
+                  <a class="nav-link active" href="/Learning/index.html"
+                    >Learning</a
+                  >
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/community/index.html">Community</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/marketplace/index.html">Marketplace</a>
+                  <a class="nav-link" href="/marketplace/index.html"
+                    >Marketplace</a
+                  >
                 </li>
               </ul>
 
@@ -145,14 +172,30 @@
                 >
                   <i class="bi bi-moon-stars-fill theme-icon"></i>
                 </button>
-                <div class="dropdown">
+                <div
+                  class="d-flex align-items-center gap-2 d-none"
+                  id="nav-auth-buttons"
+                >
+                  <a
+                    href="/login.html"
+                    class="btn nav-btn-login rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                    >Log in</a
+                  >
+                  <a
+                    href="/signup.html"
+                    class="btn nav-btn-signup rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                    >Sign up</a
+                  >
+                </div>
+
+                <div class="dropdown d-none" id="nav-profile-dropdown">
                   <div
                     class="profile-wrapper"
                     data-bs-toggle="dropdown"
                     style="cursor: pointer"
                   >
                     <img
-                      src="https://ui-avatars.com/api/?name=Thoon+Phyo&background=161b22&color=22c55e&bold=true"
+                      src="https://ui-avatars.com/api/?name=User&background=161b22&color=22c55e&bold=true"
                       class="rounded-circle"
                       width="34"
                       height="34"
@@ -161,7 +204,7 @@
                   <ul
                     class="dropdown-menu dropdown-menu-dark dropdown-menu-end mt-2"
                   >
-                    <li><h6 class="dropdown-header">Thoon Phyo Aung</h6></li>
+                    <li><h6 class="dropdown-header">User Name</h6></li>
                     <li>
                       <a class="dropdown-item" href="#"
                         ><i class="bi bi-person me-2"></i>Profile</a
@@ -174,7 +217,10 @@
                     </li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
-                      <a class="dropdown-item text-danger" href="#"
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        id="nav-logout-btn"
                         ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
                       >
                     </li>
@@ -310,6 +356,7 @@
     <!-- Your JS -->
     <script src="/js/data.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
 
     <!-- Minimal navbar scroll enhancement -->
     <script>
