@@ -1,4 +1,7 @@
 /* hero section */
+/* ==========================================================================
+   HERO SECTION RESPONSIVE CSS
+   ========================================================================== */
 
 /* Hero Image ကို Narrow ဖြစ်အောင် ထိန်းချုပ်ခြင်း */
 .hero-img-narrow {
@@ -6,12 +9,6 @@
   width: 100%;
   object-fit: cover !important; /* ပုံကို နောက်ခံအဖြစ် ဖြည့်ပေးပါမယ် */
   filter: brightness(0.85);
-}
-
-@media (min-width: 768px) {
-  .hero-img-narrow {
-    height: 340px !important; /* Desktop မှာဆို 250px ပဲ ထားပါမယ် */
-  }
 }
 
 /* Screen အလိုက် အလိုလို ကြီး/သေး ပြောင်းပေးမယ့် Classes */
@@ -26,8 +23,12 @@
   font-size: 0.85rem !important;
 }
 
-/* Desktop (Tablet နဲ့အထက်) ရောက်ရင် Button ကို ပြန်ကြီးပေးမယ် */
+/* Desktop (Tablet နဲ့အထက်) ရောက်ရင် ပြောင်းလဲမည့် Size များ */
 @media (min-width: 768px) {
+  .hero-img-narrow {
+    height: 340px !important; /* Desktop မှာ 340px ထားပါမယ် */
+  }
+
   .hero-btn {
     padding: 0.8rem 1.5rem !important;
     font-size: 1.1rem !important;
