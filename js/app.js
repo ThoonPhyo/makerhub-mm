@@ -127,9 +127,9 @@ function initThemeLogic() {
 
   function updateIcons(isLight) {
     document.querySelectorAll(".theme-icon").forEach((icon) => {
-      icon.classList.remove("bi-moon-stars-fill", "bi-sun-fill");
-      if (isLight) icon.classList.add("bi-sun-fill");
-      else icon.classList.add("bi-moon-stars-fill");
+      icon.classList.remove("bi-sun-fill", "bi-moon-stars-fill");
+      if (isLight) icon.classList.add("bi-moon-stars-fill");
+      else icon.classList.add("bi-sun-fill");
     });
   }
 
@@ -205,7 +205,7 @@ function initSearchLogic() {
 
 function performLiveSearch(query) {
   console.log("Live Searching for:", query);
-  
+
   // ── ၁။ ကွန်မြူနတီ (COMMUNITY) အတွက် ရှာဖွေခြင်း ────────────────
   const pContainer = document.getElementById("projectContainer");
   const hpContainer = document.getElementById("homeProjectContainer");
