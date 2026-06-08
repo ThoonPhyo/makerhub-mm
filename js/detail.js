@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         alert("Please login first!");
 
-        window.location.href = "login.html";
+        window.location.href = "/login.html";
 
         return;
       }
