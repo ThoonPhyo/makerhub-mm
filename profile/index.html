@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MakerHub MM | My Profile</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Global Css -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/auth.css" />
+    <link rel="stylesheet" href="/css/market.css" />
+    <link rel="stylesheet" href="/css/learning.css" />
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/profile.css" />
+  </head>
+
+  <body>
+    <!-- ── NAVBAR ───────────────────────────────────────── -->
+    <header class="header-nav" id="headerSection">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid px-0">
+            <!-- Brand -->
+            <a
+              class="navbar-brand d-flex align-items-center gap-2"
+              href="/index.html"
+            >
+              <i class="bi bi-cpu text-neon-green fs-5"></i>
+              <span class="brand-text"
+                >Maker<span class="text-neon-green">Hub</span> MM</span
+              >
+            </a>
+
+            <!-- Mobile Toggler -->
+            <button
+              class="navbar-toggler custom-toggler border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navContent"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navContent">
+              <!-- Mobile top strip: profile + search + theme -->
+              <div
+                class="d-flex d-lg-none align-items-center justify-content-between w-100 mb-3 pt-2 pb-3"
+                style="border-bottom: 1px solid rgba(240, 246, 252, 0.06)"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <div
+                    class="d-flex align-items-center gap-2 d-none"
+                    id="mobile-nav-auth-buttons"
+                  >
+                    <a
+                      href="/login.html"
+                      class="btn nav-btn-login rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                      >Log in</a
+                    >
+                    <a
+                      href="/signup.html"
+                      class="btn nav-btn-signup rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                      >Sign up</a
+                    >
+                  </div>
+
+                  <div class="dropdown d-none" id="mobile-nav-profile-dropdown">
+                    <div
+                      class="profile-wrapper"
+                      data-bs-toggle="dropdown"
+                      style="cursor: pointer"
+                    >
+                      <img
+                        src="https://ui-avatars.com/api/?name=User&background=161b22&color=22c55e&bold=true"
+                        class="rounded-circle"
+                        width="34"
+                        height="34"
+                      />
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><h6 class="dropdown-header">User Name</h6></li>
+                      <li>
+                        <a class="dropdown-item" href="/profile/index.html"
+                          ><i class="bi bi-person me-2"></i>Profile</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#"
+                          ><i class="bi bi-gear me-2"></i>Settings</a
+                        >
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a
+                          class="dropdown-item text-danger mobile-logout-btn"
+                          href="#"
+                          ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+              </div>
+
+              <!-- Nav Links -->
+              <ul
+                class="navbar-nav mx-auto nav-links-custom my-2 my-lg-0 w-100 justify-content-lg-center"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/Learning/index.html">Learning</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/community/index.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/marketplace/index.html"
+                    >Marketplace</a
+                  >
+                </li>
+              </ul>
+              <!-- Search Bar -->
+              <form class="role nav-search-container mx-md-3">
+                <i class="bi bi-search search-icon-left"></i>
+                <input
+                  type="text"
+                  class="nav-search-input"
+                  placeholder="Search"
+                />
+              </form>
+
+              <!-- Desktop right controls -->
+              <div class="d-none d-lg-flex align-items-center gap-3">
+                <button
+                  class="btn-theme-toggle btn-theme"
+                  aria-label="Toggle Theme"
+                >
+                  <i class="bi bi-moon-stars-fill theme-icon"></i>
+                </button>
+                <div
+                  class="d-flex align-items-center gap-2 d-none"
+                  id="nav-auth-buttons"
+                >
+                  <a
+                    href="/login.html"
+                    class="btn nav-btn-login rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                    >Log in</a
+                  >
+                  <a
+                    href="/signup.html"
+                    class="btn nav-btn-signup rounded-pill px-3 py-1.1 small fw-medium text-nowrap"
+                    >Sign up</a
+                  >
+                </div>
+
+                <div class="dropdown d-none" id="nav-profile-dropdown">
+                  <div
+                    class="profile-wrapper"
+                    data-bs-toggle="dropdown"
+                    style="cursor: pointer"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=User&background=161b22&color=22c55e&bold=true"
+                      class="rounded-circle"
+                      width="34"
+                      height="34"
+                    />
+                  </div>
+                  <ul
+                    class="dropdown-menu dropdown-menu-dark dropdown-menu-end mt-2"
+                  >
+                    <li><h6 class="dropdown-header">User Name</h6></li>
+                    <li>
+                      <a class="dropdown-item" href="/profile/index.html"
+                        ><i class="bi bi-person me-2"></i>Profile</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        ><i class="bi bi-gear me-2"></i>Settings</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href=""
+                        id="nav-logout-btn"
+                        ><i class="bi bi-box-arrow-right me-2"></i>Logout</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="container my-5">
+      <div class="row g-4 custom-hero-row">
+        <div class="col-lg-4">
+          <div class="card p-4 text-center shadow-sm custom-profile-card">
+            <div class="mb-3">
+              <img
+                id="profile-avatar"
+                src=""
+                alt="User Avatar"
+                class="profile-avatar-main"
+              />
+            </div>
+            <h3 id="profile-name" class="fw-bold mb-1">Loading...</h3>
+            <p id="profile-email" class="text-muted-custom mb-2">...</p>
+
+            <!-- xp points  -->
+            <div
+              class="px-2 py-2 xp-badge rounded mb-2 d-flex align-items-center justify-content-center gap-2"
+            >
+              <dotlottie-wc
+                src="https://lottie.host/e36de726-6eed-46d8-8d7c-7f510b82d70b/fEmr1CZdlB.lottie"
+                style="width: 28px; height: 28px"
+                autoplay
+                loop
+              ></dotlottie-wc>
+              <span class="text-warning" id="xpPoints">0</span>
+              <span
+                style="
+                  font-size: 0.8rem;
+                  color: var(--text-subtle);
+                  font-weight: 500;
+                "
+              >
+                / 10,000</span
+              >
+              <span
+                class="text-secondary"
+                style="
+                  font-size: 11px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+                >XP Points</span
+              >
+            </div>
+
+            <!-- daily streaks  -->
+            <div
+              class="p-2 dailyStreak-badge rounded mb-2 d-flex align-items-center justify-content-center"
+            >
+              <dotlottie-wc
+                class="daily-streak-lottie mx-0 px-0"
+                src="https://lottie.host/ada8173c-4808-4d30-bffb-d365eda666b3/EVOh7JbvM8.lottie"
+                style="width: 35px; height: 25px"
+                autoplay
+                loop
+              ></dotlottie-wc>
+              <div
+                class="h5 me-3 fw-bold mb-0 text-warning"
+                style="
+                  color: rgba(
+                    var(--bs-warning-rgb),
+                    var(--bs-text-opacity)
+                  ) !important;
+                "
+              >
+                12 Days
+              </div>
+
+              <!-- days -->
+              <div class="streak-content flex-grow-3">
+                <div class="streak-calendar">
+                  <div class="d-flex gap-1 mb-1">
+                    <div class="day-box done"></div>
+                    <div class="day-box done"></div>
+                    <div class="day-box done"></div>
+                    <div class="day-box done"></div>
+                    <div class="day-box current"></div>
+                    <div class="day-box empty"></div>
+                    <div class="day-box empty"></div>
+                  </div>
+                  <div class="d-flex gap-1 days-labels">
+                    <span>M</span><span>T</span><span>W</span><span>T</span
+                    ><span>F</span><span>S</span><span>S</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- btn edit profile -->
+            <button class="btn btn-edit-profile btn-sm w-100">
+              <i class="fa-regular fa-pen-to-square me-2"></i>Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card p-4 shadow-sm mb-4 custom-profile-card">
+            <h4
+              class="fw-bold mb-4 pb-2"
+              style="
+                color: var(--green);
+                border-bottom: 1px solid var(--border);
+              "
+            >
+              <i class="fa-solid fa-graduation-cap me-2"></i>Learning Tracks
+              Progress
+            </h4>
+
+            <!-- Arduino Programming -->
+            <div class="mb-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <span class="fw-bold"
+                  ><i
+                    class="fa-solid fa-infinity me-2"
+                    style="color: var(--clr-arduino)"
+                  ></i
+                  >Arduino Programming</span
+                >
+                <span class="percent text-muted" id="arduino-percent">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div
+                  class="progress-fill"
+                  id="arduino-fill"
+                  style="width: 0%; background-color: var(--clr-arduino)"
+                ></div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <span class="fw-bold"
+                  ><i
+                    class="fa-solid fa-wifi me-2"
+                    style="color: var(--clr-esp32)"
+                  ></i
+                  >ESP32
+                </span>
+                <span class="percent text-muted" id="esp32-percent">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div
+                  class="progress-fill"
+                  id="esp32-fill"
+                  style="width: 0%; background-color: var(--clr-esp32)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Esp8266 -->
+            <div class="mb-4">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <span class="fw-bold"
+                  ><i
+                    class="fa-solid fa-server me-2"
+                    style="color: var(--clr-esp8266)"
+                  ></i
+                  >ESP8266</span
+                >
+                <span class="percent text-muted" id="esp8266-percent">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div
+                  class="progress-fill"
+                  id="esp8266-fill"
+                  style="width: 0%; background-color: var(--clr-esp8266)"
+                ></div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div
+                class="d-flex justify-content-between align-items-center mb-1"
+              >
+                <span class="fw-bold"
+                  ><i
+                    class="fa-brands fa-raspberry-pi me-2"
+                    style="color: var(--clr-rpi)"
+                  ></i
+                  >Raspberry Pi
+                </span>
+                <span class="percent text-muted" id="raspberry-percent"
+                  >0%</span
+                >
+              </div>
+              <div class="progress-bar-bg">
+                <div
+                  class="progress-fill"
+                  id="raspberry-fill"
+                  style="width: 0%; background-color: var(--clr-rpi)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Navigation -->
+    <nav
+      class="py-2 sticky-top"
+      style="
+        background-color: var(--bg-elevated);
+        border-bottom: 1px solid var(--border);
+        top: 67px;
+        z-index: 1010;
+      "
+    >
+      <div class="container">
+        <div class="d-flex gap-2 overflow-auto category-nav" id="categoryNav">
+          <button
+            class="btn text-nowrap cat-btn cat-btn-active"
+            onclick="filterItems('My Projects', this)"
+          >
+            <i class="bi bi-code-slash me-1"></i> My Projects
+          </button>
+
+          <button
+            class="btn text-nowrap cat-btn"
+            onclick="filterItems('My Sell Items', this)"
+          >
+            <i class="bi bi-shop me-1"></i> My Sell Items
+          </button>
+
+          <button
+            class="btn text-nowrap cat-btn"
+            onclick="filterItems('My Save Items', this)"
+          >
+            <i class="bi bi-bookmark-fill me-1"></i> My Save Items
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- card conatainer Section -->
+    <div class="container px-3 py-5">
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- Project Loading Indicator -->
+          <div id="projectLoading" class="text-center py-5 d-none">
+            <div
+              class="spinner-border"
+              role="status"
+              style="color: var(--green)"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2" style="color: var(--text-muted)">
+              Loading project details...
+            </p>
+          </div>
+
+          <!-- Project Cards -->
+          <div
+            class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 d-none"
+            id="projectContainer"
+          ></div>
+
+          <!-- Market Loading Indicator -->
+          <div id="marketLoading" class="text-center py-5 d-none">
+            <div
+              class="spinner-border"
+              role="status"
+              style="color: var(--green) !important"
+            ></div>
+            <p class="mt-3 text-muted-custom">
+              Loading items from marketplace...
+            </p>
+          </div>
+
+          <!-- Market Grid -->
+          <div
+            id="marketGrid"
+            class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-md-3 align-items-stretch d-none"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer Section -->
+    <footer class="footer-section pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-5">
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-brand mb-3">
+              <i class="fa-solid fa-microchip me-2 text-green"></i>MakerHub MM
+            </div>
+            <p class="small" style="color: var(--text-muted)">
+              Empowering Myanmar makers, students, and innovators through IoT
+              education and community.
+            </p>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Platform</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Arduino</a></li>
+              <li><a href="#">ESP32</a></li>
+              <li><a href="#">Raspberry Pi</a></li>
+              <li><a href="#">All Tutorials</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Community</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">Discussions</a></li>
+              <li><a href="#">Project Showcase</a></li>
+              <li><a href="#">Events</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="footer-heading">Marketplace</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">All Products</a></li>
+              <li><a href="#">Sensors</a></li>
+              <li><a href="#">Motors</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 col-6 text-lg-end">
+            <h6 class="footer-heading">Company</h6>
+            <ul class="list-unstyled footer-links">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-muted" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+        >
+          <div class="social-links d-flex gap-3">
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-discord"></i></a>
+          </div>
+          <p class="m-0 text-muted small text-center">
+            Made with <i class="fa-solid fa-heart text-danger"></i> in Myanmar
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lottie -->
+    <script
+      src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js"
+      type="module"
+    ></script>
+    <!-- Your JS -->
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/data.js"></script>
+
+    <!-- Minimal navbar scroll enhancement -->
+    <script>
+      const header = document.getElementById("headerSection");
+      window.addEventListener(
+        "scroll",
+        () => {
+          header.classList.toggle("scrolled", window.scrollY > 20);
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
+</html>

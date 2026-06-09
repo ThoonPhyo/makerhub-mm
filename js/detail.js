@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   // =====================================================
   // SESSION
   // =====================================================
 
   const sessionData = localStorage.getItem("userSession");
   const currentUser = sessionData ? JSON.parse(sessionData) : null;
+
+  function getCurrentUser() {
+    const sessionData = localStorage.getItem("userSession");
+    return sessionData ? JSON.parse(sessionData) : null;
+  }
 
   // =====================================================
   // CREATE POST BUTTON
@@ -14,11 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const createPostBtn = document.getElementById("btnCreatePost");
 
   if (createPostBtn) {
-
     createPostBtn.classList.remove("d-none");
 
     createPostBtn.addEventListener("click", (e) => {
-
       e.preventDefault();
 
       if (currentUser) {
@@ -43,14 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let isLiked = false;
 
   if (!projectId) {
-
     safeSetText("pjTitle", "No Project ID Found");
 
-    if (loadingIndicator)
-      loadingIndicator.classList.add("d-none");
+    if (loadingIndicator) loadingIndicator.classList.add("d-none");
 
-    if (projectContent)
-      projectContent.classList.remove("d-none");
+    if (projectContent) projectContent.classList.remove("d-none");
 
     return;
   }
@@ -59,22 +58,36 @@ document.addEventListener("DOMContentLoaded", () => {
   // API
   // =====================================================
 
-  const apiUrl =
-    `https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts/${projectId}`;
+  const apiUrl = `https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts/${projectId}`;
+
+  // =====================================================
+  // 🗑️ DELETE PROJECT FUNCTION (Added)
+  // =====================================================
+  async function deleteProject() {
+    const confirmDelete = confirm("⚠️ Are you sure you want to delete this project? This action cannot be undone.");
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(apiUrl, { method: "DELETE" });
+      if (!response.ok) throw new Error("Delete failed");
+
+      alert("🗑️ Project deleted successfully!");
+      window.location.href = "index.html"; 
+    } catch (error) {
+      console.error("Project Delete Error:", error);
+      alert("❌ Failed to delete project.");
+    }
+  }
 
   // =====================================================
   // LOAD PROJECT
   // =====================================================
 
   async function loadProjectDetails() {
-
     try {
+      if (loadingIndicator) loadingIndicator.classList.remove("d-none");
 
-      if (loadingIndicator)
-        loadingIndicator.classList.remove("d-none");
-
-      if (projectContent)
-        projectContent.classList.add("d-none");
+      if (projectContent) projectContent.classList.add("d-none");
 
       const response = await fetch(apiUrl);
 
@@ -85,13 +98,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const project = await response.json();
 
       // =====================================================
+      // 🗑️ SHOW/HIDE DELETE BUTTON LOGIC (Added)
+      // =====================================================
+      const deleteProjectContainer = document.getElementById("deleteProjectContainer");
+      if (deleteProjectContainer) {
+        // Safe check: confirms currentUser exists before looking up its ID
+        if (currentUser && currentUser.id && project && String(currentUser.id) === String(project.userId)) {
+          deleteProjectContainer.classList.remove("d-none");
+          const btnDeleteProject = document.getElementById("btnDeleteProject");
+          if (btnDeleteProject) {
+            btnDeleteProject.onclick = deleteProject;
+          }
+        } else {
+          // Safeguards against logout states or non-owners
+          deleteProjectContainer.classList.add("d-none");
+        }
+      }
+
+      // =====================================================
       // LIKES
       // =====================================================
 
       currentLikes = project.likes || 0;
 
       const likedProjects = JSON.parse(
-        localStorage.getItem("liked_projects") || "[]"
+        localStorage.getItem("liked_projects") || "[]",
       );
 
       isLiked = likedProjects.includes(projectId);
@@ -108,10 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       safeSetText("pjLikes", currentLikes);
 
-      safeSetText(
-        "pjComments",
-        project.comments || 0
-      );
+      safeSetText("pjComments", project.comments || 0);
 
       updateLikeUI();
 
@@ -122,10 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const avatarEl = document.getElementById("pjAvatar");
 
       if (avatarEl) {
-
-        avatarEl.src =
-          project.avatar ||
-          "https://via.placeholder.com/40";
+        avatarEl.src = project.avatar || "https://via.placeholder.com/40";
       }
 
       // =====================================================
@@ -135,10 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const imgEl = document.getElementById("pjImage");
 
       if (imgEl) {
-
-        imgEl.src =
-          project.image ||
-          "https://via.placeholder.com/800x400";
+        imgEl.src = project.image || "https://via.placeholder.com/800x400";
       }
 
       // =====================================================
@@ -148,11 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const descEl = document.getElementById("pjDescription");
 
       if (descEl) {
-
         descEl.innerHTML = project.longDescription
           ? project.longDescription
               .split("\n")
-              .map(p => `<p class="mb-3">${p}</p>`)
+              .map((p) => `<p class="mb-3">${p}</p>`)
               .join("")
           : "No description available.";
       }
@@ -164,16 +185,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const wiringEl = document.getElementById("pjWiring");
 
       if (wiringEl) {
-
         wiringEl.innerHTML = project.wiringNotes
           ? project.wiringNotes
               .split("\n")
-              .map(line => `
+              .map(
+                (line) => `
                 <li class="mb-2">
                   <i class="bi bi-arrow-right-short text-warning me-1"></i>
                   ${line}
                 </li>
-              `)
+              `,
+              )
               .join("")
           : "<li>No wiring notes provided.</li>";
       }
@@ -185,9 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const codeElement = document.getElementById("pjCode");
 
       if (codeElement) {
-
-        codeElement.textContent =
-          project.sourceCode || "// No code available";
+        codeElement.textContent = project.sourceCode || "// No code available";
 
         Prism.highlightElement(codeElement);
       }
@@ -206,25 +226,19 @@ document.addEventListener("DOMContentLoaded", () => {
       // SHOW CONTENT
       // =====================================================
 
-      if (loadingIndicator)
-        loadingIndicator.classList.add("d-none");
+      if (loadingIndicator) loadingIndicator.classList.add("d-none");
 
-      if (projectContent)
-        projectContent.classList.remove("d-none");
+      if (projectContent) projectContent.classList.remove("d-none");
 
       setupLikeFeature();
-
     } catch (error) {
-
       console.error(error);
 
       safeSetText("pjTitle", "Error Loading Project");
 
-      if (loadingIndicator)
-        loadingIndicator.classList.add("d-none");
+      if (loadingIndicator) loadingIndicator.classList.add("d-none");
 
-      if (projectContent)
-        projectContent.classList.remove("d-none");
+      if (projectContent) projectContent.classList.remove("d-none");
     }
   }
 
@@ -233,16 +247,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================
 
   function setupLikeFeature() {
-
     const btnLike = document.getElementById("btnLike");
 
     if (!btnLike) return;
 
     btnLike.onclick = async () => {
-
       // login required
       if (!currentUser) {
-
         alert("Please login first!");
 
         window.location.href = "/login.html";
@@ -254,12 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // toggle
       if (isLiked) {
-
         currentLikes--;
         isLiked = false;
-
       } else {
-
         currentLikes++;
         isLiked = true;
       }
@@ -269,43 +277,31 @@ document.addEventListener("DOMContentLoaded", () => {
       safeSetText("pjLikes", currentLikes);
 
       try {
-
         // IMPORTANT FIX
         await fetch(apiUrl, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            likes: currentLikes
-          })
+            likes: currentLikes,
+          }),
         });
 
         let likedProjects = JSON.parse(
-          localStorage.getItem("liked_projects") || "[]"
+          localStorage.getItem("liked_projects") || "[]",
         );
 
         if (isLiked) {
-
           likedProjects.push(projectId);
-
         } else {
-
-          likedProjects =
-            likedProjects.filter(id => id !== projectId);
+          likedProjects = likedProjects.filter((id) => id !== projectId);
         }
 
-        localStorage.setItem(
-          "liked_projects",
-          JSON.stringify(likedProjects)
-        );
-
+        localStorage.setItem("liked_projects", JSON.stringify(likedProjects));
       } catch (err) {
-
         console.error("Like update failed:", err);
-
       } finally {
-
         btnLike.disabled = false;
       }
     };
@@ -316,22 +312,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================
 
   function updateLikeUI() {
-
     const likeIcon = document.getElementById("likeIcon");
     const btnLike = document.getElementById("btnLike");
 
     if (!likeIcon || !btnLike) return;
 
     if (isLiked) {
-
       likeIcon.className = "bi bi-heart-fill me-2";
 
       btnLike.style.color = "#ef4444";
       btnLike.style.backgroundColor = "rgba(239,68,68,0.1)";
       btnLike.style.borderColor = "rgba(239,68,68,0.25)";
-
     } else {
-
       likeIcon.className = "bi bi-heart me-2";
 
       btnLike.style.color = "var(--green)";
@@ -345,32 +337,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================
 
   function safeSetText(id, text) {
-
     const el = document.getElementById(id);
 
-    if (el)
-      el.textContent = text;
+    if (el) el.textContent = text;
   }
 
   function renderList(id, items) {
-
     const el = document.getElementById(id);
 
     if (!el) return;
 
     if (Array.isArray(items) && items.length > 0) {
-
-      el.innerHTML = items.map(item => `
+      el.innerHTML = items
+        .map(
+          (item) => `
         <li>
           <i class="bi bi-check2-circle"></i>
           <span>${item}</span>
         </li>
-      `).join("");
-
+      `,
+        )
+        .join("");
     } else {
-
-      el.innerHTML =
-        `<li class="text-muted small">None</li>`;
+      el.innerHTML = `<li class="text-muted small">None</li>`;
     }
   }
 
@@ -379,5 +368,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================================
 
   loadProjectDetails();
-
 });

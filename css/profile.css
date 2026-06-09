@@ -1,0 +1,312 @@
+/* ==========================================
+   👤 HERO & PROFILE CARDS FIXED (Light & Dark Sync)
+   ========================================== */
+.custom-profile-card {
+  background-color: var(
+    --surface
+  ) !important; /* Dark: #21262d / Light: #ffffff */
+  border: 1px solid var(--border) !important; /* Dark & Light Borders */
+  color: var(--text) !important; /* Dark: #f8fafc / Light: #0f172a */
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition:
+    background 0.3s var(--ease),
+    border 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.profile-avatar-main {
+  border: 2px solid var(--border) !important; /* Avatar Border Sync */
+  border-radius: 50% !important;
+}
+
+/* Bootstrap Overrides အတွက် စာသားအရောင်များ ချိတ်ဆက်ခြင်း */
+.custom-profile-card h3,
+.custom-profile-card h4,
+.custom-profile-card .fw-bold {
+  color: var(--text) !important;
+}
+
+.text-muted-custom {
+  color: var(--text-muted) !important; /* Dark: #94a3b8 / Light: #475569 */
+}
+
+/* XP Trophy Badge */
+.xp-badge {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--clr-orange);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  /* border: 1px solid var(--border-muted) !important; */
+}
+
+/* Daily Streak Badge */
+.dailyStreak-badge {
+  background: rgba(255, 165, 0, 0.1);
+  color: var(--clr-orange);
+  border: 1px solid rgba(255, 165, 0, 0.2);
+}
+.text-warning {
+  color: rgba(var(--bs-warning-rgb), var(--bs-text-opacity)) !important;
+}
+
+/* Edit Profile Button */
+.btn-edit-profile {
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border) !important;
+  background: transparent !important;
+  transition: all 0.2s var(--ease);
+}
+.btn-edit-profile:hover {
+  border-color: var(--green) !important;
+  background-color: var(--green-dim) !important;
+  color: var(--green) !important;
+}
+
+/* Progress Bar */
+.progress-bar-bg {
+  height: 9px;
+  background: var(--border);
+  /* border: 1px solid var(--border); */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ၂။ တိုးသွားမယ့် Progress အရောင်တုံး */
+.progress-fill {
+  height: 100%; /* နောက်ခံဘောင်ရဲ့ အမြင့်အတိုင်း အပြည့်ယူမယ် */
+  width: 0%; /* Default width */
+  transition: width 0.4s ease; /* Progress တက်ရင် smooth ဖြစ်ဖြစ်လေး သွားအောင် */
+}
+
+/* Brand Colors */
+.p-bar-arduino {
+  background-color: var(--clr-arduino) !important;
+}
+.p-bar-esp32 {
+  background-color: var(--clr-esp32) !important;
+}
+.p-bar-raspberry {
+  background-color: var(--clr-rpi) !important;
+}
+
+/* ==========================================
+   📋 NAVIGATION SYSTEM (REMOVED ALL UNDERLINES)
+   ========================================== */
+.category-nav {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: none !important; /* Underline လိုင်းကြီးအား ဖယ်ထုတ်လိုက်သည် */
+  padding: 4px 0;
+}
+
+.category-nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* မူရင်းခလုတ်ပုံစံ (အောက်ခြေလိုင်းများ မပါဝင်တော့ပါ) */
+.cat-btn {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  border-radius: var(
+    --radius
+  ) !important; /* Pill/Card ခြေစောင်းဝိုင်းလေး ပြောင်းလဲထားသည် */
+}
+
+/* Hover တင်လိုက်ရင် ညင်သာစွာ Background Block တက်လာမည် */
+.cat-btn:hover {
+  background-color: var(--bg-subtle) !important;
+  color: var(--text) !important;
+}
+
+/* 💡 Active ဖြစ်သွားချိန် (အောက်ခံလိုင်းအစား Premium Tint Box သုံးထားသည်) */
+.cat-btn-active {
+  color: var(--green) !important;
+  background-color: var(--green-dim) !important; /* Premium Dim Green Tint */
+  font-weight: 600;
+}
+
+/* Light Mode Overrides for active nav button */
+.light-theme .cat-btn-active {
+  color: var(--green) !important;
+  background-color: var(--green-dim) !important;
+}
+
+/* =========================================================
+   📦 PROJECT AND MARKET ITEM CARD  WITH HOVER SLIDE DELETE SYSTEM
+   ================================────────────────========= */
+
+/* 1. Default State: Hidden and shifted up slightly */
+.showcase-card .delete-btn-wrapper {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* Moves it up 10px so it can "drop" later */
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease;
+}
+
+/* 2. Hover State: Drop down to its original spot and fade in */
+.showcase-card:hover .delete-btn-wrapper {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Returns to original position */
+}
+
+/* 3. Mobile Device Fallback (Crucial) */
+/* Since smartphones don't have a mouse cursor to "hover", this ensures mobile users can still see and tap the delete button. */
+@media (max-width: 768px) {
+  .showcase-card .delete-btn-wrapper {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* ၁။ ကတ်ပြားတစ်ခုလုံး၏ Base Styling */
+.market-item-card {
+  position: relative !important;
+  overflow: hidden; /* 💡 အရေးကြီးသည်: Dropdown ကို အပေါ်မှာ ဖုံးကွယ်ထားရန် */
+  transition:
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease) !important;
+}
+
+/* Card ကို Hover တင်လျှင် အပေါ်သို့ အနည်းငယ် ကြွတက်လာစေရန် */
+.market-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow) !important;
+}
+
+/* ၂။ 💡 Hover တင်မှ အပေါ်ဘောင်ကနေ လျှောဆင်းလာမည့် Dropdown Menu Container */
+.card-action-dropdown {
+  width: 30%; /* Dropdown Menu အကျယ် */
+  position: absolute;
+  right: 0;
+  /* right: 12px; ကတ်ရဲ့ ညာဘက်ဘောင်ကနေ ၁၂ ပစ်ဇယ် အကွာ */
+  background-color: var(
+    --bg-elevated
+  ) !important; /* Theme အလိုက် နောက်ခံပြောင်းမည် */
+  border: 1px solid var(--border) !important;
+  border-top: none; /* အပေါ်ကပ်နေစေရန် Top Border ဖျောက်ထားသည် */
+  border-bottom-left-radius: var(--radius);
+
+  z-index: 10; /* Image ရဲ့ အပေါ်မှာ ပေါ်နေစေရန် */
+
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s var(--ease),
+    visibility 0.25s var(--ease);
+}
+
+/* ── 🔥 Card ကို Hover တင်လိုက်လျှင် အောက်သို့ 0 အထိ Slide Down ဆင်းခိုင်းခြင်း ── */
+.market-item-card:hover .card-action-dropdown {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ၃။ Dropdown ထဲက Delete Button အသေးစိတ် Styling */
+.action-drop-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease);
+}
+
+/* Delete Button အတွက် Danger Red (Light/Dark နှစ်မျိုးလုံးနှင့် Contrast အဆင်ပြေသော အနီရောင်) */
+.action-drop-btn.delete-btn {
+  color: #ef4444 !important; /* Soft Premium Red */
+}
+
+/* Delete ခလုတ်ပေါ် Mouse တင်လျှင် အနီဖျော့ရောင် နောက်ခံ တက်လာစေရန် */
+.action-drop-btn.delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Light Theme တွင် စာသားကို ပိုမိုထင်ရှားစေရန် Tuning လုပ်ခြင်း */
+.light-theme .action-drop-btn.delete-btn {
+  color: #dc2626 !important; /* Light Mode အတွက် ပိုရင့်သော အနီရောင် */
+}
+.light-theme .action-drop-btn.delete-btn:hover {
+  background-color: rgba(220, 38, 38, 0.08) !important;
+}
+
+/* responsive */
+
+@media (max-width: 767.98px) {
+  /* မိုဘိုင်းတွင် ပုံကြီး ကားယားကြီးမဖြစ်အောင် အချိုးကျညှိခြင်း */
+  #marketGrid .classic-market-card .card-img-wrapper {
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  /* မိုဘိုင်းတွင် Card Padding ကို ချုံ့ခြင်း */
+  #marketGrid .classic-market-card .p-3 {
+    padding: 0.65rem !important;
+  }
+
+  /* စာလုံးအရွယ်အစားများနှင့် Margin များကို ကျစ်လစ်စေခြင်း */
+  #marketGrid .classic-market-card .classic-category {
+    font-size: 0.65rem !important;
+  }
+
+  #marketGrid .classic-market-card .classic-title {
+    font-size: 0.9rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-price {
+    font-size: 1rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-desc {
+    font-size: 0.75rem !important;
+    height: 2.2rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-seller-box {
+    padding-top: 4px !important;
+    margin-bottom: 8px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-avatar {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  #marketGrid .classic-market-card .classic-seller-name {
+    font-size: 0.75rem !important;
+    max-width: 80px !important;
+  }
+
+  /* ခလုတ်များ Padding လျှော့ချခြင်း */
+  #marketGrid .classic-market-card .btn {
+    padding: 5px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+  }
+}
