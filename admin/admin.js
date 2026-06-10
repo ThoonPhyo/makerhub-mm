@@ -55,13 +55,25 @@ async function handleAdminGatewayLogin(event) {
  * 🔒 2. Security Guard Loop: Check if adminSession is valid (Used by admin/index.html)
  */
 async function verifyAdminAuthentication() {
-  // Login page မှာ ရှိနေရင် ဒီ check ကို ကျော်ခဲ့မယ် (form submission က သက်သက်လုပ်မှာမို့လို့)
   if (window.location.pathname.includes("login.html")) return true;
 
-  const adminSession = JSON.parse(localStorage.getItem("adminSession"));
+  const sessionRaw = localStorage.getItem("adminSession");
+  if (!sessionRaw) {
+    window.location.replace("/admin/login.html");
+    return false;
+  }
+
+  let adminSession;
+  try {
+    adminSession = JSON.parse(sessionRaw);
+  } catch (e) {
+    localStorage.removeItem("adminSession");
+    window.location.replace("/admin/login.html");
+    return false;
+  }
 
   if (!adminSession || !adminSession.email || !adminSession.password) {
-    window.location.href = "./login.html"; // Same folder မို့လို့ တိုက်ရိုက်ညွှန်ရုံပဲ
+    window.location.replace("/admin/login.html");
     return false;
   }
 
@@ -71,12 +83,11 @@ async function verifyAdminAuthentication() {
 
     const superAdmin = await response.json();
 
-    // Session ထဲကဒေတာက ID 1 ရဲ့ ဒေတာအစစ် ဟုတ်မဟုတ် ထပ်မံအတည်ပြုခြင်း
     if (
       adminSession.email.trim() === superAdmin.email.trim() &&
       adminSession.password === superAdmin.password
     ) {
-      // Profile Layout ကို ID 1 ရဲ့ အချက်အလက်နဲ့ ဖြည့်ပေးမယ်
+      // Profile Layout ဖြည့်စွက်ခြင်း
       if (document.getElementById("adminSidebarName")) {
         document.getElementById("adminSidebarName").innerText =
           superAdmin.name || "UserOne";
@@ -89,15 +100,21 @@ async function verifyAdminAuthentication() {
       }
       return true;
     } else {
-      alert("Session Expired or Compromised.");
       localStorage.removeItem("adminSession");
-      window.location.href = "login.html";
+      window.location.replace("/admin/login.html");
       return false;
     }
   } catch (error) {
     console.error("Guard Sync Error:", error);
-    // Offline ဖြစ်ခဲ့ရင်တောင် safe zone ဖြစ်အောင် လက်ရှိ session ရှိရင် ခဏပေးဝင်ထားမယ်
-    return true;
+
+    // Offline / API down ဖြစ်သွားခဲ့လျှင် အနိမ့်ဆုံး စစ်ဆေးမှုအဖြစ် မူရင်း API data အတိုင်း format ကိုက်မကိုက် စစ်မည်
+    if (adminSession.id === 1 && adminSession.email === "admin@makerhub.com") {
+      return true;
+    } else {
+      localStorage.removeItem("adminSession");
+      window.location.replace("/admin/login.html");
+      return false;
+    }
   }
 }
 
@@ -123,15 +140,15 @@ function updateThemeIcons(isLight) {
   });
 }
 
-function highlightUserTab() {
-  const userTrigger = document.querySelector('[href="#pane-users"]');
-  if (userTrigger) {
-    document
-      .querySelectorAll(".nav-link-custom")
-      .forEach((el) => el.classList.remove("active"));
-    userTrigger.classList.add("active");
-  }
-}
+// function highlightUserTab() {
+//   const userTrigger = document.querySelector('[href="#pane-users"]');
+//   if (userTrigger) {
+//     document
+//       .querySelectorAll(".nav-link-custom")
+//       .forEach((el) => el.classList.remove("active"));
+//     userTrigger.classList.add("active");
+//   }
+// }
 
 function handleLogout() {
   if (confirm("Are you sure you want to sign out from the Admin Panel?")) {
@@ -286,7 +303,6 @@ async function updateDashboardFromAPI() {
         ...latestItems,
       ].sort((a, b) => b.id - a.id); // Combined Chronological Sort
 
-      
       unifiedLatestLogs.forEach((log) => {
         let icon = "";
         if (log.type === "user") icon = "bi-person-circle text-success";
@@ -433,24 +449,29 @@ async function deleteEntity(id, label, type) {
  * 🚀 Bootup Initializer with Isolated Security Gate
  */
 (async function () {
-  // Step A: လက်ရှိ Session ရှိမရှိနှင့် မှန်မမှန်ကို အရင်စစ်ဆေးမည်
+  // Step A: လက်ရှိ Session ရှိမရှိနှင့် API ထဲက ဒေတာနှင့် မှန်မမှန်ကို အရင် စကင်ဖတ်စစ်ဆေးမည်
   const isAuthorized = await verifyAdminAuthentication();
-  if (!isAuthorized) return; // ခွင့်ပြုချက်မရှိပါက ချက်ချင်းရပ်မည် (Login သို့ ပို့မည်)
+  if (!isAuthorized) return; // ခွင့်ပြုချက်မရှိပါက (မောင်းထုတ်ပြီးဖြစ်၍) ဒီနေရာတင် ချက်ချင်းရပ်မည်
+
+  // 🛡️ [AUTH SUCCESS]: တကယ့် Admin အစစ်မှန်ဖြစ်ကြောင်း API က အတည်ပြုပြီးမှသာ Blocker ကို ဖြုတ်၍ UI ကို ပြသမည်
+  const antiBypassStyle = document.getElementById("antiBypassStyle");
+  if (antiBypassStyle) {
+    antiBypassStyle.remove(); // CSS ပိတ်ထားတာကို ဖျက်ချပြီး Body ကို ဖော်ပြလိုက်ခြင်း
+  }
 
   // Step B: HTML Element ပေါ်သို့ Theme တိုကန် သတ်မှတ်မည်
   const savedTheme = localStorage.getItem("theme") || "dark";
   document.documentElement.setAttribute("data-theme", savedTheme);
 
-  // Dashboard ထဲက ဒေတာများကို API မှ ဆွဲထုတ်မည့် Function အစုအဝေး
   const initializeDashboardComponents = () => {
     updateThemeIcons(savedTheme === "light");
-    updateDashboardFromAPI(); // 👈 ဇယားများနှင့် ဒေတာများအားလုံးကို ယူခိုင်းသည့်နေရာ
+    updateDashboardFromAPI(); // ဇယားများနှင့် ဒေတာများအားလုံးကို ဆွဲတင်ခြင်း
   };
 
-  // 🛡️ Race Condition Guard: DOM က ပြီးနှင့်နေပါက Event ကိုမစောင့်ဘဲ တန်းပွင့်ခိုင်းမည်
+  // DOM သေချာပေါက် အဆင်သင့်ဖြစ်မှ Component မောင်းနှင်မည်
   if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", initializeDashboardComponents);
   } else {
-    initializeDashboardComponents(); // HTML က အဆင်သင့်ဖြစ်နေပါက ချက်ချင်း Run မည်
+    initializeDashboardComponents();
   }
 })();

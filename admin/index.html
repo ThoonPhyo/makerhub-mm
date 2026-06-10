@@ -31,6 +31,37 @@
     />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- checking login -->
+    <style id="antiBypassStyle">
+      body {
+        display: none !important;
+      }
+    </style>
+
+    <script>
+      (function () {
+        if (window.location.pathname.includes("login.html")) return;
+
+        const session = localStorage.getItem("adminSession");
+
+        // ၁။ Session လုံးဝမရှိရင် ချက်ချင်း မောင်းထုတ်မည်
+        if (!session) {
+          window.location.replace("/admin/login.html");
+          return;
+        }
+
+        // ၂။ Session ရှိသော်လည်း Format မမှန်ပါက (ဥပမာ- ရမ်းသန်းထည့်ထားသော Fake String ဆိုလျှင်) ချက်ချင်း မောင်းထုတ်မည်
+        try {
+          const parsed = JSON.parse(session);
+          if (!parsed.email || !parsed.password) {
+            window.location.replace("/admin/login.html");
+          }
+        } catch (e) {
+          window.location.replace("/admin/login.html");
+        }
+      })();
+    </script>
   </head>
 
   <body>
@@ -129,7 +160,7 @@
                     alt="Admin"
                     width="28"
                     height="28"
-                    class="rounded-circle "
+                    class="rounded-circle"
                   />
                 </div>
                 <span
@@ -139,10 +170,9 @@
                 >
               </a>
               <ul
-                class="dropdown-menu text-small shadow mt-2" style="background-color: var(--bg);"
+                class="dropdown-menu text-small shadow mt-2"
+                style="background-color: var(--bg)"
               >
-                
-                
                 <li>
                   <a
                     class="dropdown-item text-danger"
@@ -217,74 +247,107 @@
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+                  <!-- Total Users -->
                   <div class="col">
                     <div class="card metric-card border-0 shadow-sm h-100">
                       <div class="card-body p-4 d-flex align-items-center">
                         <div
                           class="metric-icon-box flex-shrink-0 d-flex align-items-center justify-content-center bg-teal-subtle rounded-3"
+                          style="width: 45px; height: 45px"
                         >
                           <i class="bi bi-people-fill text-neon-green fs-4"></i>
                         </div>
+
                         <div class="metric-content ms-3 w-100">
                           <span
                             class="text-muted small fw-medium d-block text-uppercase tracking-wider fs-8 mb-1"
                             >Total Users</span
                           >
-                          <h3
-                            class="fw-bold mb-1 metric-number"
-                            id="totalUsers"
-                          >
-                            ---
-                          </h3>
+
+                          <div class="d-flex align-items-baseline">
+                            <h3
+                              class="fw-bold mb-0 metric-number fs-2"
+                              id="totalUsers"
+                            >
+                              ---
+                            </h3>
+                            <span class="text-muted-custom fs-6 fw-normal ms-2"
+                              >Users</span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <!-- Community Projects -->
                   <div class="col">
                     <div class="card metric-card border-0 shadow-sm h-100">
                       <div class="card-body p-4 d-flex align-items-center">
                         <div
                           class="metric-icon-box flex-shrink-0 d-flex align-items-center justify-content-center bg-teal-subtle rounded-3"
+                          style="width: 45px; height: 45px"
                         >
                           <i class="bi bi-folder-fill text-neon-green fs-4"></i>
                         </div>
+
                         <div class="metric-content ms-3 w-100">
                           <span
                             class="text-muted small fw-medium d-block text-uppercase tracking-wider fs-8 mb-1"
                             >Community Projects</span
                           >
-                          <h3
-                            class="fw-bold mb-1 metric-number"
-                            id="totalProjects"
-                          >
-                            ---
-                          </h3>
+
+                          <div class="d-flex align-items-baseline">
+                            <h3
+                              class="fw-bold mb-0 metric-number fs-2"
+                              id="totalProjects"
+                            >
+                              ---
+                            </h3>
+                            <span class="text-muted-custom fs-6 fw-normal ms-2"
+                              >Projects</span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <!-- Sale Items -->
                   <div class="col">
                     <div class="card metric-card border-0 shadow-sm h-100">
                       <div class="card-body p-4 d-flex align-items-center">
                         <div
                           class="metric-icon-box flex-shrink-0 d-flex align-items-center justify-content-center bg-teal-subtle rounded-3"
+                          style="width: 45px; height: 45px"
                         >
                           <i class="bi bi-shop text-neon-green fs-4"></i>
                         </div>
+
                         <div class="metric-content ms-3 w-100">
                           <span
                             class="text-muted small fw-medium d-block text-uppercase tracking-wider fs-8 mb-1"
                             >Sale Items</span
                           >
-                          <h3 class="fw-bold mb-1 metric-number" id="saleItems">
-                            ---
-                          </h3>
+
+                          <div class="d-flex align-items-baseline">
+                            <h3
+                              class="fw-bold mb-0 metric-number fs-2"
+                              id="saleItems"
+                            >
+                              ---
+                            </h3>
+                            <span class="text-muted-custom fs-6 fw-normal ms-2"
+                              >Items</span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                <!-- Top Active Learners -->
                 <div class="row g-4 mb-4">
                   <div class="col-12 col-lg-6">
                     <div class="card metric-card border-0 shadow-sm h-100">
@@ -392,9 +455,15 @@
                             >
                               ID
                             </th>
-                            <th scope="col" class="py-3 text-secondary">Maker Profile</th>
-                            <th scope="col" class="py-3 text-secondary">Role</th>
-                            <th scope="col" class="py-3 text-secondary">Learning Metric</th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Maker Profile
+                            </th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Role
+                            </th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Learning Metric
+                            </th>
                             <th
                               scope="col"
                               class="text-end pe-4 py-3 text-secondary"
@@ -440,9 +509,15 @@
                             >
                               ID
                             </th>
-                            <th scope="col" class="py-3 text-secondary">Project Title</th>
-                            <th scope="col" class="py-3 text-secondary">Uploaded By</th>
-                            <th scope="col" class="py-3 text-secondary">Engagement</th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Project Title
+                            </th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Uploaded By
+                            </th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Engagement
+                            </th>
                             <th
                               scope="col"
                               class="text-end pe-4 py-3 text-secondary"
@@ -491,7 +566,9 @@
                             <th scope="col" class="py-3 text-secondary">
                               Component / Item Name
                             </th>
-                            <th scope="col" class="py-3 text-secondary">Listed Cost</th>
+                            <th scope="col" class="py-3 text-secondary">
+                              Listed Cost
+                            </th>
                             <th
                               scope="col"
                               class="text-end pe-4 py-3 text-secondary"
