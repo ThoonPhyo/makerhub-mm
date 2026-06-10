@@ -51,9 +51,10 @@
 
 /* Edit Profile Button */
 .btn-edit-profile {
+  text-decoration: none !important;
   color: var(--text-muted) !important;
   border: 1px solid var(--border) !important;
-  background: transparent !important;
+  background: var(--border) !important;
   transition: all 0.2s var(--ease);
 }
 .btn-edit-profile:hover {
@@ -190,7 +191,7 @@
 
 /* ၂။ 💡 Hover တင်မှ အပေါ်ဘောင်ကနေ လျှောဆင်းလာမည့် Dropdown Menu Container */
 .card-action-dropdown {
-  width: 30%; /* Dropdown Menu အကျယ် */
+  /* width: 30%; */
   position: absolute;
   right: 0;
   /* right: 12px; ကတ်ရဲ့ ညာဘက်ဘောင်ကနေ ၁၂ ပစ်ဇယ် အကွာ */
@@ -309,4 +310,104 @@
     font-size: 0.78rem !important;
     border-radius: 6px !important;
   }
+}
+
+/* ─────────────────────────────────────────────────────────
+   🎯 CUSTOM ADAPTIVE PROFILE STYLING
+   ───────────────────────────────────────────────────────── */
+
+/* 1. Main Card Styling - Light & Dark Auto-switching */
+.custom-profile-card {
+  background-color: var(--bg-subtle) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-lg) !important;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+/* 2. Avatar Border and Glow setup */
+.profile-avatar-main {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border: 3px solid var(--green) !important;
+  box-shadow: var(--shadow-green) !important;
+  background-color: var(--surface);
+}
+
+/* 3. Text Labels Contrast fix for Light/Dark mode */
+.custom-label {
+  color: var(--text) !important;
+  opacity: 0.85;
+}
+
+.text-muted-custom {
+  color: var(--text-muted) !important;
+}
+
+/* 4. Inputs Refined for perfect contrast in Light Mode */
+.custom-form-input {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--card-border) !important; /* Uses subtle black-border on light / white-border on dark */
+  color: var(--text) !important;
+  border-radius: var(--radius) !important;
+  padding: 0.6rem 0.9rem;
+  transition: all 0.25s var(--ease);
+}
+
+/* Light theme input borders tweak to make them visible but clean */
+.light-theme .custom-form-input {
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Input Placeholder color consistency */
+.custom-form-input::placeholder {
+  color: var(--text-subtle) !important;
+  opacity: 0.7;
+}
+
+/* Input Focus Glow & Border Styling */
+.custom-form-input:focus {
+  background-color: var(--surface) !important;
+  border-color: var(--green) !important;
+  color: var(--text) !important;
+  box-shadow: var(--green-glow) 0px 0px 0px 4px !important;
+}
+
+/* 5. Save Button Styling */
+.btn-save {
+  background-color: var(--green) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  color: #ffffff !important; /* Ensure text is crisp white */
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.btn-save:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.btn-save:active {
+  transform: translateY(0);
+}
+
+/* 6. Cancel Button Adaptive Styling */
+.btn-cancel {
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 50px !important;
+  transition: all 0.2s var(--ease);
+}
+
+.light-theme .btn-cancel {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-cancel:hover {
+  background-color: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--text-subtle) !important;
 }

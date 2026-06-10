@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MakerHub MM | My Profile</title>
+    <title>MakerHub MM | Edit Profile</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -231,293 +231,100 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
-    <div class="container my-5">
-      <div class="row g-4 custom-hero-row">
-        <div class="col-lg-4">
-          <div class="card p-4 text-center shadow-sm custom-profile-card">
-            <div class="mb-3">
-              <img
-                id="profile-avatar"
-                src=""
-                alt="User Avatar"
-                class="profile-avatar-main"
-              />
-            </div>
-            <h3 id="profile-name" class="fw-bold mb-1">Loading...</h3>
-            <p id="profile-email" class="text-muted-custom mb-2">...</p>
-
-            <!-- xp points  -->
-            <div
-              class="px-2 py-2 xp-badge rounded mb-2 d-flex align-items-center justify-content-center gap-2"
-            >
-              <dotlottie-wc
-                src="https://lottie.host/e36de726-6eed-46d8-8d7c-7f510b82d70b/fEmr1CZdlB.lottie"
-                style="width: 28px; height: 28px"
-                autoplay
-                loop
-              ></dotlottie-wc>
-              <span class="text-warning" id="xpPoints">0</span>
-              <span
-                style="
-                  font-size: 0.8rem;
-                  color: var(--text-subtle);
-                  font-weight: 500;
-                "
-              >
-                / 10,000</span
-              >
-              <span
-                class="text-secondary"
-                style="
-                  font-size: 11px;
-                  font-weight: 700;
-                  letter-spacing: 0.08em;
-                  text-transform: uppercase;
-                "
-                >XP Points</span
-              >
-            </div>
-
-            <!-- daily streaks  -->
-            <div
-              class="p-2 dailyStreak-badge rounded mb-2 d-flex align-items-center justify-content-center"
-            >
-              <dotlottie-wc
-                class="daily-streak-lottie mx-0 px-0"
-                src="https://lottie.host/ada8173c-4808-4d30-bffb-d365eda666b3/EVOh7JbvM8.lottie"
-                style="width: 35px; height: 25px"
-                autoplay
-                loop
-              ></dotlottie-wc>
+    <!-- CONTENT FORM -->
+    <section class="edit-profile-section py-md-3 py-1">
+      <main class="flex-grow-1 d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5 col-xl-4">
               <div
-                class="h5 me-3 fw-bold mb-0 text-warning"
-                style="
-                  color: rgba(
-                    var(--bs-warning-rgb),
-                    var(--bs-text-opacity)
-                  ) !important;
-                "
+                class="card auth-card border-0 p-4 p-md-5 rounded-4 shadow-lg custom-profile-card"
               >
-                12 Days
-              </div>
-
-              <!-- days -->
-              <div class="streak-content flex-grow-3">
-                <div class="streak-calendar">
-                  <div class="d-flex gap-1 mb-1">
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box current"></div>
-                    <div class="day-box empty"></div>
-                    <div class="day-box empty"></div>
+                <div class="text-center mb-4">
+                  <div class="avatar-container mb-2">
+                    <img
+                      id="profile-avatar"
+                      src=""
+                      alt="User Avatar"
+                      class="profile-avatar-main img-fluid rounded-circle"
+                    />
                   </div>
-                  <div class="d-flex gap-1 days-labels">
-                    <span>M</span><span>T</span><span>W</span><span>T</span
-                    ><span>F</span><span>S</span><span>S</span>
-                  </div>
+                  <p class="text-muted-custom small">
+                    Avatar cannot be changed
+                  </p>
                 </div>
-              </div>
-            </div>
 
-            <!-- btn edit profile -->
-            <a class="btn btn-edit-profile btn-sm w-100" href="/profile/edit-profile.html">
-              <i class="fa-regular fa-pen-to-square me-2"></i>Edit Profile
-            </a>
-          </div>
-        </div>
+                <form id="editProfileForm">
+                  <div class="mb-3 text-start">
+                    <label
+                      for="profile-name"
+                      class="form-label custom-label fw-medium"
+                      >User Name</label
+                    >
+                    <input
+                      type="text"
+                      id="profile-name"
+                      name="username"
+                      class="form-control custom-form-input"
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
 
-        <div class="col-lg-8">
-          <div class="card p-4 shadow-sm mb-4 custom-profile-card">
-            <h4
-              class="fw-bold mb-4 pb-2"
-              style="
-                color: var(--green);
-                border-bottom: 1px solid var(--border);
-              "
-            >
-              <i class="fa-solid fa-graduation-cap me-2"></i>Learning Tracks
-              Progress
-            </h4>
+                  <div class="mb-3 text-start">
+                    <label
+                      for="profile-email"
+                      class="form-label custom-label fw-medium"
+                      >Email Address</label
+                    >
+                    <input
+                      type="email"
+                      id="profile-email"
+                      name="email"
+                      class="form-control custom-form-input"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
 
-            <!-- Arduino Programming -->
-            <div class="mb-4">
-              <div
-                class="d-flex justify-content-between align-items-center mb-1"
-              >
-                <span class="fw-bold"
-                  ><i
-                    class="fa-solid fa-infinity me-2"
-                    style="color: var(--clr-arduino)"
-                  ></i
-                  >Arduino Programming</span
-                >
-                <span class="percent text-muted" id="arduino-percent">0%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div
-                  class="progress-fill"
-                  id="arduino-fill"
-                  style="width: 0%; background-color: var(--clr-arduino)"
-                ></div>
-              </div>
-            </div>
+                  <div class="mb-4 text-start">
+                    <label
+                      for="profile-password"
+                      class="form-label custom-label fw-medium"
+                      >Password</label
+                    >
+                    <input
+                      type="password"
+                      id="profile-password"
+                      name="password"
+                      class="form-control custom-form-input"
+                      placeholder="Enter password"
+                      required
+                    />
+                  </div>
 
-            <div class="mb-4">
-              <div
-                class="d-flex justify-content-between align-items-center mb-1"
-              >
-                <span class="fw-bold"
-                  ><i
-                    class="fa-solid fa-wifi me-2"
-                    style="color: var(--clr-esp32)"
-                  ></i
-                  >ESP32
-                </span>
-                <span class="percent text-muted" id="esp32-percent">0%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div
-                  class="progress-fill"
-                  id="esp32-fill"
-                  style="width: 0%; background-color: var(--clr-esp32)"
-                ></div>
-              </div>
-            </div>
+                  <div class="d-flex flex-column gap-2">
+                    <button
+                      type="submit"
+                      class="btn btn-save w-100 py-2 fw-medium text-white"
+                    >
+                      <i class="fa-solid fa-floppy-disk me-2"></i> Save Changes
+                    </button>
 
-            <!-- Esp8266 -->
-            <div class="mb-4">
-              <div
-                class="d-flex justify-content-between align-items-center mb-1"
-              >
-                <span class="fw-bold"
-                  ><i
-                    class="fa-solid fa-server me-2"
-                    style="color: var(--clr-esp8266)"
-                  ></i
-                  >ESP8266</span
-                >
-                <span class="percent text-muted" id="esp8266-percent">0%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div
-                  class="progress-fill"
-                  id="esp8266-fill"
-                  style="width: 0%; background-color: var(--clr-esp8266)"
-                ></div>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <div
-                class="d-flex justify-content-between align-items-center mb-1"
-              >
-                <span class="fw-bold"
-                  ><i
-                    class="fa-brands fa-raspberry-pi me-2"
-                    style="color: var(--clr-rpi)"
-                  ></i
-                  >Raspberry Pi
-                </span>
-                <span class="percent text-muted" id="raspberry-percent"
-                  >0%</span
-                >
-              </div>
-              <div class="progress-bar-bg">
-                <div
-                  class="progress-fill"
-                  id="raspberry-fill"
-                  style="width: 0%; background-color: var(--clr-rpi)"
-                ></div>
+                    <a
+                      href="/profile/index.html"
+                      class="btn btn-cancel w-100 py-2 fw-medium text-decoration-none text-center"
+                    >
+                      Cancel
+                    </a>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Category Navigation -->
-    <nav
-      class="py-2 sticky-top"
-      style="
-        background-color: var(--bg-elevated);
-        border-bottom: 1px solid var(--border);
-        top: 67px;
-        z-index: 1010;
-      "
-    >
-      <div class="container">
-        <div class="d-flex gap-2 overflow-auto category-nav" id="categoryNav">
-          <button
-            class="btn text-nowrap cat-btn cat-btn-active"
-            onclick="filterItems('My Projects', this)"
-          >
-            <i class="bi bi-code-slash me-1"></i> My Projects
-          </button>
-
-          <button
-            class="btn text-nowrap cat-btn"
-            onclick="filterItems('My Sell Items', this)"
-          >
-            <i class="bi bi-shop me-1"></i> My Sell Items
-          </button>
-
-          <button
-            class="btn text-nowrap cat-btn"
-            onclick="filterItems('My Save Items', this)"
-          >
-            <i class="bi bi-bookmark-fill me-1"></i> My Save Items
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- card conatainer Section -->
-    <div class="container px-3 py-5">
-      <div class="row">
-        <div class="col-lg-12">
-          <!-- Project Loading Indicator -->
-          <div id="projectLoading" class="text-center py-5 d-none">
-            <div
-              class="spinner-border"
-              role="status"
-              style="color: var(--green)"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-2" style="color: var(--text-muted)">
-              Loading project details...
-            </p>
-          </div>
-
-          <!-- Project Cards -->
-          <div
-            class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 d-none"
-            id="projectContainer"
-          ></div>
-
-          <!-- Market Loading Indicator -->
-          <div id="marketLoading" class="text-center py-5 d-none">
-            <div
-              class="spinner-border"
-              role="status"
-              style="color: var(--green) !important"
-            ></div>
-            <p class="mt-3 text-muted-custom">
-              Loading items from marketplace...
-            </p>
-          </div>
-
-          <!-- Market Grid -->
-          <div
-            id="marketGrid"
-            class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-md-3 align-items-stretch d-none"
-          ></div>
-        </div>
-      </div>
-    </div>
+      </main>
+    </section>
 
     <!--Footer Section -->
     <footer class="footer-section pt-5 pb-3">
@@ -592,9 +399,11 @@
     ></script>
     <!-- Your JS -->
     <script src="/js/app.js"></script>
-    <script src="/js/auth.js"></script>
+    <!-- <script src="/js/auth.js"></script> -->
     <script src="/js/profile.js"></script>
-    <script src="/js/data.js"></script>
+
+    <!-- <script src="/js/data.js"></script> -->
+    <script src="/js/edit-profile.js"></script>
 
     <!-- Minimal navbar scroll enhancement -->
     <script>

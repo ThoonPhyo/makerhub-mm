@@ -70,9 +70,9 @@ async function loadMarketplaceItems() {
 }
 
 // ─────────────────────────────────────────────────────────
-// 🎨 RENDER MARKET CARDS
+// 🎨 RENDER MARKET CARDS (FIXED)
 // ─────────────────────────────────────────────────────────
-function renderCards(items) {
+function renderCards(items, showDelete = false) {
   const containerEl = document.getElementById("marketGrid");
 
   if (!containerEl) return;
@@ -82,51 +82,48 @@ function renderCards(items) {
   // empty state
   if (!items || items.length === 0) {
     containerEl.innerHTML = `
-
       <div class="col-12 text-center py-5">
-
         <h5 style="color: var(--text-muted);">
-
           No marketplace items found.
-
         </h5>
-
       </div>
     `;
-
     return;
   }
 
   items.forEach((item) => {
+    // 💡 showDelete condition
+    const deleteButtonHtml = showDelete
+      ? `
+      <div class="card-action-dropdown shadow-sm">
+        <button class="action-drop-btn delete-btn" onclick="event.preventDefault(); event.stopPropagation(); deleteItem('${item.id}')">
+          <i class="fa-regular fa-trash-can me-1"></i> 
+          <span class="d-none d-md-inline">Delete</span>
+        </button>
+      </div>
+    `
+      : "";
+
     // =====================================================
     // USER WISHLIST STATE
     // =====================================================
-
     const currentUser = getCurrentUser();
-
     const wishlistUsers = Array.isArray(item.wishlistUsers)
       ? item.wishlistUsers
       : [];
-
     const isSaved =
       currentUser && wishlistUsers.includes(String(currentUser.id));
-
     const bookmarkClass = isSaved
       ? "bi-bookmark-fill text-success"
       : "bi-bookmark";
 
     // =====================================================
-    // IMAGE FALLBACK
+    // IMAGE & AVATAR FALLBACKS
     // =====================================================
-
     const finalImage =
       item.itemimage && item.itemimage.startsWith("http")
         ? item.itemimage
         : "https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500";
-
-    // =====================================================
-    // AVATAR FALLBACK
-    // =====================================================
 
     const finalAvatar =
       item.sellerAvatar && item.sellerAvatar.startsWith("http")
@@ -134,169 +131,70 @@ function renderCards(items) {
         : "https://ui-avatars.com/api/?name=Seller&background=161b22&color=22c55e&bold=true";
 
     // =====================================================
-    // CARD HTML (With Integrated Hover Slide Delete Dropdown)
+    // CARD HTML
     // =====================================================
     const cardHtml = `
-  <div
-    class="col d-flex justify-content-center"
-    id="market-item-${item.id}"
-  >
-    <div
-      class="classic-market-card market-item-card position-relative h-100 d-flex flex-column shadow-sm border rounded-3 w-100"
-    >
-      
-      <div class="card-action-dropdown shadow-sm">
-        <button class="action-drop-btn delete-btn" onclick="deleteItem('${item.id}')">
-          <i class="fa-regular fa-trash-can me-1"></i> Delete
-        </button>
-      </div>
+      <div class="col d-flex justify-content-center" id="market-item-${item.id}">
+        <div class="classic-market-card market-item-card position-relative h-100 d-flex flex-column shadow-sm border rounded-3 w-100">
+          
+          ${deleteButtonHtml}
+          
+          <div class="card-img-wrapper position-relative" style="height: 180px; background: #0d1117; overflow: hidden;">
+            <img
+              src="${finalImage}"
+              alt="${item.itemName}"
+              class="w-100 h-100 object-fit-cover"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500';"
+            >
+            <span class="condition-badge position-absolute top-0 end-0 m-2 badge bg-dark border">
+              ${item.condition || "Used"}
+            </span>
+          </div>
 
-      <div
-        class="card-img-wrapper position-relative"
-        style="
-          height: 180px;
-          background: #0d1117;
-          overflow: hidden;
-        "
-      >
-        <img
-          src="${finalImage}"
-          alt="${item.itemName}"
-          class="w-100 h-100 object-fit-cover"
-          onerror="
-            this.onerror=null;
-            this.src='https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500';
-          "
-        >
-        <span
-          class="condition-badge position-absolute top-0 end-0 m-2 badge bg-dark border"
-        >
-          ${item.condition || "Used"}
-        </span>
-      </div>
+          <div class="p-3 d-flex flex-column flex-grow-1" style="background: var(--surface);">
+            <span class="classic-category" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">
+              <i class="bi bi-tag-fill me-1"></i>
+              ${item.itemcategory || "Others"}
+            </span>
 
-      <div
-        class="p-3 d-flex flex-column flex-grow-1"
-        style="background: var(--surface);"
-      >
-        <span
-          class="classic-category"
-          style="
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-          "
-        >
-          <i class="bi bi-tag-fill me-1"></i>
-          ${item.itemcategory || "Others"}
-        </span>
+            <h6 class="card-title text-truncate mb-1 fw-bold" title="${item.itemName}" style="color: var(--text); margin-top: 4px;">
+              ${item.itemName || "Untitled Item"}
+            </h6>
 
-        <h6
-          class="card-title text-truncate mb-1 fw-bold"
-          title="${item.itemName}"
-          style="
-            color: var(--text);
-            margin-top: 4px;
-          "
-        >
-          ${item.itemName || "Untitled Item"}
-        </h6>
+            <div class="price-tag mb-2" style="color: var(--neon-green); font-weight: bold; font-size: 1.1rem;">
+              ${item.price || "0 MMK"}
+            </div>
 
-        <div
-          class="price-tag mb-2"
-          style="
-            color: var(--neon-green);
-            font-weight: bold;
-            font-size: 1.1rem;
-          "
-        >
-          ${item.price || "0 MMK"}
+            <p class="text-muted small mb-3" style="font-size: 0.8rem; height: 2.4rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+              ${item.itemdescription || "No description available."}
+            </p>
+
+            <div class="seller-info d-flex align-items-center gap-2 mb-3 pt-2" style="border-top: 1px solid var(--border); margin-top: auto;">
+              <img src="${finalAvatar}" alt="Seller" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+              <span class="small text-truncate" style="color: var(--text-muted); max-width: 120px; font-size: 0.8rem;">
+                ${item.sellerName || "Anonymous"}
+              </span>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a href="/marketplace/market-detail/index.html?id=${item.id}" class="btn flex-grow-1 rounded-2" style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text);">
+                <i class="bi bi-eye me-1"></i> View
+              </a>
+              <button class="btn rounded-2" id="saveBtn-${item.id}" onclick="toggleWishlist('${item.id}')" style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text);">
+                <i class="bi ${bookmarkClass}" id="bookmarkIcon-${item.id}"></i>
+              </button>
+            </div>
+          </div>
         </div>
-
-        <p
-          class="text-muted small mb-3"
-          style="
-            font-size: 0.8rem;
-            height: 2.4rem;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-          "
-        >
-          ${item.itemdescription || "No description available."}
-        </p>
-
-        <div
-          class="seller-info d-flex align-items-center gap-2 mb-3 pt-2"
-          style="
-            border-top: 1px solid var(--border);
-            margin-top: auto;
-          "
-        >
-          <img
-            src="${finalAvatar}"
-            alt="Seller"
-            class="rounded-circle"
-            style="
-              width: 24px;
-              height: 24px;
-              object-fit: cover;
-            "
-          >
-          <span
-            class="small text-truncate"
-            style="
-              color: var(--text-muted);
-              max-width: 120px;
-              font-size: 0.8rem;
-            "
-          >
-            ${item.sellerName || "Anonymous"}
-          </span>
-        </div>
-
-        <div class="d-flex gap-2">
-          <a
-            href="/marketplace/market-detail/index.html?id=${item.id}"
-            class="btn flex-grow-1 rounded-2"
-            style="
-              background: var(--bg-elevated);
-              border: 1px solid var(--border);
-              color: var(--text);
-            "
-          >
-            <i class="bi bi-eye me-1"></i> View
-          </a>
-
-          <button
-            class="btn rounded-2"
-            id="saveBtn-${item.id}"
-            onclick="toggleWishlist('${item.id}')"
-            style="
-              background: var(--bg-elevated);
-              border: 1px solid var(--border);
-              color: var(--text);
-            "
-          >
-            <i
-              class="bi ${bookmarkClass}"
-              id="bookmarkIcon-${item.id}"
-            ></i>
-          </button>
-        </div>
-
       </div>
-    </div>
-  </div>
-`;
+    `;
 
     containerEl.insertAdjacentHTML("beforeend", cardHtml);
   });
 }
 
 // ─────────────────────────────────────────────────────────
-// 🔍 FILTER ITEMS (Section Toggle စနစ်ကို အောက်တွင် ဖြည့်စွက်ထားသည်)
+// 🔍 FILTER ITEMS
 // ─────────────────────────────────────────────────────────
 function filterItems(category, btnElement) {
   const allBtns = document.querySelectorAll(".cat-btn");
@@ -317,6 +215,7 @@ function filterItems(category, btnElement) {
   const projectContainer = document.getElementById("projectContainer");
   const marketGridSection = document.getElementById("marketGrid");
   const projectLoading = document.getElementById("projectLoading");
+  const cardActionDropdowns = document.getElementById("cardActionDropdown");
 
   if (projectContainer) projectContainer.classList.add("d-none");
   if (marketGridSection) marketGridSection.classList.add("d-none");
@@ -395,7 +294,7 @@ function filterItems(category, btnElement) {
   }
 
   // =====================================================
-  // My Sell Items (အစ်ကို့ မူရင်း "My Items" ကို နာမည်ပြန်ညှိထားသည်)
+  // My Sell Items
   // =====================================================
   if (category === "My Sell Items") {
     if (marketGridSection) marketGridSection.classList.remove("d-none");
@@ -411,12 +310,13 @@ function filterItems(category, btnElement) {
       (item) => String(item.sellerId) === String(currentUser.id),
     );
 
-    renderCards(myItems);
+    // 💡 true လို့ပေးလိုက်ရင် Delete Button ပြမယ်လို့ သတ်မှတ်မယ်
+    renderCards(myItems, true);
     return;
   }
 
   // =====================================================
-  // My Save Items (အစ်ကို့ မူရင်း "My Saved Items" ကို နာမည်ပြန်ညှိထားသည်)
+  // My Save Items
   // =====================================================
   if (category === "My Save Items") {
     if (marketGridSection) marketGridSection.classList.remove("d-none");
@@ -435,7 +335,8 @@ function filterItems(category, btnElement) {
       return wishlistUsers.includes(String(currentUser.id));
     });
 
-    renderCards(savedItems);
+    // 💡 false လို့ပေးလိုက်ရင် Delete Button လုံးဝမပြဘူး
+    renderCards(savedItems, false);
     return;
   }
 }
