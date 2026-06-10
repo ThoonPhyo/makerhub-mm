@@ -1,0 +1,358 @@
+/* ==========================================================================
+   🌐 MAKERHUB MM ADAPTIVE CORE VARIANT THEME
+   ========================================================================== */
+:root[data-theme="dark"] {
+  --bg: #0a0e0f; /* Cyber Dark Background */
+  --bg-subtle: #141a1d; /* Header & Sidebar Background */
+  --surface: #12181b; /* Content Boxes */
+  --border: rgba(255, 255, 255, 0.05); /* Soft Tech Lines */
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --neon-green: #0d9488; /* Tech Cyan Glow */
+  --neon-glow: rgba(13, 148, 136, 0.15);
+}
+
+:root[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-subtle: #ffffff;
+  --surface: #ffffff;
+  --border: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --neon-green: #0d9488; /* Light Mode Blue Accent */
+  --neon-glow: rgba(14, 165, 233, 0.1);
+}
+
+/* Global Tags Reset */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ────────── 1. TOP HEADER NAVIGATION ────────── */
+.navbar-custom {
+  background-color: var(--bg-subtle) !important;
+  border-bottom: 1px solid var(--border) !important;
+  z-index: 1020;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.brand-text {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.text-neon-green {
+  color: var(--neon-green) !important;
+}
+
+/* ────────── 2. SIDEBAR LAYOUT ARCHITECTURE ────────── */
+.base-sidebar-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1030;
+}
+
+.sidebar {
+  background-color: var(--bg-subtle) !important;
+  border-right: 1px solid var(--border) !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Desktop Layout Optimization */
+@media (min-width: 768px) {
+  .main-content {
+    padding: 2.5rem;
+  }
+}
+
+/* Mobile Layout Optimization */
+@media (max-width: 767.98px) {
+  .base-sidebar-container {
+    height: auto;
+    position: static;
+  }
+
+  .sidebar {
+    width: 270px;
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ────────── 3. INTERACTIVE NAV LINKS ────────── */
+.custom-nav .nav-link-custom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  color: var(--text-muted) !important;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.custom-nav .nav-link-custom:hover {
+  background-color: var(--neon-glow) !important;
+  color: var(--neon-green) !important;
+}
+
+.custom-nav .nav-link-custom.active {
+  background-color: var(--neon-green) !important;
+  color: #ffffff !important;
+}
+
+.custom-nav .nav-link-custom.active i {
+  color: #ffffff !important;
+}
+
+/* ────────── 4. UI COMPONENTS & UTILITIES ────────── */
+/* Light / Dark Mode Toggle Button */
+.theme-toggle-btn {
+  background-color: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  padding: 0.4rem 1.1rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--neon-green) !important;
+  color: var(--neon-green) !important;
+}
+
+/* Main Content Placeholder Box */
+.content-placeholder-box {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-style: dashed !important;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* General Typo Helpers */
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
+
+.fs-7 {
+  font-size: 0.85rem;
+}
+
+/* ─────────────────────────────────────────────────────────
+   METRIC CARDS STRUCTURE (IMAGE MATCHING)
+   ───────────────────────────────────────────────────────── */
+.metric-card {
+  background-color: var(--bg-subtle) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important; /* ပုံထဲကလို Rounded သပ်သပ်ရပ်ရပ်လေး */
+  transition: all 0.3s ease;
+}
+
+/* Icon ထည့်မယ့် အကွက်ငယ်လေးရဲ့ Layout ပုံစံ */
+.metric-icon-box {
+  width: 48px;
+  height: 48px;
+  transition: background-color 0.3s ease;
+}
+
+/* နံပါတ် အရွယ်အစား သတ်မှတ်ချက် */
+.metric-number {
+  color: var(--text);
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
+}
+
+/* --- THEME VARIANT CONTROLS FOR CARDS --- */
+
+/* Dark Mode အတွက် အိုင်ကွန်နောက်ခံ အမှောင်ဖက် သမ်းသော အရောင် */
+:root[data-theme="dark"] .bg-teal-subtle {
+  background-color: rgba(13, 148, 136, 0.1) !important;
+}
+
+/* Light Mode အတွက် အိုင်ကွန်နောက်ခံ ခပ်ဖျော့ဖျော့ အရောင် */
+:root[data-theme="light"] .bg-teal-subtle {
+  background-color: rgba(14, 165, 233, 0.1) !important;
+}
+
+/* Utility Helpers */
+.fs-8 {
+  font-size: 0.78rem;
+}
+.tracking-wider {
+  letter-spacing: 0.04em;
+}
+
+/* 🌙 Dark Mode Table Background Specific Fixes */
+body:not(.light-theme) .table {
+  --bs-table-bg: transparent !important;
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.03) !important;
+  color: #e2e8f0 !important;
+}
+
+body:not(.light-theme) .table th,
+body:not(.light-theme) .table td {
+  background-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Admin Badge Text Visibility Override */
+.admin-badge {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================================
+   🛑 PREMIUM SIGN-OUT DROPDOWN ITEM (NO NEW ROOT TOKENS)
+   ========================================================================= */
+
+/* Base Design (Theme နှစ်ခုလုံးအတွက် အခြေခံအချိုးအစား) */
+.dropdown-item.text-danger {
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.6rem 1rem;
+  margin: 0.2rem 0.5rem;
+  width: calc(100% - 1rem); /* Dropdown box ဘေးမထိအောင် အချိုးချခြင်း */
+  border-radius: 6px; /* Modern rounded corners */
+  display: flex;
+  align-items: center;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 🌙 Dark Theme State (ဒိုင်ရိုက် အရောင်သတ်မှတ်ခြင်း) */
+[data-theme="dark"] .dropdown-item.text-danger {
+  color: #ff6b6b !important; /* မျက်စိမကျိန်းသော Soft Coral Red */
+}
+[data-theme="dark"] .dropdown-item.text-danger:hover,
+[data-theme="dark"] .dropdown-item.text-danger:focus {
+  background-color: rgba(255, 107, 107, 0.12) !important;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+/* ☀️ Light Theme State (ဒိုင်ရိုက် အရောင်သတ်မှတ်ခြင်း) */
+[data-theme="light"] .dropdown-item.text-danger {
+  color: #dc3545 !important; /* Standard Bootstrap Danger Red */
+}
+[data-theme="light"] .dropdown-item.text-danger:hover,
+[data-theme="light"] .dropdown-item.text-danger:focus {
+  background-color: rgba(220, 53, 69, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+}
+
+/* 🔄 Click Feedback (နှိပ်လိုက်လျှင် တုံ့ပြန်မှုပေးမည့် စနစ်) */
+.dropdown-item.text-danger:active {
+  transform: scale(0.98); /* Micro-click feedback */
+}
+
+/* 🏹 Logout Icon Animation Logic */
+.dropdown-item.text-danger i {
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover တင်လိုက်လျှင် Sign out မျှားခေါင်းလေး ညာဘက်သို့ 3px တိုးထွက်သွားမည် */
+.dropdown-item.text-danger:hover i {
+  transform: translateX(3px);
+}
+
+/* =========================================================================
+   🌐 SYSTEM CORE THEME TOKENS (ADMIN CSS)
+   ========================================================================= */
+:root[data-theme="dark"] {
+  --bg: #0a0e0f; /* Cyber Dark Background */
+  --bg-subtle: #141a1d; /* Header & Sidebar Background */
+  --surface: #12181b; /* Content Boxes */
+  --border: rgba(255, 255, 255, 0.05); /* Soft Tech Lines */
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --neon-green: #0d9488; /* Tech Cyan Glow */
+  --neon-glow: rgba(13, 148, 136, 0.15);
+}
+
+:root[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-subtle: #ffffff;
+  --surface: #ffffff;
+  --border: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --neon-green: #0d9488; /* Light Mode Blue Accent */
+  --neon-glow: rgba(14, 165, 233, 0.1);
+}
+
+/* =========================================================================
+   🔑 ISOLATED LOGIN PAGE COMPONENTS 
+   ========================================================================= */
+.admin-login-body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.login-card-custom {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+.form-control-custom {
+  background-color: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+.form-control-custom:focus {
+  border-color: var(--neon-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--neon-glow) !important;
+}
+
+.input-group-text-custom {
+  background-color: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text-muted) !important;
+}
+
+.btn-neon-gateway {
+  background-color: var(--neon-green) !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.btn-neon-gateway:hover {
+  opacity: 0.9;
+}
+
+.text-muted-custom {
+  color: var(--text-muted) !important;
+}
