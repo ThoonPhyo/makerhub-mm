@@ -11,9 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-      <!-- favicon -->
+    <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png" />
-
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -109,7 +108,9 @@
                         >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="/profile/edit-profile.html"
+                        <a
+                          class="dropdown-item"
+                          href="/profile/edit-profile.html"
                           ><i class="bi bi-gear me-2"></i>Settings</a
                         >
                       </li>
@@ -123,7 +124,6 @@
                       </li>
                     </ul>
                   </div>
-
                 </div>
                 <button
                   class="btn-theme-toggle btn-theme"
@@ -154,19 +154,23 @@
                   >
                 </li>
               </ul>
-              <!-- Search Bar -->
-               <form class="role nav-search-container mx-md-3">
+              <!-- Search Form -->
+              <form class="role nav-search-container mx-md-3 position-relative">
                 <i class="bi bi-search search-icon-left"></i>
                 <input
-                  type="text"
-                  class="nav-search-input"
-                  placeholder="Search"
+                  type="search"
+                  class="nav-search-input w-100"
+                  placeholder="Search projects or marketplace items..."
                 />
+
+                <div
+                  id="globalSearchDropdown"
+                  class="search-results-dropdown d-none"
+                ></div>
               </form>
 
               <!-- Desktop right controls -->
               <div class="d-none d-lg-flex align-items-center gap-3">
-                
                 <button
                   class="btn-theme-toggle btn-theme"
                   aria-label="Toggle Theme"

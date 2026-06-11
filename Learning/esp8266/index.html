@@ -151,14 +151,19 @@
                   >
                 </li>
               </ul>
-              <!-- Search Bar -->
-              <form class="role nav-search-container mx-md-3">
+              <!-- Search Form -->
+              <form class="role nav-search-container mx-md-3 position-relative">
                 <i class="bi bi-search search-icon-left"></i>
                 <input
-                  type="text"
-                  class="nav-search-input"
-                  placeholder="Search"
+                  type="search"
+                  class="nav-search-input w-100"
+                  placeholder="Search projects or marketplace items..."
                 />
+
+                <div
+                  id="globalSearchDropdown"
+                  class="search-results-dropdown d-none"
+                ></div>
               </form>
 
               <!-- Desktop right controls -->
