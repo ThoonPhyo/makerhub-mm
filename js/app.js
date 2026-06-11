@@ -1,11 +1,11 @@
 /* =====================================================================
    API Configuration & State Management
+   // We store our API link and the current user data here so any function can use them.
 ===================================================================== */
-const ACCOUNTS_API_URL =
-  "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
-let currentUserData = null; // Store fetched DB data globally for UI rendering
+const ACCOUNTS_API_URL = "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
+let currentUserData = null; // Stores fetched DB data globally for UI rendering
 
-// Retrieve Session
+// Get the logged-in user's session from the browser's local storage
 function getCurrentUser() {
   const sessionData = localStorage.getItem("userSession");
   return sessionData ? JSON.parse(sessionData) : null;
@@ -13,11 +13,29 @@ function getCurrentUser() {
 
 // Fetch user data from the API
 async function initUserData() {
+  // Prevent infinite redirect loops on login or register pages
+  if (
+    window.location.pathname.includes("login.html") ||
+    window.location.pathname.includes("register.html")
+  ) {
+    return false;
+  }
+
   const session = getCurrentUser();
   if (!session) return false;
 
   try {
     const res = await fetch(`${ACCOUNTS_API_URL}/${session.id}`);
+
+    // Check if the admin deleted the user account (API returns 404 Not Found)
+    if (res.status === 404) {
+      alert("🔒 Your account has been removed or deactivated by the administrator. You will be logged out automatically.");
+      // Clear the local session token and force redirect to login page
+      localStorage.removeItem("userSession");
+      window.location.href = "login.html";
+      return false;
+    }
+
     if (res.ok) {
       currentUserData = await res.json();
       return true;
@@ -28,20 +46,20 @@ async function initUserData() {
   return false;
 }
 
-// 💡 Helper to save newly earned XP, progress, or daily streak back to API
+// Helper to save newly earned XP, progress, or daily streak back to API
 async function saveProgressToAPI(updatedFields) {
   const session = getCurrentUser();
   if (!session || !currentUserData) return;
 
   try {
     const res = await fetch(`${ACCOUNTS_API_URL}/${session.id}`, {
-      method: "PUT", // Use PUT or PATCH based on your API settings
+      method: "PUT", // Updating the specific user's data
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...currentUserData, ...updatedFields }),
     });
 
     if (res.ok) {
-      currentUserData = await res.json(); // Sync local state
+      currentUserData = await res.json(); // Sync local state with the newly saved data
       updateMainHubProgress();
       updateXpProgress();
     }
@@ -51,7 +69,161 @@ async function saveProgressToAPI(updatedFields) {
 }
 
 /* =====================================================================
-   Track Helpers (Now using API data instead of LocalStorage)
+   Daily Streak Logic
+   // Checks if the user logged in today, yesterday, or missed a day.
+===================================================================== */
+async function checkAndUpdateStreak() {
+  // If no user is logged in, we don't need to run this
+  if (!currentUserData) return;
+
+  // Step 1: Create date strings for Today and Yesterday (Format: YYYY-MM-DD)
+  const todayStr = new Date().toISOString().split('T')[0]; 
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1); // Subtract 1 day
+  const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+  // Step 2: Get current streak from the API data (make sure it's a number)
+  let currentStreak = parseInt(currentUserData.daily_streak) || 0;
+  let lastStreakDate = currentUserData.last_streak_date;
+  let needToUpdate = false;
+
+  // Step 3: Check the dates and apply the streak logic
+  if (lastStreakDate === todayStr) {
+    // Condition A: User already visited today. Do nothing.
+    console.log("Daily streak is already updated for today.");
+  } 
+  else if (lastStreakDate === yesterdayStr) {
+    // Condition B: User visited yesterday and came back today. Add 1!
+    currentStreak += 1;
+    needToUpdate = true;
+  } 
+  else {
+    // Condition C: Fake data (like '59'), or the user missed days. Restart at 1.
+    currentStreak = 1;
+    needToUpdate = true;
+  }
+
+  // Step 4: If the streak changed, save it to the API
+  if (needToUpdate) {
+    await saveProgressToAPI({
+      daily_streak: currentStreak,
+      last_streak_date: todayStr // Replace old data with today's real date
+    });
+    console.log(`Streak updated to ${currentStreak} days!`);
+  }
+
+  // Step 5: Show the correct number on the HTML page
+  const streakEl = document.getElementById("streak-count");
+  if (streakEl) {
+    // Always show the most accurate global data
+    const finalStreak = currentUserData.daily_streak || currentStreak;
+    streakEl.textContent = `${finalStreak} Days`;
+  }
+}
+
+// Highlight the correct day box (Mon, Tue, Wed...) based on today's date
+function highlightTodayBox() {
+  const jsDay = new Date().getDay(); // Sunday is 0, Monday is 1, etc.
+  let targetIndex;
+
+  // Adjust JS days to match our HTML which starts on Monday (index 0)
+  if (jsDay === 0) {
+    targetIndex = 6; // Sunday
+  } else {
+    targetIndex = jsDay - 1; // Monday to Saturday
+  }
+
+  const todayBox = document.getElementById(`day-${targetIndex}`);
+
+  // If the box exists, make it green and add a blinking animation
+  if (todayBox) {
+    todayBox.style.background = "#22c55e"; 
+    todayBox.style.animation = "fade 2s infinite"; 
+  }
+}
+document.addEventListener("DOMContentLoaded", highlightTodayBox);
+
+/* =====================================================================
+    Homepage Stats Initialization 
+    // Fetches total learners, projects, and market items for the counter
+===================================================================== */
+async function initHomepageStats() {
+  // Default fallback numbers in case the API is slow or offline
+  let learnersTarget = 0;
+  let projectsTarget = 0;
+  let saleItemsTarget = 0;
+  const boardsTarget = 4; // Static data
+  const ratingTarget = 4.9; // Static data
+
+  try {
+    const response = await fetch(ACCOUNTS_API_URL);
+    if (!response.ok) throw new Error("Database connection failed.");
+
+    const allData = await response.json();
+
+    // Filter data to count how many of each type we have
+    const projects = allData.filter((item) => item.type === "community");
+    const marketItems = allData.filter((item) => item.type === "market");
+    const users = allData.filter(
+      (item) => item.type !== "community" && item.type !== "market"
+    );
+
+    // Set the target numbers based on real API lengths
+    learnersTarget = users.length;
+    projectsTarget = projects.length;
+    saleItemsTarget = marketItems.length;
+  } catch (error) {
+    console.error("Failed to load real-time stats, using fallback numbers:", error);
+    // Dummy data if offline
+    learnersTarget = 14;
+    projectsTarget = 8;
+    saleItemsTarget = 5;
+  } finally {
+    // Run the count-up animation for all stats at the same time
+    animateStatCounter("statLearners", learnersTarget, "+");
+    animateStatCounter("statProjects", projectsTarget, "+");
+    animateStatCounter("statSaleItems", saleItemsTarget, "+");
+    animateStatCounter("statBoards", boardsTarget, "");
+    animateStatCounter("statRating", ratingTarget, ` <i class="bi bi-star-fill text-warning"></i>`, true);
+  }
+}
+
+// Function to make numbers tick up smoothly (Ease-Out Animation)
+function animateStatCounter(elementId, targetValue, appendStr = "", isDecimal = false) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+
+  let startValue = 0;
+  const duration = 1500; // 1.5 seconds total
+  const fps = 60;
+  const totalSteps = Math.round(duration / (1000 / fps));
+  let currentStep = 0;
+
+  const timer = setInterval(() => {
+    currentStep++;
+    // Math to make the counter slow down as it gets closer to the target
+    const progress = currentStep / totalSteps;
+    const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+    startValue = easeOutProgress * targetValue;
+
+    if (currentStep >= totalSteps) {
+      element.innerHTML = isDecimal
+        ? targetValue.toFixed(1) + appendStr
+        : Math.round(targetValue).toLocaleString() + appendStr;
+      clearInterval(timer); // Stop the loop
+    } else {
+      element.innerHTML = isDecimal
+        ? startValue.toFixed(1) + appendStr
+        : Math.round(startValue).toLocaleString() + appendStr;
+    }
+  }, 1000 / fps);
+}
+document.addEventListener("DOMContentLoaded", initHomepageStats);
+
+/* =====================================================================
+   Learning Track Helpers
+   // Helps figure out which electronics track (ESP32, Arduino, etc.) the user is on
 ===================================================================== */
 function getStorageKey() {
   const path = window.location.pathname.toLowerCase();
@@ -66,17 +238,12 @@ function getCardStatus(cardId) {
   const key = getStorageKey();
   let progress = currentUserData[key];
 
-  // 💡 Safe parsing: If MockAPI returns a stringified JSON, parse it back to an object
+  // Safe parsing in case the API returned a string instead of a JSON object
   if (typeof progress === "string") {
-    try {
-      progress = JSON.parse(progress);
-    } catch (e) {
-      progress = {};
-    }
+    try { progress = JSON.parse(progress); } catch (e) { progress = {}; }
   } else {
     progress = progress || {};
   }
-
   return progress[cardId] || false;
 }
 
@@ -85,42 +252,31 @@ function getTrackCardStatus(trackName, cardId) {
   const key = trackName + "_progress";
   let progress = currentUserData[key];
 
-  // 💡 Safe parsing for Main Hub tracking
   if (typeof progress === "string") {
-    try {
-      progress = JSON.parse(progress);
-    } catch (e) {
-      progress = {};
-    }
+    try { progress = JSON.parse(progress); } catch (e) { progress = {}; }
   } else {
     progress = progress || {};
   }
-
   return progress[cardId] || false;
 }
 
-/* ===================================================================== */
-
-// Dynamic track data selection
+// Select the correct curriculum data array based on the current page URL
 let currentTrackData = [];
 const currentPath = window.location.pathname;
 
 if (currentPath.includes("/esp32/")) {
-  currentTrackData =
-    typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [];
+  currentTrackData = typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [];
 } else if (currentPath.includes("/esp8266/")) {
-  currentTrackData =
-    typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [];
+  currentTrackData = typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [];
 } else if (currentPath.includes("/raspberry/")) {
-  currentTrackData =
-    typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [];
+  currentTrackData = typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [];
 } else {
-  currentTrackData =
-    typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [];
+  currentTrackData = typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [];
 }
 
-// =====================================================================
-// Theme Toggle
+/* =====================================================================
+   Theme Toggle (Light / Dark Mode)
+===================================================================== */
 function initThemeLogic() {
   const themeBtns = document.querySelectorAll(".btn-theme-toggle");
   const savedTheme = localStorage.getItem("theme");
@@ -148,129 +304,142 @@ function initThemeLogic() {
     });
   });
 }
-// Initialize theme logic immediately so that icons are correct on page load
 initThemeLogic();
 
 /* =====================================================================
-   Initialization (Replaces all scattered DOMContentLoaded events)
+   Initialization Block (Runs when the webpage fully loads)
+   // This is the brain that calls everything in the correct order.
 ===================================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log("MakerHub MM Initialized!");
+  console.log("MakerHub App Initialized!");
 
-  // 🚀 ကနဦးလုပ်ဆောင်ချက် - Search Logic ကို Event Listener ချိတ်ထားမယ်
+  // Step 1: Hook up the search bar events
   initSearchLogic();
 
-  // 1. Fetch public items (Community & Market) ကို အရင်ဆုံး 'await' သုံးပြီး စောင့်ယူမယ်
-  // ဒါမှ ဒေတာတွေ Array ထဲ အရင်ရောက်ပြီး Search က ကောက်စစ်လို့ရမှာပါ
+  // Step 2: Fetch community and market items so users can search them
   await fetchLiveProjects();
 
-  // 2. Fetch user state SECOND to populate progress and XP accurately
+  // Step 3: Fetch the logged-in user data
   await initUserData();
 
-  // 3. Render UI components based on the fetched data
+  // Step 4: Now that we have user data, calculate and update their streak!
+  if (currentUserData) {
+    await checkAndUpdateStreak();
+  }
+
+  // Step 5: Render all the learning cards and progress bars
   if (typeof renderLessons === "function") renderLessons();
   if (typeof updateMainHubProgress === "function") updateMainHubProgress();
   if (typeof updateHeroProgress === "function") updateHeroProgress();
   updateXpProgress();
 });
 
-/* ════════════════════════════
-    Search Logic for Community & Marketplace
-════════════════════════════ */
+/* =====================================================================
+   Search Logic for Community & Marketplace
+===================================================================== */
 function initSearchLogic() {
-  // 🚀 ပိုမိုစိတ်ချရအောင် စာမျက်နှာတစ်ခုလုံး (document) ပေါ်မှာ ရိုက်သမျှ Input Event ကို ဖမ်းမယ်
+  // Listen for user typing anywhere in the document
   document.addEventListener("input", (e) => {
-    // ရိုက်လိုက်တဲ့ကောင်က .nav-search-input class ဖြစ်ခဲ့ရင်
     if (e.target && e.target.classList.contains("nav-search-input")) {
       const query = e.target.value.trim().toLowerCase();
       performLiveSearch(query);
     }
   });
 
-  // Enter ခေါက်တဲ့ Keypress Event ကိုလည်း တစ်ခါတည်း ဖမ်းမယ်
+  // Listen for the Enter key
   document.addEventListener("keypress", (e) => {
-    if (
-      e.key === "Enter" &&
-      e.target &&
-      e.target.classList.contains("nav-search-input")
-    ) {
+    if (e.key === "Enter" && e.target && e.target.classList.contains("nav-search-input")) {
       e.preventDefault();
       const query = e.target.value.trim().toLowerCase();
       performLiveSearch(query);
     }
   });
-
-  console.log("Search system hooked via Document Listener!");
 }
 
 function performLiveSearch(query) {
-  console.log("Live Searching for:", query);
+  const dropdown = document.getElementById("globalSearchDropdown");
+  if (!dropdown) return;
 
-  // ── ၁။ ကွန်မြူနတီ (COMMUNITY) အတွက် ရှာဖွေခြင်း ────────────────
-  const pContainer = document.getElementById("projectContainer");
-  const hpContainer = document.getElementById("homeProjectContainer");
-
-  if (typeof myProjects !== "undefined" && myProjects.length > 0) {
-    const filteredProjects = myProjects.filter((project) => {
-      // 💡 MockAPI ထဲမှာ title ရော itemName ပါ ရှိနိုင်လို့ နှစ်ခုလုံးကို Safe ဖြစ်အောင် စစ်ပါတယ်
-      const title = project.title || project.itemName || "";
-      const desc = project.description || project.itemdescription || "";
-      const author = project.name || project.sellerName || "";
-
-      return (
-        title.toLowerCase().includes(query) ||
-        desc.toLowerCase().includes(query) ||
-        author.toLowerCase().includes(query)
-      );
-    });
-
-    console.log("Filtered Community Projects Count:", filteredProjects.length);
-
-    // လက်ရှိ ရောက်နေတဲ့ စာမျက်နှာအလိုက် Card တွေကို ပြန်ဆွဲခိုင်းမယ်
-    if (pContainer && typeof displayProjects === "function") {
-      displayProjects(filteredProjects);
-    }
-    if (hpContainer && typeof displayHomeProjects === "function") {
-      displayHomeProjects(filteredProjects);
-    }
+  // Hide dropdown if search is empty
+  if (!query || query.length < 1) {
+    dropdown.classList.add("d-none");
+    dropdown.innerHTML = "";
+    return;
   }
 
-  // ── ၂။ မားကတ်ပလေ့စ် (MARKETPLACE) အတွက် ရှာဖွေခြင်း ──────────────
-  const hmGrid = document.getElementById("homeMarketGrid");
-  if (typeof myMarketItems !== "undefined" && myMarketItems.length > 0) {
-    const filteredMarket = myMarketItems.filter((item) => {
-      const name = item.itemName || "";
-      const desc = item.itemdescription || "";
-      const category = item.itemcategory || "";
+  let htmlResults = "";
+  let matchCount = 0;
 
-      return (
-        name.toLowerCase().includes(query) ||
-        desc.toLowerCase().includes(query) ||
-        category.toLowerCase().includes(query)
-      );
+  // Search through Community Projects
+  if (typeof myProjects !== "undefined" && myProjects.length > 0) {
+    const matchedProjects = myProjects.filter((p) => {
+      const title = p.title || p.itemName || "";
+      return title.toLowerCase().includes(query);
     });
 
-    if (hmGrid && typeof displayHomeMarketPlace === "function") {
-      displayHomeMarketPlace(filteredMarket);
-    }
-    if (typeof renderCards === "function") {
-      renderCards(filteredMarket);
-    }
+    matchedProjects.forEach((p) => {
+      matchCount++;
+      htmlResults += `
+        <a href="/community/project-detail.html?id=${p.id}" class="search-item-link">
+          <div class="text-truncate me-2">
+            <i class="bi bi-cpu me-2 text-info"></i> ${p.title || p.itemName}
+          </div>
+          <span class="badge bg-info-subtle text-info small">Project</span>
+        </a>
+      `;
+    });
+  }
+
+  // Search through Marketplace Items
+  if (typeof myMarketItems !== "undefined" && myMarketItems.length > 0) {
+    const matchedMarket = myMarketItems.filter((item) => {
+      const name = item.itemName || "";
+      return name.toLowerCase().includes(query);
+    });
+
+    matchedMarket.forEach((item) => {
+      matchCount++;
+      const isDummy = item.itemName && item.itemName.includes("itemName");
+      const finalName = isDummy ? `Maker Component v${item.id}` : item.itemName;
+
+      htmlResults += `
+        <a href="/marketplace/market-detail/index.html?id=${item.id}" class="search-item-link">
+          <div class="text-truncate me-2">
+            <i class="bi bi-cart3 me-2 text-success"></i> ${finalName}
+          </div>
+          <span class="badge bg-success-subtle text-success small">Market</span>
+        </a>
+      `;
+    });
+  }
+
+  // Show the results in the UI
+  if (matchCount > 0) {
+    dropdown.innerHTML = htmlResults;
+    dropdown.classList.remove("d-none");
+  } else {
+    dropdown.innerHTML = `<div class="p-3 text-muted text-center small">No matches found for "${query}"</div>`;
+    dropdown.classList.remove("d-none");
   }
 }
 
-/* ════════════════════════════
-   Hub & Progress Logic
-════════════════════════════ */
+// Close the dropdown if the user clicks outside of it
+document.addEventListener("click", (e) => {
+  const dropdown = document.getElementById("globalSearchDropdown");
+  if (dropdown && !e.target.classList.contains("nav-search-input")) {
+    dropdown.classList.add("d-none");
+  }
+});
+
+/* =====================================================================
+   Learning Hub & Progress Bar Logic
+===================================================================== */
 function updateMainHubProgress() {
   const tracks = {
-    arduino:
-      typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
+    arduino: typeof arduinoJourneyData !== "undefined" ? arduinoJourneyData : [],
     esp32: typeof esp32JourneyData !== "undefined" ? esp32JourneyData : [],
-    esp8266:
-      typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
-    raspberry:
-      typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
+    esp8266: typeof esp8266JourneyData !== "undefined" ? esp8266JourneyData : [],
+    raspberry: typeof raspberryJourneyData !== "undefined" ? raspberryJourneyData : [],
   };
 
   let globalTotalTopics = 0;
@@ -298,7 +467,6 @@ function updateMainHubProgress() {
       }
     });
 
-    // Fetches status safely using the API user data
     trackData.forEach((topic) => {
       if (getTrackCardStatus(trackName, topic.id)) {
         completedTopics++;
@@ -309,11 +477,9 @@ function updateMainHubProgress() {
     globalCompletedTopics += completedTopics;
 
     if (percentEl || fillEl) {
-      const percentage =
-        totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+      const percentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
       if (percentEl) percentEl.textContent = `${percentage}%`;
-      if (fillEl)
-        fillEl.style.setProperty("width", `${percentage}%`, "important");
+      if (fillEl) fillEl.style.setProperty("width", `${percentage}%`, "important");
     }
 
     if (lessonCountEl) {
@@ -329,17 +495,9 @@ function updateMainHubProgress() {
   const totalFillEl = document.getElementById("total-journey-fill");
 
   if (totalPercentEl || totalFillEl) {
-    const totalPercentage =
-      globalTotalTopics > 0
-        ? Math.round((globalCompletedTopics / globalTotalTopics) * 100)
-        : 0;
+    const totalPercentage = globalTotalTopics > 0 ? Math.round((globalCompletedTopics / globalTotalTopics) * 100) : 0;
     if (totalPercentEl) totalPercentEl.textContent = `${totalPercentage}%`;
-    if (totalFillEl)
-      totalFillEl.style.setProperty(
-        "width",
-        `${totalPercentage}%`,
-        "important",
-      );
+    if (totalFillEl) totalFillEl.style.setProperty("width", `${totalPercentage}%`, "important");
   }
 }
 
@@ -347,10 +505,8 @@ function updateXpProgress() {
   const fillEl = document.getElementById("xpProgressBar");
   const xpPointsEl = document.getElementById("xpPoints");
 
-  // 💡 Ensure we parse the API XP as a Number, not a String
-  const finalTotalXP = currentUserData
-    ? parseInt(currentUserData.student_total_xp || 0)
-    : 0;
+  // Make sure we parse the API XP as a Number
+  const finalTotalXP = currentUserData ? parseInt(currentUserData.student_total_xp || 0) : 0;
 
   if (xpPointsEl) {
     xpPointsEl.textContent = finalTotalXP.toLocaleString();
@@ -360,11 +516,7 @@ function updateXpProgress() {
   const targetXP = 10000;
   const percentage = Math.round((finalTotalXP / targetXP) * 100);
 
-  fillEl.style.setProperty(
-    "width",
-    `${Math.min(percentage, 100)}%`,
-    "important",
-  );
+  fillEl.style.setProperty("width", `${Math.min(percentage, 100)}%`, "important");
 }
 
 function updateHeroProgress() {
@@ -382,19 +534,19 @@ function updateHeroProgress() {
     }
   });
 
-  const percentage =
-    totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
+  const percentage = totalCards > 0 ? Math.round((completedCards / totalCards) * 100) : 0;
 
   heroProgressBar.style.width = `${percentage}%`;
   heroProgressBar.setAttribute("aria-valuenow", percentage);
   heroProgressLabel.textContent = `${completedCards} / ${totalCards} done`;
 }
 
-/* ════════════════════════════
-   Topic Grid & Lessons
-════════════════════════════ */
+/* =====================================================================
+   Topic Grid & Lessons Rendering
+===================================================================== */
 const gridContainer = document.getElementById("learning-grid");
 
+// Check if a card is unlocked (either it's the first card, or the previous one is done)
 function getCardContentStatus(lesson, index) {
   const isCompleted = getCardStatus(lesson.id);
   let isUnlocked = index === 0;
@@ -453,26 +605,21 @@ function renderLessons() {
 }
 
 function startLesson(id, unlocked) {
-  // Prevent unauthorized access
   if (!getCurrentUser()) {
-    alert(
-      "သင်ခန်းစာများလေ့လာရန်နှင့် အမှတ်များစုဆောင်းရန် အကောင့်ဝင်ပေးပါ။ (Please log in to learn and track progress.)",
-    );
-    // window.location.href = "login.html"; // Optional redirection
+    alert("Please log in to study lessons and collect experience points (XP).");
     return;
   }
 
   if (!unlocked) {
-    alert("အရင်သင်ခန်းစာကို အရင်ပြီးအောင် လုပ်ပေးပါ။");
+    alert("Please complete the previous lesson first before starting this one!");
     return;
   }
   window.location.href = `lessons.html?id=${id}`;
 }
 
-// ==========================================================================
-// Community & Marketplace Code (Retained your exact logic)
-// ==========================================================================
-
+/* ==========================================================================
+   Community & Marketplace Features
+========================================================================== */
 const track = document.getElementById("navTrack");
 const prev = document.getElementById("prevBtn");
 const next = document.getElementById("nextBtn");
@@ -533,10 +680,7 @@ function filterCategory(categoryName, element) {
     displayProjects(myProjects);
   } else {
     const filtered = myProjects.filter((project) => {
-      return (
-        project.category &&
-        project.category.toLowerCase().trim() === selectedCategory
-      );
+      return (project.category && project.category.toLowerCase().trim() === selectedCategory);
     });
     displayProjects(filtered);
   }
@@ -548,6 +692,7 @@ function displayHomeProjects(projectsList) {
   if (!homeProjectContainer) return;
   homeProjectContainer.innerHTML = "";
 
+  // Show only the 3 newest projects
   const latestThree = [...projectsList].reverse().slice(0, 3);
 
   latestThree.forEach((project) => {
@@ -591,36 +736,25 @@ function displayHomeMarketPlace(projectsList) {
   if (!homeMarketPlaceContainer) return;
 
   homeMarketPlaceContainer.innerHTML = "";
+  // Show only the 4 newest items
   const latestFour = [...projectsList].reverse().slice(0, 4);
 
   latestFour.forEach((item) => {
     const currentUser = getCurrentUser();
     const currentUserId = currentUser?.id ? String(currentUser.id) : null;
-    const wishlistUsers = Array.isArray(item.wishlistUsers)
-      ? item.wishlistUsers
-      : [];
+    const wishlistUsers = Array.isArray(item.wishlistUsers) ? item.wishlistUsers : [];
 
-    const isSaved = currentUserId
-      ? wishlistUsers.includes(currentUserId)
-      : false;
+    const isSaved = currentUserId ? wishlistUsers.includes(currentUserId) : false;
     const iconClass = isSaved ? "bi-bookmark-fill text-success" : "bi-bookmark";
 
     const isDummy = item.itemName && item.itemName.includes("itemName");
-
-    const finalImage =
-      item.itemimage && item.itemimage.includes("http")
+    const finalImage = item.itemimage && item.itemimage.includes("http")
         ? item.itemimage
         : `https://images.unsplash.com/photo-1608564697171-2f6118fc5f37?w=500&q=80&sig=${item.id}`;
 
     const finalName = isDummy ? `Maker Component v${item.id}` : item.itemName;
-    const finalPrice = isDummy
-      ? `${(item.id * 15000).toLocaleString()} MMK`
-      : item.price;
-    const finalCondition = isDummy
-      ? item.id % 2 === 0
-        ? "New"
-        : "Used"
-      : item.condition;
+    const finalPrice = isDummy ? `${(item.id * 15000).toLocaleString()} MMK` : item.price;
+    const finalCondition = isDummy ? (item.id % 2 === 0 ? "New" : "Used") : item.condition;
 
     let finalCategory = "";
     if (isDummy) {
@@ -693,41 +827,36 @@ let myMarketItems = [];
 
 async function fetchLiveProjects() {
   try {
-    const apiProjectsUrl =
-      "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
+    const apiProjectsUrl = "https://6a1144953e35d0f37ee31c1d.mockapi.io/api/accounts/accounts";
 
-    // 1. Fetch only once (since it's the same URL)
     const res = await fetch(apiProjectsUrl);
     const allData = await res.json();
 
-    // 2. 🛡️ FILTER: Extract ONLY the data that belongs to each section
-    // Use the 'type' field we added earlier
-    const filteredProjects = allData.filter(
-      (item) => item.type === "community",
-    );
+    // Filter by type: Extract ONLY the community projects and market items
+    const filteredProjects = allData.filter((item) => item.type === "community");
     const filteredMarket = allData.filter((item) => item.type === "market");
 
-    // 3. Update your variables with the CLEANED data
     myProjects = filteredProjects;
     myMarketItems = filteredMarket;
 
-    // 4. Pass the cleaned data to your display functions
+    // Pass the clean data to be displayed on screen
     displayProjects(myProjects);
     displayHomeProjects(myProjects);
     displayHomeMarketPlace(myMarketItems);
   } catch (error) {
-    console.error("Live API မှ ဒေတာဆွဲရာတွင် အမှားအယွင်းရှိနေပါသည် -", error);
+    console.error("Error fetching live API data:", error);
     const projectContainer = document.getElementById("projectGrid");
     if (projectContainer) {
       projectContainer.innerHTML = `
         <div class="col-12 text-center text-danger py-5">
           <i class="bi bi-exclamation-triangle-fill fs-2 d-block mb-2"></i>
-          Server connection failed! Please check your internet.
+          Server connection failed! Please check your internet connection.
         </div>`;
     }
   }
 }
 
+// Side-scroll buttons for categories
 if (next && track) {
   next.addEventListener("click", () => {
     track.scrollBy({ left: 200, behavior: "smooth" });

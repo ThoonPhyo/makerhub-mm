@@ -105,7 +105,9 @@
                         >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="/profile/edit-profile.html"
+                        <a
+                          class="dropdown-item"
+                          href="/profile/edit-profile.html"
                           ><i class="bi bi-gear me-2"></i>Settings</a
                         >
                       </li>
@@ -290,7 +292,7 @@
 
           <!-- right -->
           <div class="col-md-10 mx-auto col-lg-5">
-            <div class="stat-card streak-card p-0">
+            <div class="stat-card streak-card p-0 my-4 my-lg-0">
               <div class="d-flex gap-3">
                 <div
                   class="streak-icon-wrapper d-flex justify-content-center align-items-center"
@@ -305,23 +307,89 @@
 
                 <div class="streak-content flex-grow-1">
                   <div class="streak-header mb-2">
-                    <div class="h3 fw-bold mb-0 text-warning">12 Days</div>
+                    <div id="streak-count" class="h3 fw-bold mb-3 text-warning">
+                      0 Days
+                    </div>
                     <span class="streak-label">DAILY STREAK</span>
                   </div>
 
                   <div class="streak-calendar">
-                    <div class="d-flex gap-1 mb-1">
-                      <div class="day-box done"></div>
-                      <div class="day-box done"></div>
-                      <div class="day-box done"></div>
-                      <div class="day-box done"></div>
-                      <div class="day-box current"></div>
-                      <div class="day-box empty"></div>
-                      <div class="day-box empty"></div>
+                    <div class="d-flex gap-1">
+                      <div
+                        id="day-0"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-1"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-2"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-3"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-4"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-5"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-6"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
                     </div>
-                    <div class="d-flex gap-1 days-labels">
-                      <span>M</span><span>T</span><span>W</span><span>T</span
-                      ><span>F</span><span>S</span><span>S</span>
+                    <div
+                      class="d-flex gap-1"
+                      style="font-size: 10px; color: var(--text-subtle)"
+                    >
+                      <span style="width: 13px; text-align: center">M</span>
+                      <span style="width: 13px; text-align: center">T</span>
+                      <span style="width: 13px; text-align: center">W</span>
+                      <span style="width: 13px; text-align: center">T</span>
+                      <span style="width: 13px; text-align: center">F</span>
+                      <span style="width: 13px; text-align: center">S</span>
+                      <span style="width: 13px; text-align: center">S</span>
                     </div>
                   </div>
                 </div>

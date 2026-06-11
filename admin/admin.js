@@ -419,7 +419,7 @@ async function updateDashboardFromAPI() {
 }
 
 /**
- * 🚨 Unified Drop System
+ * 🚨 Unified Drop System (With Cascading Deletion for User Data)
  */
 async function deleteEntity(id, label, type) {
   if (
@@ -431,11 +431,43 @@ async function deleteEntity(id, label, type) {
   }
 
   try {
+    // ၁။ လက်ရှိ နှိပ်လိုက်တဲ့ ပစ်မှတ် (User သို့မဟုတ် Project သို့မဟုတ် Item) ကို အရင်ဖျက်မယ်
     const response = await fetch(`${ACCOUNTS_API_URL}/${id}`, {
       method: "DELETE",
     });
     if (!response.ok)
       throw new Error("Endpoint verification rejected command.");
+
+    // 🌟 ၂။ အကယ်၍ ဖျက်လိုက်တဲ့ Entity က "User" ဖြစ်ခဲ့မယ်ဆိုရင်...
+    if (type === "User") {
+      try {
+        // ဒေတာရင်း အားလုံးကို တစ်ခေါက် လှမ်းဆွဲမယ်
+        const fetchRes = await fetch(ACCOUNTS_API_URL);
+        if (fetchRes.ok) {
+          const allData = await fetchRes.json();
+
+          // ဖျက်လိုက်တဲ့ User ရဲ့ ID နဲ့ ငြိနေတဲ့ (သူတင်ထားခဲ့တဲ့) ပရောဂျက်တွေနဲ့ ပစ္စည်းတွေကို စစ်ထုတ်မယ်
+          // (Project ထဲမှာ userId သုံးထားပြီး Market Item ထဲမှာ sellerId သုံးထားတာကို ချိန်ညှိထားပါတယ်)
+          const linkedOrphanedData = allData.filter(
+            (item) =>
+              String(item.userId) === String(id) ||
+              String(item.sellerId) === String(id),
+          );
+
+          // ပိုင်ရှင်မဲ့ဖြစ်သွားတဲ့ ဒေတာတွေကို Loop ပတ်ပြီး API ပေါ်ကနေ လိုက်ရှင်းမယ်
+          for (const item of linkedOrphanedData) {
+            await fetch(`${ACCOUNTS_API_URL}/${item.id}`, {
+              method: "DELETE",
+            });
+          }
+          console.log(
+            `Cleared ${linkedOrphanedData.length} orphaned records linked to User ID: ${id}`,
+          );
+        }
+      } catch (cascadeError) {
+        console.error("Failed to clean up orphaned user data:", cascadeError);
+      }
+    }
 
     alert(`Success: ${type} has been eliminated from the database.`);
     updateDashboardFromAPI();

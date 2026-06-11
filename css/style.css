@@ -188,8 +188,6 @@ body {
     color 0.3s var(--ease);
 }
 
-
-
 /* ============================================================
    3. NAVBAR — Linear/Vercel Style
    ============================================================ */
@@ -269,10 +267,19 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  /* width: 190px; */
+  display: flex;
+  align-items: center;
+  width: 100%;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+/* 💻 Tablet နဲ့ Desktop ပေါ်မှာ (Screen 768px ထက် ကျယ်လာရင်): အကျယ်ကို 50% ပဲ ယူမယ် */
+@media (min-width: 768px) {
+  .nav-search-container {
+    width: 50%;
+  }
 }
 
 .nav-search-container:focus-within {
@@ -298,6 +305,37 @@ body {
   color: var(--text-subtle);
   font-size: 12px;
   flex-shrink: 0;
+}
+
+/* Dropdown ရဲ့ Width ကို Parent Form ဘောင်အတိုင်း ကွက်တိ 100% ချပေးခြင်း */
+.search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0; /* ဘယ်ဘက်အစပ် ကပ်မယ် */
+  right: 0; /* ညာဘက်အစပ် ကပ်မယ် */
+  width: 100%; /* Form ဘောင်အတိုင်း အပြည့် */
+  max-height: 350px;
+  overflow-y: auto;
+  background: var(--surface, #11161d);
+  border: 1px solid var(--border, #30363d);
+  border-radius: 8px;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
+}
+.search-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  color: var(--text, #c9d7d9);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.06);
+  transition: background 0.2s ease;
+}
+.search-item-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--neon-green, #22c55e);
 }
 
 /* Theme Toggle */

@@ -103,7 +103,9 @@
                         >
                       </li>
                       <li>
-                        <a class="dropdown-item" href="/profile/edit-profile.html"
+                        <a
+                          class="dropdown-item"
+                          href="/profile/edit-profile.html"
                           ><i class="bi bi-gear me-2"></i>Settings</a
                         >
                       </li>
@@ -144,13 +146,20 @@
                   >
                 </li>
               </ul>
-              <form class="role nav-search-container mx-md-3">
+
+              <!-- Search Form -->
+              <form class="role nav-search-container mx-md-3 position-relative">
                 <i class="bi bi-search search-icon-left"></i>
                 <input
-                  type="text"
-                  class="nav-search-input"
-                  placeholder="Search"
+                  type="search"
+                  class="nav-search-input w-100"
+                  placeholder="Search projects or marketplace items..."
                 />
+
+                <div
+                  id="globalSearchDropdown"
+                  class="search-results-dropdown d-none"
+                ></div>
               </form>
 
               <!-- for desktop -->
@@ -286,7 +295,7 @@
                     >
                   </div>
                   <div class="h3 fw-bold mb-3">
-                    <span class="text-warning" id="xpPoints">7,55</span>
+                    <span class="text-warning" id="xpPoints">0</span>
                     <span
                       style="
                         font-size: 0.8rem;
@@ -333,35 +342,11 @@
                       >Daily Streak</span
                     >
                   </div>
-                  <div class="h3 fw-bold mb-3 text-warning">12 Days</div>
+                 <div id="streak-count" class="h3 fw-bold mb-3 text-warning">0 Days</div>
                   <div class="d-flex flex-column gap-1">
                     <div class="d-flex gap-1">
                       <div
-                        class="rounded-1"
-                        style="width: 13px; height: 13px; background: #22c55e"
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="width: 13px; height: 13px; background: #22c55e"
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="width: 13px; height: 13px; background: #22c55e"
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="width: 13px; height: 13px; background: #22c55e"
-                      ></div>
-                      <div
-                        class="rounded-1"
-                        style="
-                          width: 13px;
-                          height: 13px;
-                          background: #fbbf24;
-                          animation: fade 2s infinite;
-                        "
-                      ></div>
-                      <div
+                        id="day-0"
                         class="rounded-1"
                         style="
                           width: 13px;
@@ -370,6 +355,52 @@
                         "
                       ></div>
                       <div
+                        id="day-1"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-2"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-3"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-4"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-5"
+                        class="rounded-1"
+                        style="
+                          width: 13px;
+                          height: 13px;
+                          background: var(--surface);
+                        "
+                      ></div>
+                      <div
+                        id="day-6"
                         class="rounded-1"
                         style="
                           width: 13px;
@@ -417,7 +448,7 @@
                     class="h3 fw-bold mb-1 text-info"
                     id="total-journey-percent"
                   >
-                    68%
+                    0%
                   </div>
                   <div class="text-secondary mb-3" style="font-size: 12px">
                     Journey Completion
@@ -486,30 +517,45 @@
           "
         >
           <div class="stat-item flex-shrink-0 text-nowrap">
-            <span class="stat-value fw-bold fs-5 d-block">2,400+</span>
+            <span id="statLearners" class="stat-value fw-bold fs-5 d-block"
+              >0</span
+            >
             <span class="stat-label text-muted small">Active Learners</span>
           </div>
 
           <div class="stat-divider text-muted flex-shrink-0">•</div>
 
           <div class="stat-item flex-shrink-0 text-nowrap">
-            <span class="stat-value fw-bold fs-5 d-block">180+</span>
+            <span id="statProjects" class="stat-value fw-bold fs-5 d-block"
+              >0</span
+            >
             <span class="stat-label text-muted small">Projects Built</span>
           </div>
 
           <div class="stat-divider text-muted flex-shrink-0">•</div>
 
           <div class="stat-item flex-shrink-0 text-nowrap">
-            <span class="stat-value fw-bold fs-5 d-block">4</span>
+            <span id="statSaleItems" class="stat-value fw-bold fs-5 d-block"
+              >0</span
+            >
+            <span class="stat-label text-muted small">Sale Items</span>
+          </div>
+
+          <div class="stat-divider text-muted flex-shrink-0">•</div>
+
+          <div class="stat-item flex-shrink-0 text-nowrap">
+            <span id="statBoards" class="stat-value fw-bold fs-5 d-block"
+              >0</span
+            >
             <span class="stat-label text-muted small">Boards Covered</span>
           </div>
 
           <div class="stat-divider text-muted flex-shrink-0">•</div>
 
           <div class="stat-item flex-shrink-0 text-nowrap pe-4">
-            <span class="stat-value fw-bold fs-5 d-block">
-              4.9 <i class="bi bi-star-fill text-warning"></i>
-            </span>
+            <span id="statRating" class="stat-value fw-bold fs-5 d-block"
+              >0</span
+            >
             <span class="stat-label text-muted small">Community Rating</span>
           </div>
         </div>
