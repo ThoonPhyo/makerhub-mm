@@ -154,14 +154,19 @@
                   >
                 </li>
               </ul>
-              <!-- Search Bar -->
-              <form class="role nav-search-container mx-md-3">
+              <!-- Search Form -->
+              <form class="role nav-search-container mx-md-3 position-relative">
                 <i class="bi bi-search search-icon-left"></i>
                 <input
-                  type="text"
-                  class="nav-search-input"
-                  placeholder="Search"
+                  type="search"
+                  class="nav-search-input w-100"
+                  placeholder="Search projects or marketplace items..."
                 />
+
+                <div
+                  id="globalSearchDropdown"
+                  class="search-results-dropdown d-none"
+                ></div>
               </form>
 
               <!-- Desktop right controls -->
@@ -293,6 +298,7 @@
                 loop
               ></dotlottie-wc>
               <div
+                id="streak-count"
                 class="h5 me-3 fw-bold mb-0 text-warning"
                 style="
                   color: rgba(
@@ -301,24 +307,88 @@
                   ) !important;
                 "
               >
-                12 Days
+                0 Days
               </div>
 
               <!-- days -->
               <div class="streak-content flex-grow-3">
                 <div class="streak-calendar">
-                  <div class="d-flex gap-1 mb-1">
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box done"></div>
-                    <div class="day-box current"></div>
-                    <div class="day-box empty"></div>
-                    <div class="day-box empty"></div>
+                  <div class="d-flex gap-1">
+                    <div
+                      id="day-0"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-1"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-2"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-3"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-4"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-5"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
+                    <div
+                      id="day-6"
+                      class="rounded-1"
+                      style="
+                        width: 13px;
+                        height: 13px;
+                        background: var(--surface);
+                      "
+                    ></div>
                   </div>
-                  <div class="d-flex gap-1 days-labels">
-                    <span>M</span><span>T</span><span>W</span><span>T</span
-                    ><span>F</span><span>S</span><span>S</span>
+                  <div
+                    class="d-flex gap-1"
+                    style="font-size: 10px; color: var(--text-subtle)"
+                  >
+                    <span style="width: 13px; text-align: center">M</span>
+                    <span style="width: 13px; text-align: center">T</span>
+                    <span style="width: 13px; text-align: center">W</span>
+                    <span style="width: 13px; text-align: center">T</span>
+                    <span style="width: 13px; text-align: center">F</span>
+                    <span style="width: 13px; text-align: center">S</span>
+                    <span style="width: 13px; text-align: center">S</span>
                   </div>
                 </div>
               </div>
